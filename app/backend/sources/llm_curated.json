@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Earnings call: bull vs. bear read",
+    "prompt": "You are a sell-side equity analyst. I will give you a company's latest earnings-call transcript and headline numbers.\n\nTranscript / numbers:\n{{transcript}}\n\nDo the following:\n1. State the single clearest read: BULLISH, BEARISH, or MIXED — one line.\n2. Give the 3 strongest data points supporting that read (quote the numbers).\n3. Give the 2 biggest risks or red flags management downplayed.\n4. Note any guidance change vs. last quarter.\nBe concrete, cite figures, and do not hedge. Keep it under 250 words.",
+    "purpose": "Financial Analysis",
+    "model": "Any",
+    "source": "",
+    "category": "Finance",
+    "engagement": 0
+  },
+  {
+    "title": "Cinematic product hero shot",
+    "prompt": "A cinematic studio product photograph of {{product}}, centered on a {{surface}} surface. Dramatic single-source key light from the left, deep soft shadows, subtle rim light separating the subject from a dark gradient background. Shot on 85mm, f/2.8, shallow depth of field, crisp reflections, photorealistic, high detail, commercial advertising quality, 4k.",
+    "purpose": "Image Generation",
+    "model": "Midjourney",
+    "source": "",
+    "category": "Image Generation",
+    "engagement": 0
+  }
+]

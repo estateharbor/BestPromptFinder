@@ -1,0 +1,39 @@
+# Production overlay — adds a Caddy reverse proxy with automatic HTTPS in front of
+# the stack, and stops publishing the frontend port directly.
+#
+#   cp .env.example .env      # set DOMAIN, POSTGRES_PASSWORD, JWT_SECRET, ...
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+#
+# Point your domain's DNS A/AAAA record at the host, set DOMAIN in .env, and Caddy
+# provisions a Let's Encrypt certificate on first request.
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+    restart: unless-stopped
+
+  # Don't expose the SPA directly in prod — it's reached only through Caddy on the
+  # internal network. (!reset clears the base file's published port; needs Compose v2.24+.
+  # On older Compose, remove the `ports:` block from docker-compose.yml instead.)
+  frontend:
+    ports: !reset []
+
+  backend:
+    environment:
+      # In prod the app is same-origin behind Caddy, but keep the allowlist tight.
+      CORS_ORIGINS: https://${DOMAIN:-localhost}
+
+volumes:
+  caddy_data:
+  caddy_config:

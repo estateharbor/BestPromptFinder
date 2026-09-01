@@ -1,0 +1,31 @@
+# Caddy — automatic HTTPS in front of the stack.
+#
+# Set DOMAIN in .env. With a real, DNS-pointed domain, Caddy fetches and renews a
+# Let's Encrypt certificate automatically. With DOMAIN=localhost it serves HTTPS via
+# Caddy's local CA (browser will warn — fine for testing).
+#
+# Optional: uncomment to set the ACME contact email for expiry notices.
+# {
+#     email you@example.com
+# }
+
+# Redirect the www subdomain to the canonical apex domain (both get HTTPS certs,
+# both must have a DNS record pointing at the VPS).
+www.{$DOMAIN} {
+    redir https://{$DOMAIN}{uri} permanent
+}
+
+{$DOMAIN} {
+    encode zstd gzip
+
+    # Everything (SPA + /api) is served by the frontend container, which itself
+    # proxies /api to the backend. Caddy just terminates TLS and forwards.
+    reverse_proxy frontend:80
+
+    header {
+        # Basic hardening headers
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+}

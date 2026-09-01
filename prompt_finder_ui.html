@@ -1,0 +1,825 @@
+<title>Prompt Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+<style>
+:root{
+  --ground:#F4F3EF; --panel:#FFFFFF; --panel-2:#FBFAF6; --sunk:#EFEDE7;
+  --hairline:#E4E1D9; --hairline-2:#D6D2C8;
+  --ink:#14181F; --ink-2:#4B535F; --ink-3:#828A97;
+  --accent:#2E4BD8; --accent-2:#1B2E8A; --accent-soft:#E9ECFB; --accent-line:#C7CFF4;
+  --good:#1F9D63; --good-soft:#E3F3EA;
+  --mid:#C77A16;  --mid-soft:#F6ECD9;
+  --weak:#D0424D; --weak-soft:#F8E4E4;
+  --gold:#A98518; --silver:#8A929B; --bronze:#9E6B34;
+  --shadow:0 1px 2px rgba(20,24,31,.05), 0 8px 24px -12px rgba(20,24,31,.14);
+  --shadow-lg:0 3px 8px rgba(20,24,31,.07), 0 30px 70px -30px rgba(20,24,31,.28);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E131B; --panel:#161D28; --panel-2:#121822; --sunk:#0B0F16;
+    --hairline:#26303F; --hairline-2:#313D4E;
+    --ink:#EAEEF4; --ink-2:#9AA6B4; --ink-3:#697384;
+    --accent:#7B90FF; --accent-2:#AAB8FF; --accent-soft:#1A2340; --accent-line:#2E3A63;
+    --good:#37C283; --good-soft:#123227;
+    --mid:#E3A14A; --mid-soft:#33260F;
+    --weak:#F0616C; --weak-soft:#361A1E;
+    --gold:#D3AE4A; --silver:#AEB6C0; --bronze:#C98A4E;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.6);
+    --shadow-lg:0 3px 10px rgba(0,0,0,.55), 0 36px 80px -30px rgba(0,0,0,.75);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E131B; --panel:#161D28; --panel-2:#121822; --sunk:#0B0F16;
+  --hairline:#26303F; --hairline-2:#313D4E;
+  --ink:#EAEEF4; --ink-2:#9AA6B4; --ink-3:#697384;
+  --accent:#7B90FF; --accent-2:#AAB8FF; --accent-soft:#1A2340; --accent-line:#2E3A63;
+  --good:#37C283; --good-soft:#123227;
+  --mid:#E3A14A; --mid-soft:#33260F;
+  --weak:#F0616C; --weak-soft:#361A1E;
+  --gold:#D3AE4A; --silver:#AEB6C0; --bronze:#C98A4E;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.6);
+  --shadow-lg:0 3px 10px rgba(0,0,0,.55), 0 36px 80px -30px rgba(0,0,0,.75);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink); min-height:100vh;
+  font-family:"IBM Plex Sans",system-ui,sans-serif; font-size:16px; line-height:1.6;
+  letter-spacing:-0.003em; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif; margin:0; text-wrap:balance; line-height:1.1}
+p{margin:0}
+button{font-family:inherit; cursor:pointer; border:0; background:none; color:inherit}
+a{color:var(--accent); text-decoration:none}
+.mono{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:6px}
+
+.app{max-width:920px; margin:0 auto; padding:0 22px}
+
+/* header */
+header{position:sticky; top:0; z-index:40; background:color-mix(in srgb,var(--ground) 90%,transparent);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-bottom:1px solid var(--hairline)}
+header .app{display:flex; align-items:center; gap:14px; height:58px}
+.brand{display:flex; align-items:center; gap:9px; font-family:"Archivo"; font-weight:800; font-size:16px; letter-spacing:-0.02em}
+.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.hbtns{margin-left:auto; display:flex; gap:8px; align-items:center}
+.lawtoggle{display:flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--ink-2);
+  border:1px solid var(--hairline-2); padding:6px 11px; border-radius:9px; background:var(--panel)}
+.lawtoggle .sw{width:30px;height:17px;border-radius:20px;background:var(--sunk);position:relative;transition:background .2s}
+.lawtoggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--ink-3);transition:transform .2s}
+body.laws .lawtoggle .sw{background:var(--accent)}
+body.laws .lawtoggle .sw::after{transform:translateX(13px);background:#fff}
+.newbtn{font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--ink-2); border:1px solid var(--hairline-2); padding:6px 11px; border-radius:9px; background:var(--panel); display:none}
+.results-on .newbtn{display:inline-flex}
+
+/* law tags */
+.lawtag{display:none; font-family:"IBM Plex Mono"; font-size:9.5px; letter-spacing:.02em; color:var(--accent-2);
+  background:var(--accent-soft); border:1px solid var(--accent-line); padding:1px 7px; border-radius:20px; white-space:nowrap; vertical-align:middle}
+body.laws .lawtag{display:inline-flex; align-items:center; gap:4px}
+.lawtag::before{content:"§"; opacity:.6}
+.lawrow{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px}
+
+/* ---------- HOME ---------- */
+#home{padding:min(13vh,120px) 0 60px; text-align:center}
+#home .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-2)}
+#home h1{font-size:clamp(30px,5.4vw,52px); font-weight:900; letter-spacing:-0.035em; margin:18px 0 0}
+#home h1 em{font-style:normal; color:var(--accent)}
+#home .sub{color:var(--ink-2); font-size:clamp(16px,2vw,18px); margin:16px auto 0; max-width:46ch}
+.searchwrap{max-width:620px; margin:38px auto 0; text-align:left}
+.searchbox{display:flex; align-items:center; gap:12px; border:2px solid var(--accent); border-radius:15px;
+  background:var(--panel); padding:6px 6px 6px 20px; box-shadow:0 0 0 5px var(--accent-soft), var(--shadow)}
+.searchbox input{flex:1; border:0; outline:0; background:none; color:var(--ink); font-family:inherit; font-size:17px; padding:14px 0}
+.searchbox input::placeholder{color:var(--ink-3)}
+.findbtn{flex:none; background:var(--accent); color:#fff; font-family:"Archivo"; font-weight:700; font-size:15px;
+  padding:13px 22px; border-radius:11px; transition:transform .12s, filter .12s}
+.findbtn:hover{filter:brightness(1.08)} .findbtn:active{transform:scale(.97)}
+.examples{margin-top:18px}
+.examples .lbl{font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--ink-3); margin-right:4px}
+.chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--ink-2); background:var(--panel); border:1px solid var(--hairline-2);
+  padding:7px 12px; border-radius:20px; margin:5px 5px 0 0; transition:.14s; display:inline-block}
+.chip:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px)}
+
+/* ---------- LOADING ---------- */
+#loading{display:none; padding:80px 0; max-width:520px; margin:0 auto; text-align:left}
+#loading.on{display:block}
+.lstep{display:flex; align-items:center; gap:14px; padding:12px 0; opacity:.35; transition:opacity .3s}
+.lstep.on{opacity:1}
+.lstep .ic{width:26px;height:26px;border-radius:50%;border:2px solid var(--hairline-2);flex:none;display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono";font-size:12px;color:var(--ink-3)}
+.lstep.done .ic{background:var(--good);border-color:var(--good);color:#fff}
+.lstep.on:not(.done) .ic{border-color:var(--accent);color:var(--accent)}
+.lstep .tx{font-size:15px; color:var(--ink)}
+.lstep .co{margin-left:auto; font-family:"IBM Plex Mono"; font-size:12px; color:var(--ink-3)}
+.lbar{height:4px;border-radius:4px;background:var(--sunk);overflow:hidden;margin-top:20px}
+.lbar i{display:block;height:100%;width:0;background:var(--accent);border-radius:4px;transition:width .3s}
+
+/* ---------- RESULTS ---------- */
+#results{display:none; padding:26px 0 90px}
+#results.on{display:block}
+.intentbar{background:var(--panel); border:1px solid var(--hairline); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow); margin-bottom:18px}
+.intentbar .q{font-size:15px; color:var(--ink-2)}
+.intentbar .q b{color:var(--ink)}
+.tokens{display:flex; flex-wrap:wrap; gap:7px; margin-top:12px}
+.tok{font-family:"IBM Plex Mono"; font-size:11.5px; border-radius:8px; padding:5px 10px; border:1px solid var(--hairline-2); color:var(--ink); background:var(--panel-2); display:flex; gap:7px; align-items:center}
+.tok b{color:var(--ink-3); font-weight:500}
+.tok.key{background:var(--accent-soft); border-color:var(--accent-line); color:var(--accent-2)}
+.tok.key b{color:var(--accent)}
+.tok .x{color:var(--ink-3); font-weight:600; cursor:pointer; margin-left:2px}
+
+.reshead{display:flex; align-items:baseline; justify-content:space-between; margin:4px 2px 12px}
+.reshead .t{font-family:"IBM Plex Mono"; font-size:12px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.05em}
+
+.card{background:var(--panel); border:1px solid var(--hairline); border-radius:16px; box-shadow:var(--shadow); margin-bottom:12px; overflow:hidden; transition:border-color .2s, box-shadow .2s}
+.card.sel{border-color:var(--accent-line); box-shadow:0 0 0 1px var(--accent-line), var(--shadow-lg)}
+.card.rank1{border-color:var(--accent-line)}
+.cardhead{display:grid; grid-template-columns:46px 1fr auto; gap:16px; align-items:center; padding:16px 18px; cursor:pointer}
+.medal{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:"Archivo";font-weight:900;font-size:19px;color:#fff}
+.m1{background:var(--gold)} .m2{background:var(--silver)} .m3{background:var(--bronze)} .m4{background:var(--ink-3)}
+.cardhead .nm{font-family:"Archivo"; font-weight:700; font-size:17px; letter-spacing:-0.01em}
+.cardhead .mt{font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--ink-3); margin-top:3px}
+.mini{display:flex; gap:15px; align-items:center}
+.ms{text-align:right; min-width:44px}
+.ms .mv{font-family:"Archivo"; font-weight:800; font-size:18px; line-height:1}
+.ms .ml{font-family:"IBM Plex Mono"; font-size:9px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em; margin-top:2px}
+.mv.g{color:var(--good)} .mv.m{color:var(--mid)} .mv.a{color:var(--accent)}
+.overallchip{display:flex; flex-direction:column; align-items:center; justify-content:center; width:58px; height:58px; border-radius:13px; background:var(--good-soft); flex:none}
+.overallchip .ov{font-family:"Archivo"; font-weight:900; font-size:21px; color:var(--good); line-height:1}
+.overallchip .ol{font-family:"IBM Plex Mono"; font-size:8px; color:var(--good); text-transform:uppercase; letter-spacing:.05em; margin-top:2px}
+@media(max-width:640px){
+  .cardhead{grid-template-columns:40px 1fr; gap:12px}
+  .mini{grid-column:2; justify-content:flex-start; margin-top:8px}
+  .overallchip{grid-row:1; grid-column:2; justify-self:end; margin-top:-52px}
+}
+
+/* detail (expanded) */
+.detail{max-height:0; overflow:hidden; transition:max-height .38s cubic-bezier(.4,0,.1,1)}
+.card.open .detail{max-height:1400px}
+.detail-inner{padding:4px 18px 20px; border-top:1px solid var(--hairline)}
+.dgrid{display:grid; grid-template-columns:1.1fr .9fr; gap:20px; margin-top:16px}
+@media(max-width:720px){.dgrid{grid-template-columns:1fr}}
+.dlabel{font-family:"IBM Plex Mono"; font-size:10.5px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px}
+.why{display:flex; flex-direction:column; gap:8px}
+.why .y{display:flex; gap:10px; font-size:13.5px; color:var(--ink); align-items:flex-start}
+.why .y .ic{color:var(--good); font-family:"IBM Plex Mono"; font-weight:700; flex:none}
+.weaknote{display:flex; gap:10px; align-items:flex-start; font-size:13px; color:var(--ink); background:var(--mid-soft);
+  border:1px solid color-mix(in srgb,var(--mid) 32%,transparent); border-radius:10px; padding:11px 13px; margin-top:14px}
+.weaknote .ic{color:var(--mid); font-family:"IBM Plex Mono"; font-weight:700; flex:none}
+.sample{background:var(--sunk); border:1px solid var(--hairline); border-radius:12px; padding:15px; font-size:13px; color:var(--ink-2); line-height:1.55}
+.sample .who{font-family:"IBM Plex Mono"; font-size:10px; color:var(--accent-2); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px}
+.sample .vl{display:inline-block; margin-top:11px; font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; color:var(--good); background:var(--good-soft); padding:4px 10px; border-radius:7px}
+.prov{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hairline); border:1px solid var(--hairline); border-radius:11px; overflow:hidden; margin-top:14px}
+@media(max-width:640px){.prov{grid-template-columns:1fr 1fr}}
+.prov div{background:var(--panel); padding:10px 12px}
+.prov .k{font-family:"IBM Plex Mono"; font-size:9.5px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em}
+.prov .v{font-size:12.5px; color:var(--ink); font-weight:500; margin-top:2px}
+
+/* customize */
+.custom{margin-top:20px; border-top:1px solid var(--hairline); padding-top:18px}
+.seg{display:inline-flex; border:1px solid var(--hairline-2); border-radius:10px; overflow:hidden; font-family:"IBM Plex Mono"; font-size:12.5px}
+.seg button{padding:8px 16px; color:var(--ink-2); transition:.15s}
+.seg button.on{background:var(--accent); color:#fff}
+.promptview{margin-top:14px; background:var(--panel-2); border:1px solid var(--hairline); border-radius:12px; padding:16px; font-size:13.5px; line-height:1.6; color:var(--ink); white-space:pre-wrap; font-family:"IBM Plex Mono"; font-size:12.5px}
+.improvenote{display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:12px; align-items:center}
+.improvenote .badge{font-family:"IBM Plex Mono"; font-size:12px; color:var(--good); background:var(--good-soft); padding:4px 11px; border-radius:20px; font-weight:600}
+.adds{display:flex; flex-direction:column; gap:6px; margin-top:10px}
+.adds .a{display:flex; gap:9px; font-size:12.5px; color:var(--ink); align-items:flex-start}
+.adds .a .p{color:var(--good); font-family:"IBM Plex Mono"; font-weight:700; flex:none}
+.compare2{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px}
+@media(max-width:640px){.compare2{grid-template-columns:1fr}}
+.cc{border:1px solid var(--hairline); border-radius:11px; padding:14px; background:var(--panel-2)}
+.cc.win{border-color:var(--good); box-shadow:0 0 0 1px var(--good)}
+.cc .h{font-family:"Archivo"; font-weight:700; font-size:14px; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px}
+.cc .sc{font-family:"IBM Plex Mono"; font-weight:600}
+.cc .sc.o{color:var(--mid)} .cc .sc.i{color:var(--good)}
+.cc p{font-size:12px; color:var(--ink-2); line-height:1.5}
+
+.actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:20px}
+.actions .primary{background:var(--accent); color:#fff; font-family:"Archivo"; font-weight:700; font-size:14.5px; padding:12px 22px; border-radius:11px; transition:.12s}
+.actions .primary:hover{filter:brightness(1.08)} .actions .primary:active{transform:scale(.98)}
+.actions .ghost{border:1px solid var(--hairline-2); color:var(--ink); font-family:"IBM Plex Mono"; font-size:13px; padding:12px 18px; border-radius:11px; background:var(--panel)}
+.actions .ghost:hover{border-color:var(--accent); color:var(--accent)}
+
+/* leaderboard (top performers) */
+.topsec{max-width:640px; margin:56px auto 0; text-align:left}
+.topsec .th{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px}
+.topsec .th .t{font-family:"Archivo"; font-weight:800; font-size:17px; letter-spacing:-0.01em}
+.topsec .th .s{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.05em}
+.lb{background:var(--panel); border:1px solid var(--hairline); border-radius:15px; box-shadow:var(--shadow); overflow:hidden}
+.lbrow{display:grid; grid-template-columns:26px 1fr auto auto; gap:14px; align-items:center; padding:13px 16px; border-top:1px solid var(--hairline); cursor:pointer; transition:background .14s; text-align:left; width:100%}
+.lbrow:first-child{border-top:0}
+.lbrow:hover{background:var(--panel-2)}
+.lbrow .rk{font-family:"IBM Plex Mono"; font-size:13px; color:var(--ink-3); font-weight:500}
+.lbrow .nm{font-family:"Archivo"; font-weight:700; font-size:14.5px; letter-spacing:-0.01em}
+.lbrow .ct{font-family:"IBM Plex Mono"; font-size:10.5px; color:var(--ink-3); margin-top:2px}
+.spark{width:64px; height:26px; display:block}
+.lbmet{text-align:right; min-width:64px}
+.lbmet .u{font-family:"Archivo"; font-weight:800; font-size:15px; line-height:1}
+.lbmet .l{font-family:"IBM Plex Mono"; font-size:9px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em; margin-top:2px}
+.trend{display:inline-flex; align-items:center; gap:3px; font-family:"IBM Plex Mono"; font-size:11px; font-weight:500; color:var(--good); background:var(--good-soft); padding:2px 7px; border-radius:20px; margin-top:4px}
+@media(max-width:560px){ .lbrow{grid-template-columns:22px 1fr auto} .spark{display:none} }
+
+/* competitor comparison (same job, other tools) */
+.vswrap{margin-top:20px; border-top:1px solid var(--hairline); padding-top:18px}
+.vsgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:12px}
+@media(max-width:720px){.vsgrid{grid-template-columns:1fr 1fr}}
+.vscard{border:1px solid var(--hairline); border-radius:11px; padding:13px; background:var(--panel-2)}
+.vscard.us{border-color:var(--accent); background:var(--accent-soft); box-shadow:0 0 0 1px var(--accent-line)}
+.vscard .vn{font-family:"Archivo"; font-weight:700; font-size:13px}
+.vscard.us .vn{color:var(--accent-2)}
+.vscard .vp{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-2); margin-top:8px; line-height:1.5}
+.vscard .vp b{color:var(--ink); font-weight:600}
+.vscard .vtag{display:inline-block; margin-top:9px; font-family:"IBM Plex Mono"; font-size:9.5px; padding:2px 7px; border-radius:20px; background:var(--sunk); color:var(--ink-3)}
+.vscard.us .vtag{background:var(--accent); color:#fff}
+.vscard .vx{color:var(--weak)} .vscard .vc{color:var(--good)}
+
+/* image sample (image-gen flow) */
+.imgsample .frame{position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--hairline); aspect-ratio:4/5; background:var(--sunk)}
+.imgsample .frame svg{position:absolute; inset:0; width:100%; height:100%; display:block}
+.imgsample .cap{position:absolute; left:10px; bottom:10px; z-index:2; font-family:"IBM Plex Mono"; font-size:9.5px; letter-spacing:.03em; color:#fff; background:rgba(10,14,20,.55); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); padding:3px 8px; border-radius:20px}
+.imgsample .params{font-family:"IBM Plex Mono"; font-size:11px; color:var(--accent-2); background:var(--accent-soft); border:1px solid var(--accent-line); padding:6px 10px; border-radius:8px; margin-top:10px; display:inline-block}
+.variations{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px}
+.variations .v{aspect-ratio:1/1; border-radius:9px; overflow:hidden; border:1px solid var(--hairline); position:relative; cursor:pointer; transition:transform .12s, box-shadow .12s}
+.variations .v svg{position:absolute; inset:0; width:100%; height:100%}
+.variations .v:hover{transform:translateY(-2px); box-shadow:var(--shadow)}
+.imgtag{position:absolute; top:9px; right:9px; z-index:2; font-family:"IBM Plex Mono"; font-size:9px; color:#fff; background:rgba(10,14,20,.5); padding:2px 7px; border-radius:20px}
+
+/* toast */
+#toast{position:fixed; left:50%; bottom:30px; transform:translate(-50%,20px); opacity:0; pointer-events:none;
+  background:var(--ink); color:var(--ground); font-family:"IBM Plex Mono"; font-size:13px; padding:12px 20px; border-radius:11px;
+  box-shadow:var(--shadow-lg); transition:.28s; z-index:60; display:flex; gap:9px; align-items:center}
+#toast.on{opacity:1; transform:translate(-50%,0)}
+#toast .k{color:var(--good); font-weight:700}
+
+/* footer legend */
+footer{border-top:1px solid var(--hairline); padding:26px 0 60px}
+.lawslegend{display:none}
+body.laws .lawslegend{display:block}
+.lawslegend .h{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px}
+.lawgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:8px}
+.lawcard{border:1px solid var(--hairline); border-radius:10px; padding:11px 13px; background:var(--panel-2)}
+.lawcard a{font-family:"Archivo"; font-weight:700; font-size:13px}
+.lawcard p{font-size:11.5px; color:var(--ink-2); margin-top:3px; line-height:1.4}
+.foot-note{font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--ink-3); text-align:center}
+body.laws .foot-note{margin-top:22px}
+
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+</style>
+
+<header>
+  <div class="app">
+    <div class="brand"><span class="dot"></span>Prompt&nbsp;Finder</div>
+    <div class="hbtns">
+      <button class="newbtn" id="newBtn">↩ New search</button>
+      <button class="lawtoggle" id="lawBtn" aria-pressed="false" title="Reveal which Law of UX each element applies">
+        <span class="sw"></span> UX Laws
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HOME -->
+<section id="home" class="app">
+  <div class="eyebrow">The prompt decision engine</div>
+  <h1>Don't search for prompts.<br><em>Tell us what you need.</em></h1>
+  <p class="sub">Describe a goal in plain words. We rank the prompts most likely to solve it — and show you why before you run one.</p>
+
+  <div class="searchwrap">
+    <form class="searchbox" id="searchForm">
+      <input id="q" autocomplete="off" placeholder="e.g. analyze a company's quarterly results — bullish or bearish?">
+      <button class="findbtn" type="submit">Find prompts</button>
+    </form>
+    <div class="lawrow" style="justify-content:flex-start">
+      <span class="lawtag"><a href="https://lawsofux.com/postels-law/" target="_blank" rel="noopener">Postel's Law</a> · accepts any phrasing</span>
+      <span class="lawtag"><a href="https://lawsofux.com/jakobs-law/" target="_blank" rel="noopener">Jakob's Law</a> · familiar search pattern</span>
+    </div>
+    <div class="examples">
+      <span class="lbl">Try:</span>
+      <button class="chip ex" data-q="Analyze a company's quarterly results and tell me if they're bullish or bearish">Earnings: bullish or bearish?</button>
+      <button class="chip ex" data-q="Create a Facebook campaign for a luxury real-estate project targeting investors">Facebook real-estate campaign</button>
+      <button class="chip ex" data-q="Midjourney product shot of a luxury watch, cinematic studio lighting">Midjourney product shot</button>
+      <div class="lawrow"><span class="lawtag"><a href="https://lawsofux.com/hicks-law/" target="_blank" rel="noopener">Hick's Law</a> · a few starters, not a menu of 50</span></div>
+    </div>
+  </div>
+
+  <div class="topsec">
+    <div class="th">
+      <span class="t">Top performers this week</span>
+      <span class="s">ranked by reliability</span>
+    </div>
+    <div class="lb" id="topList"></div>
+    <div class="lawrow" style="margin-top:12px"><span class="lawtag"><a href="https://lawsofux.com/law-of-common-region/" target="_blank" rel="noopener">Common Region</a> · outcome data made visible builds trust</span></div>
+  </div>
+</section>
+
+<!-- LOADING -->
+<section id="loading" class="app">
+  <div class="dlabel">Working on it</div>
+  <div class="lstep" data-co="intent"><span class="ic">1</span><span class="tx">Reading your intent</span><span class="co"></span></div>
+  <div class="lstep" data-co="20"><span class="ic">2</span><span class="tx">Retrieving candidates</span><span class="co"></span></div>
+  <div class="lstep" data-co="rank"><span class="ic">3</span><span class="tx">Scoring &amp; ranking</span><span class="co"></span></div>
+  <div class="lstep" data-co="verify"><span class="ic">4</span><span class="tx">Verifying reliability</span><span class="co"></span></div>
+  <div class="lbar"><i id="lbar"></i></div>
+  <div class="lawrow"><span class="lawtag"><a href="https://lawsofux.com/doherty-threshold/" target="_blank" rel="noopener">Doherty Threshold</a> · progress keeps the wait engaging</span>
+  <span class="lawtag"><a href="https://lawsofux.com/goal-gradient-effect/" target="_blank" rel="noopener">Goal-Gradient</a> · a finish line in sight</span></div>
+</section>
+
+<!-- RESULTS -->
+<section id="results" class="app">
+  <div class="intentbar">
+    <div class="q">Your goal: <b id="goalEcho"></b></div>
+    <div class="tokens" id="tokens"></div>
+    <div class="lawrow"><span class="lawtag"><a href="https://lawsofux.com/teslers-law/" target="_blank" rel="noopener">Tesler's Law</a> · the engine absorbs the complexity; you just confirm</span></div>
+  </div>
+  <div class="reshead">
+    <span class="t" id="candCount"></span>
+    <span class="lawtag"><a href="https://lawsofux.com/serial-position-effect/" target="_blank" rel="noopener">Serial Position</a> · best first &amp; last, most-remembered</span>
+  </div>
+  <div id="list"></div>
+  <div class="lawrow" style="margin-top:4px">
+    <span class="lawtag"><a href="https://lawsofux.com/von-restorff-effect/" target="_blank" rel="noopener">Von Restorff</a> · the #1 pick stands apart</span>
+    <span class="lawtag"><a href="https://lawsofux.com/millers-law/" target="_blank" rel="noopener">Miller's Law</a> · 3 scores, ≤5 results — within working memory</span>
+    <span class="lawtag"><a href="https://lawsofux.com/law-of-proximity/" target="_blank" rel="noopener">Proximity</a> · scores grouped so they read as one signal</span>
+  </div>
+</section>
+
+<div id="toast"><span class="k">✓</span> <span id="toastMsg">Copied to clipboard</span></div>
+
+<footer class="app">
+  <div class="lawslegend">
+    <div class="h">Laws of UX applied in this prototype — <a href="https://lawsofux.com" target="_blank" rel="noopener">lawsofux.com</a></div>
+    <div class="lawgrid">
+      <div class="lawcard"><a href="https://lawsofux.com/hicks-law/" target="_blank" rel="noopener">Hick's Law</a><p>Return the best 3–5, not 200 — fewer choices, faster decisions. The core of the product.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/von-restorff-effect/" target="_blank" rel="noopener">Von Restorff Effect</a><p>The #1 pick is isolated and opens by default so the best choice is unmissable.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/serial-position-effect/" target="_blank" rel="noopener">Serial Position Effect</a><p>Ranked order places the strongest options where memory holds them.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/millers-law/" target="_blank" rel="noopener">Miller's Law</a><p>Three scores, ≤5 results — chunked to stay inside working memory.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/law-of-proximity/" target="_blank" rel="noopener">Law of Proximity</a><p>Quality · Match · Reliability sit together so they read as one verdict.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/doherty-threshold/" target="_blank" rel="noopener">Doherty Threshold</a><p>A narrated progress sequence keeps the &lt;400ms feel even while ranking runs.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/goal-gradient-effect/" target="_blank" rel="noopener">Goal-Gradient Effect</a><p>A visible finish line during loading pulls the user through.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/aesthetic-usability-effect/" target="_blank" rel="noopener">Aesthetic-Usability</a><p>Animated score reveals and considered type make the tool feel trustworthy.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/fittss-law/" target="_blank" rel="noopener">Fitts's Law</a><p>Primary actions (Find, Use this) are large and close to where the eye lands.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/teslers-law/" target="_blank" rel="noopener">Tesler's Law</a><p>Inherent complexity lives in the engine; the user only confirms intent.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/postels-law/" target="_blank" rel="noopener">Postel's Law</a><p>Accepts any phrasing of a goal; returns one clean, structured answer.</p></div>
+      <div class="lawcard"><a href="https://lawsofux.com/peak-end-rule/" target="_blank" rel="noopener">Peak-End Rule</a><p>The "+26" improvement and the copy-success moment end the flow on a high.</p></div>
+    </div>
+  </div>
+  <p class="foot-note">Prompt Finder · interactive UI/UX prototype · flip on <b>UX Laws</b> to see the principles at work</p>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---------- DATA ----------
+  function overall(q,m,r){ return Math.round(q*0.35 + m*0.40 + r*0.20 + 100*0.05); }
+
+  function sparkline(vals){
+    var max=Math.max.apply(null,vals), min=Math.min.apply(null,vals), rng=(max-min)||1;
+    var pts=vals.map(function(v,i){ return (i/(vals.length-1)*62+1).toFixed(1)+","+(24-(v-min)/rng*20).toFixed(1); }).join(" ");
+    var last=vals[vals.length-1], lx=63, ly=(24-(last-min)/rng*20).toFixed(1);
+    return '<svg class="spark" viewBox="0 0 64 26" aria-hidden="true">'+
+      '<polyline points="'+pts+'" fill="none" stroke="var(--good)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<circle cx="'+lx+'" cy="'+ly+'" r="2" fill="var(--good)"/></svg>';
+  }
+
+  var LEADERBOARD = [
+    {name:"Facebook Real Estate Lead Generator", cat:"Marketing", uses:"4.1k", useful:94, trend:14,
+     spark:[70,74,72,80,86,90,94], q:"Create a Facebook campaign for a luxury real-estate project targeting investors"},
+    {name:"Cinematic Product Photographer", cat:"Image Generation", uses:"5.0k", useful:92, trend:7,
+     spark:[80,82,79,85,88,90,92], q:"Midjourney product shot of a luxury watch, cinematic studio lighting"},
+    {name:"Equity Earnings Analyst", cat:"Financial Analysis", uses:"3.2k", useful:91, trend:9,
+     spark:[74,76,78,80,84,88,91], q:"Analyze a company's quarterly results and tell me if they're bullish or bearish"},
+    {name:"Meta Ads Campaign Architect", cat:"Marketing", uses:"2.9k", useful:90, trend:6,
+     spark:[78,80,79,83,86,88,90], q:"Facebook ads campaign architecture with budget split and A/B plan"},
+    {name:"Hyperreal Portrait Studio", cat:"Image Generation", uses:"2.6k", useful:89, trend:11,
+     spark:[70,72,76,78,82,86,89], q:"Midjourney hyperreal portrait, 85mm, Rembrandt lighting"}
+  ];
+
+  // ---- procedural sample-image tiles (self-contained, CSP-safe) ----
+  var PALETTES = [
+    {a:"#241706",b:"#4a3411",glow:"#efc766",sub:"#c99a34"}, // luxury gold/black
+    {a:"#2a1717",b:"#4d322a",glow:"#f0b78c",sub:"#cf9070"}, // warm portrait
+    {a:"#0b0a26",b:"#1c1246",glow:"#8ea0ff",sub:"#e363ad"}, // neon brand
+    {a:"#07171d",b:"#103139",glow:"#54cede",sub:"#2f93ab"}, // ambient teal
+    {a:"#2b1021",b:"#4e1b33",glow:"#ff9f72",sub:"#ea5b70"}, // cinematic sunset
+    {a:"#0f1317",b:"#222a31",glow:"#d0d8e0",sub:"#8a929b"}  // studio grey
+  ];
+  var _uid=0;
+  function artTile(seed){
+    var p = PALETTES[((seed%PALETTES.length)+PALETTES.length)%PALETTES.length];
+    var id = "t"+(_uid++);
+    var fx = 30 + (seed*17 % 45);   // focal x 30-75
+    var fy = 32 + (seed*11 % 30);   // focal y 32-62
+    var rot = (seed*37 % 60) - 30;
+    return ''+
+    '<svg viewBox="0 0 100 125" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+
+      '<defs>'+
+        '<linearGradient id="bg'+id+'" x1="0" y1="0" x2="0" y2="1">'+
+          '<stop offset="0" stop-color="'+p.b+'"/><stop offset="1" stop-color="'+p.a+'"/>'+
+        '</linearGradient>'+
+        '<radialGradient id="gl'+id+'" cx="'+fx+'%" cy="'+fy+'%" r="60%">'+
+          '<stop offset="0" stop-color="'+p.glow+'" stop-opacity="0.9"/>'+
+          '<stop offset="45%" stop-color="'+p.sub+'" stop-opacity="0.35"/>'+
+          '<stop offset="100%" stop-color="'+p.a+'" stop-opacity="0"/>'+
+        '</radialGradient>'+
+        '<radialGradient id="vg'+id+'" cx="50%" cy="46%" r="75%">'+
+          '<stop offset="55%" stop-color="#000" stop-opacity="0"/>'+
+          '<stop offset="100%" stop-color="#000" stop-opacity="0.55"/>'+
+        '</radialGradient>'+
+        '<filter id="gr'+id+'"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>'+
+          '<feColorMatrix type="saturate" values="0"/></filter>'+
+      '</defs>'+
+      '<rect width="100" height="125" fill="url(#bg'+id+')"/>'+
+      '<ellipse cx="'+fx+'" cy="'+fy+'" rx="46" ry="40" fill="url(#gl'+id+')"/>'+
+      '<g transform="translate('+fx+' '+(fy+18)+') rotate('+rot+')" opacity="0.45">'+
+        '<rect x="-30" y="-4" width="60" height="8" rx="4" fill="'+p.sub+'" opacity="0.5"/>'+
+        '<circle cx="0" cy="-14" r="15" fill="'+p.glow+'" opacity="0.28"/>'+
+      '</g>'+
+      '<rect width="100" height="125" fill="url(#vg'+id+')"/>'+
+      '<rect width="100" height="125" filter="url(#gr'+id+')" opacity="0.06"/>'+
+    '</svg>';
+  }
+  var DATA = {
+    finance: {
+      echo: "Analyze a company's quarterly results — bullish or bearish?",
+      tokens: [["Purpose","Financial Analysis",1],["Task","Earnings Analysis",1],["Intent","Investment decision",0],
+               ["Input","Quarterly result",0],["Output","Bullish / Bearish",0],["Model","ChatGPT · Claude",0],["Level","Advanced",0]],
+      results: [
+        { name:"Equity Earnings Analyst", models:"GPT-5.6 · Claude · 426 uses", q:94,m:97,r:91,
+          why:["Purpose-built for quarterly earnings analysis","Defines an equity-research analyst role",
+               "Separates revenue, EBITDA, PAT & margins","Compares YoY and QoQ performance",
+               "Requires management-guidance analysis","Produces a Bullish / Neutral / Bearish call"],
+          weak:"Doesn't automatically compare valuation against sector peers — add a peer set for full coverage.",
+          who:"Assistant · GPT-5.6",
+          sample:"Revenue +14% YoY / +3% QoQ; EBITDA margin up 210bps to 28.4%. PAT beat consensus by 6%. Management guided FY margins higher on operating leverage…",
+          verdict:"Conclusion: Bullish (near-term)",
+          prov:{Author:"verified · analyst",Source:"Curated",License:"CC-BY",Collected:"Jun 2026",Tested:"GPT-5.6, Claude",Version:"3.1"},
+          orig:67,
+          improved:93, adds:["Added expert analyst role","Added input-context slot","Added structured output sections","Added constraints (numbers only)","Added a verification step"] },
+        { name:"Quarterly Results Deep Dive", models:"GPT-5.6 · 310 uses", q:91,m:94,r:89,
+          why:["Line-by-line P&L walkthrough","Flags one-off / exceptional items","Segment-level revenue breakdown","Ends with a directional call"],
+          weak:"Verbose — can exceed context on very long filings. Trim to the segments you care about.",
+          who:"Assistant · GPT-5.6",
+          sample:"Segment A drove 62% of incremental revenue; gross margin compression of 90bps offset by opex discipline…",
+          verdict:"Conclusion: Neutral-to-Bullish",
+          prov:{Author:"community · verified",Source:"Open dataset",License:"MIT",Collected:"May 2026",Tested:"GPT-5.6",Version:"2.4"},
+          orig:70, improved:90, adds:["Added segment schema","Added one-off item filter","Tightened output length","Added directional verdict"] },
+        { name:"Fundamental Stock Analyzer", models:"Claude · 502 uses", q:95,m:87,r:92,
+          why:["Highest construction quality in the set","Strong ratio & valuation coverage","Includes peer comparison","Balance-sheet health check"],
+          weak:"Broader than earnings — some output covers valuation you may not need for a single quarter.",
+          who:"Assistant · Claude",
+          sample:"ROCE 21.3%, net debt/EBITDA 0.8x, P/E 18.4x vs sector 22.1x — modestly undervalued on trailing earnings…",
+          verdict:"Conclusion: Bullish (valuation-led)",
+          prov:{Author:"verified · analyst",Source:"Curated",License:"CC-BY",Collected:"Apr 2026",Tested:"Claude, GPT-5.6",Version:"4.0"},
+          orig:74, improved:95, adds:["Added peer set","Added ratio schema","Added valuation context","Added data-only constraint"] },
+        { name:"Earnings Call Analyst", models:"GPT-5.6 · 188 uses", q:88,m:82,r:86,
+          why:["Focuses on the transcript / call tone","Extracts management sentiment","Surfaces guidance changes"],
+          weak:"Needs the call transcript as input — not just the results PDF.",
+          who:"Assistant · GPT-5.6",
+          sample:"Management tone constructive; 3 upward guidance revisions, 1 hedged answer on margins in Q&A…",
+          verdict:"Conclusion: Cautiously Bullish",
+          prov:{Author:"community",Source:"Open dataset",License:"Apache-2.0",Collected:"Jul 2026",Tested:"GPT-5.6",Version:"1.6"},
+          orig:63, improved:86, adds:["Added transcript slot","Added sentiment scale","Added guidance-diff step","Added structured summary"] }
+      ]
+    },
+    marketing: {
+      echo: "Create a Facebook campaign for a luxury real-estate project targeting investors.",
+      tokens: [["Purpose","Marketing",1],["Task","Facebook Advertising",1],["Vertical","Real Estate · Luxury",1],
+               ["Intent","Lead generation",0],["Output","Ad set + copy",0],["Model","ChatGPT · Claude",0],["Level","Intermediate",0]],
+      results: [
+        { name:"Facebook Real Estate Lead Generator", models:"GPT-5.6 · Claude · 611 uses", q:93,m:98,r:94,
+          why:["Built for FB real-estate lead-gen","Targets investor audience explicitly","Outputs 5 ad variations + primary text",
+               "Defines audience, hook, CTA per ad","Includes a lead-magnet suggestion","Specifies image direction"],
+          weak:"Doesn't set a budget or bidding strategy — pair with a media-plan prompt.",
+          who:"Assistant · GPT-5.6",
+          sample:"Ad 1 — Hook: 'Own a landmark address before it's listed.' Primary text: … CTA: Book a private viewing. Audience: HNW investors, 35–60, lookalike of past buyers…",
+          verdict:"5 ad variations · investor-targeted",
+          prov:{Author:"verified · marketer",Source:"Curated",License:"CC-BY",Collected:"Jun 2026",Tested:"GPT-5.6, Claude",Version:"2.9"},
+          orig:66, improved:93, adds:["Added lead-gen objective","Added investor audience","Added 5-variation output","Added CTA + image direction","Added constraint: no clichés"] },
+        { name:"Luxury Property Ad Copywriter", models:"Claude · 402 uses", q:90,m:95,r:88,
+          why:["Premium tone tuned for luxury","Strong emotional hooks","Outputs headline + body + CTA","Brand-voice control"],
+          weak:"Copy-only — no audience/targeting guidance.",
+          who:"Assistant · Claude",
+          sample:"Headline: 'Where skyline meets legacy.' Body: An address measured not in square feet but in stature…",
+          verdict:"Headline + body + CTA set",
+          prov:{Author:"community · verified",Source:"Open",License:"MIT",Collected:"May 2026",Tested:"Claude",Version:"3.2"},
+          orig:72, improved:90, adds:["Added brand-voice slot","Added CTA","Added length constraint","Added variation count"] },
+        { name:"Meta Ads Campaign Architect", models:"GPT-5.6 · 288 uses", q:95,m:88,r:90,
+          why:["Full-funnel campaign structure","Audience + budget + bidding","Highest construction quality","Includes A/B test plan"],
+          weak:"Broad — covers whole funnel, heavier than a single ad set needs.",
+          who:"Assistant · GPT-5.6",
+          sample:"TOFU: reach → interest stack; MOFU: lead form; BOFU: retarget viewers. Suggested split 50/30/20…",
+          verdict:"Full funnel + A/B plan",
+          prov:{Author:"verified",Source:"Curated",License:"CC-BY",Collected:"Apr 2026",Tested:"GPT-5.6, Claude",Version:"4.1"},
+          orig:75, improved:95, adds:["Added funnel schema","Added budget split","Added A/B plan","Added KPI targets"] },
+        { name:"Real Estate Social Funnel", models:"Claude · 174 uses", q:87,m:84,r:85,
+          why:["Multi-channel (FB + IG) plan","Lead-capture flow","Nurture sequence outline"],
+          weak:"Spreads across channels — less focused on a single FB campaign.",
+          who:"Assistant · Claude",
+          sample:"FB lead ad → IG story retarget → WhatsApp nurture → viewing booked. 4-touch sequence…",
+          verdict:"4-touch multi-channel funnel",
+          prov:{Author:"community",Source:"Open",License:"Apache-2.0",Collected:"Jul 2026",Tested:"Claude",Version:"1.9"},
+          orig:64, improved:85, adds:["Added channel map","Added nurture steps","Added CTA per touch","Added structured output"] }
+      ]
+    },
+    image: {
+      type:"image",
+      echo: "Midjourney product shot of a luxury watch, cinematic studio lighting.",
+      tokens: [["Purpose","Image Generation",1],["Task","Product Photography",1],["Subject","Luxury watch",1],
+               ["Style","Cinematic · studio",0],["Aspect","4:5",0],["Model","Midjourney · GPT-Image",0],["Level","Intermediate",0]],
+      results: [
+        { name:"Cinematic Product Photographer", models:"Midjourney v6 · GPT-Image · 738 uses", q:94,m:96,r:92, seed:0,
+          why:["Purpose-built for hero product shots","Specifies lens, lighting &amp; angle","Controls material &amp; reflection detail",
+               "Sets aspect ratio &amp; stylize params","Includes a negative prompt","Renders a clean studio backdrop"],
+          weak:"Tuned for hard-surface products — soft goods (fabric, food) need a different lighting recipe.",
+          who:"Midjourney v6", params:"--ar 4:5 --stylize 250 · 100mm macro · softbox key",
+          verdict:"4 variations · 4:5",
+          prov:{Author:"verified · artist",Source:"Curated",License:"CC-BY",Collected:"Jun 2026",Tested:"MJ v6, GPT-Image",Version:"3.4"},
+          orig:64, improved:94, adds:["Added --ar 4:5","Added 100mm macro lens","Added softbox lighting","Added reflection control","Added negative prompt (no clutter)"] },
+        { name:"Hyperreal Portrait Studio", models:"Midjourney v6 · 620 uses", q:92,m:95,r:90, seed:1,
+          why:["Photoreal skin &amp; catchlight detail","Controls lens &amp; depth of field","Sets lighting mood (Rembrandt / soft)","Aspect &amp; stylize tuned for faces"],
+          weak:"Faces only — full-body composition needs added framing cues.",
+          who:"Midjourney v6", params:"--ar 4:5 --stylize 180 · 85mm f1.4 · Rembrandt light",
+          verdict:"4 variations · 4:5",
+          prov:{Author:"community · verified",Source:"Open",License:"MIT",Collected:"May 2026",Tested:"MJ v6",Version:"2.7"},
+          orig:70, improved:92, adds:["Added 85mm f1.4","Added Rembrandt lighting","Added catchlight detail","Added --stylize 180"] },
+        { name:"Brand Logo Concepting", models:"GPT-Image · 401 uses", q:95,m:88,r:91, seed:2,
+          why:["Highest construction quality","Vector-clean, flat output","Controls colour palette &amp; motif","Generates a concept grid"],
+          weak:"Concepts, not print-ready vectors — trace the winner in a vector tool.",
+          who:"GPT-Image", params:"--ar 1:1 · flat vector · 3-colour palette",
+          verdict:"6-concept grid · 1:1",
+          prov:{Author:"verified",Source:"Curated",License:"CC-BY",Collected:"Apr 2026",Tested:"GPT-Image, MJ v6",Version:"4.2"},
+          orig:72, improved:95, adds:["Added flat-vector style","Added palette constraint","Added concept-grid layout","Added negative (no gradients)"] },
+        { name:"Ambient Scene Builder", models:"Midjourney v6 · 233 uses", q:88,m:84,r:87, seed:3,
+          why:["Rich environmental atmosphere","Controls time-of-day &amp; weather","Cinematic colour grade"],
+          weak:"Atmosphere over subject — add a clear focal subject for product use.",
+          who:"Midjourney v6", params:"--ar 16:9 --stylize 400 · golden hour · volumetric fog",
+          verdict:"4 variations · 16:9",
+          prov:{Author:"community",Source:"Open",License:"Apache-2.0",Collected:"Jul 2026",Tested:"MJ v6",Version:"1.8"},
+          orig:60, improved:87, adds:["Added time-of-day","Added volumetric fog","Added colour grade","Added --ar 16:9"] }
+      ]
+    }
+  };
+
+  // ---------- ELEMENTS ----------
+  var $ = function(s,r){ return (r||document).querySelector(s); };
+  var homeEl=$("#home"), loadEl=$("#loading"), resEl=$("#results"),
+      qInput=$("#q"), form=$("#searchForm"), listEl=$("#list"),
+      goalEcho=$("#goalEcho"), tokensEl=$("#tokens"), candCount=$("#candCount"),
+      toast=$("#toast"), toastMsg=$("#toastMsg");
+  var current=null, selectedIdx=0;
+
+  // ---------- ROUTE ----------
+  function route(q){
+    var s=(q||"").toLowerCase();
+    if(/midjourney|dall|stable diffusion|photoreal|portrait|logo|render|product shot|\bimage\b|\bphoto\b|illustration|--ar/.test(s)) return "image";
+    if(/facebook|campaign|\bad\b|\bads\b|market|real.?estate|lead|instagram|copywrit/.test(s)) return "marketing";
+    return "finance";
+  }
+
+  function renderTop(){
+    var el=$("#topList"); if(!el) return;
+    el.innerHTML = LEADERBOARD.map(function(it,i){
+      return '<button class="lbrow" data-q="'+it.q.replace(/"/g,"&quot;")+'">'+
+        '<span class="rk">'+(i+1)+'</span>'+
+        '<span><span class="nm">'+it.name+'</span><span class="ct">'+it.cat+'</span></span>'+
+        sparkline(it.spark)+
+        '<span class="lbmet"><span class="u">'+it.useful+'%</span><span class="l">useful · '+it.uses+' uses</span>'+
+          '<span class="trend">▲ '+it.trend+'%</span></span>'+
+      '</button>';
+    }).join("");
+    el.querySelectorAll(".lbrow").forEach(function(b){
+      b.addEventListener("click", function(){ submit(b.getAttribute("data-q")); });
+    });
+  }
+
+  // ---------- FLOW ----------
+  function submit(q){
+    q = (q||qInput.value||"").trim();
+    if(!q){ qInput.focus(); return; }
+    var key = route(q);
+    current = DATA[key];
+    document.body.classList.add("results-on");
+    homeEl.style.display="none";
+    runLoading(function(){ renderResults(current, q); });
+  }
+
+  function runLoading(done){
+    resEl.classList.remove("on");
+    loadEl.classList.add("on");
+    var steps = Array.prototype.slice.call(loadEl.querySelectorAll(".lstep"));
+    var bar = $("#lbar");
+    steps.forEach(function(s){ s.classList.remove("on","done"); s.querySelector(".co").textContent=""; });
+    bar.style.width="0";
+    if(reduce){ loadEl.classList.remove("on"); done(); return; }
+    var cos = ["✓ parsed","20 found","top 4","verified"];
+    var i=0;
+    (function next(){
+      if(i>0){ steps[i-1].classList.add("done"); steps[i-1].querySelector(".co").textContent=cos[i-1]; }
+      if(i>=steps.length){ bar.style.width="100%"; setTimeout(function(){ loadEl.classList.remove("on"); done(); }, 260); return; }
+      steps[i].classList.add("on");
+      bar.style.width = ((i+1)/steps.length*100)+"%";
+      i++;
+      setTimeout(next, 460);
+    })();
+  }
+
+  function renderResults(d, q){
+    goalEcho.textContent = q;
+    tokensEl.innerHTML = d.tokens.map(function(t){
+      return '<span class="tok'+(t[2]?' key':'')+'"><b>'+t[0]+'</b>'+t[1]+(t[2]?' <span class="x" title="remove">×</span>':'')+'</span>';
+    }).join("");
+    candCount.textContent = d.results.length + " of 20 candidates · ranked by overall fit";
+    listEl.innerHTML = d.results.map(function(rz,i){ return card(rz,i); }).join("");
+    resEl.classList.add("on");
+    selectedIdx = 0;
+    openCard(0, true);
+    bindCards();
+    resEl.scrollIntoView({behavior: reduce?"auto":"smooth", block:"start"});
+  }
+
+  function band(v){ return v>=90?"g":(v>=80?"m":"a"); }
+  function card(rz,i){
+    var ov = overall(rz.q,rz.m,rz.r);
+    var isImg = current && current.type==="image";
+    var s = (rz.seed==null? i : rz.seed);
+    var sampleHTML = isImg
+      ? '<div class="dlabel">Sample output</div>'+
+        '<div class="imgsample">'+
+          '<div class="frame">'+artTile(s)+'<span class="cap">Representative sample · '+rz.who+'</span></div>'+
+          '<div class="params">'+rz.params+'</div>'+
+          '<div class="variations">'+
+            '<div class="v"><span class="imgtag">v1</span>'+artTile(s+7)+'</div>'+
+            '<div class="v"><span class="imgtag">v2</span>'+artTile(s+13)+'</div>'+
+            '<div class="v"><span class="imgtag">v3</span>'+artTile(s+23)+'</div>'+
+          '</div>'+
+          '<div class="mono" style="font-size:11px;color:var(--ink-3);margin-top:9px">Output: '+rz.verdict+'</div>'+
+        '</div>'
+      : '<div class="dlabel">Sample output</div>'+
+        '<div class="sample"><div class="who">'+rz.who+'</div>'+rz.sample+'<div class="vl">'+rz.verdict+'</div></div>';
+    return ''+
+    '<article class="card'+(i===0?' rank1':'')+'" data-i="'+i+'">'+
+      '<div class="cardhead" role="button" tabindex="0" aria-expanded="'+(i===0)+'">'+
+        '<div class="medal m'+(i+1)+'">'+(i+1)+'</div>'+
+        '<div><div class="nm">'+rz.name+'</div><div class="mt">'+rz.models+'</div></div>'+
+        '<div class="mini">'+
+          '<div class="ms"><div class="mv '+band(rz.q)+'" data-n="'+rz.q+'">0</div><div class="ml">Quality</div></div>'+
+          '<div class="ms"><div class="mv a" data-n="'+rz.m+'" data-suf="%">0</div><div class="ml">Match</div></div>'+
+          '<div class="ms"><div class="mv '+band(rz.r)+'" data-n="'+rz.r+'">0</div><div class="ml">Reliab.</div></div>'+
+          '<div class="overallchip"><div class="ov" data-n="'+ov+'">0</div><div class="ol">Overall</div></div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="detail"><div class="detail-inner">'+
+        '<div class="dgrid">'+
+          '<div>'+
+            '<div class="dlabel">Why we recommend this</div>'+
+            '<div class="why">'+rz.why.map(function(w){return '<div class="y"><span class="ic">✓</span>'+w+'</div>';}).join("")+'</div>'+
+            '<div class="weaknote"><span class="ic">!</span><span><b>Weakness —</b> '+rz.weak+'</span></div>'+
+          '</div>'+
+          '<div>'+
+            sampleHTML+
+            '<div class="prov">'+Object.keys(rz.prov).map(function(k){return '<div><div class="k">'+k+'</div><div class="v">'+rz.prov[k]+'</div></div>';}).join("")+'</div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="custom">'+
+          '<div class="dlabel">Improve before you use</div>'+
+          '<div class="seg" data-i="'+i+'">'+
+            '<button data-v="orig">Original</button>'+
+            '<button class="on" data-v="improved">Improved</button>'+
+            '<button data-v="compare">Compare</button>'+
+          '</div>'+
+          '<div class="custombody" data-i="'+i+'">'+customBody(rz,"improved")+'</div>'+
+        '</div>'+
+        '<div class="vswrap">'+
+          '<div class="dlabel">Same job, other tools</div>'+
+          '<div class="vsgrid">'+
+            '<div class="vscard"><div class="vn">AIPRM</div><div class="vp">Community prompt, <b class="vx">no fit score</b>. You judge relevance yourself.</div><span class="vtag">free · untested</span></div>'+
+            '<div class="vscard"><div class="vn">PromptBase</div><div class="vp"><b>$2.99</b> · buy before you can see the output. <b class="vx">Unverified.</b></div><span class="vtag">paid · unproven</span></div>'+
+            '<div class="vscard"><div class="vn">FlowGPT</div><div class="vp">Ranked by <b class="vx">popularity</b>, not fit. Mixed with roleplay &amp; chat.</div><span class="vtag">free · social</span></div>'+
+            '<div class="vscard us"><div class="vn">Prompt Finder</div><div class="vp"><b class="vc">'+ov+' overall</b> · tested on '+rz.models.split(" · ")[0]+' · why + sample shown.</div><span class="vtag">free · verified</span></div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="actions">'+
+          '<button class="primary" data-copy="'+i+'">Use this prompt</button>'+
+          '<button class="ghost" data-copy="'+i+'">Copy</button>'+
+        '</div>'+
+      '</div></div>'+
+    '</article>';
+  }
+
+  function customBody(rz, view){
+    if(view==="orig"){
+      return '<div class="improvenote"><span class="badge" style="color:var(--mid);background:var(--mid-soft)">Original · '+rz.orig+'</span>'+
+             '<span class="mono" style="font-size:12px;color:var(--ink-3)">under-specified — see Improved</span></div>';
+    }
+    if(view==="improved"){
+      return '<div class="improvenote"><span class="badge">Improved · '+rz.improved+' &nbsp;+'+(rz.improved-rz.orig)+'</span></div>'+
+             '<div class="adds">'+rz.adds.map(function(a){return '<div class="a"><span class="p">+</span>'+a+'</div>';}).join("")+'</div>';
+    }
+    return '<div class="compare2">'+
+      '<div class="cc"><div class="h">Original <span class="sc o">'+rz.orig+'</span></div><p>Role, structure, constraints and verification are missing or loose.</p></div>'+
+      '<div class="cc win"><div class="h">Optimized <span class="sc i">'+rz.improved+'</span></div><p>'+rz.adds.slice(0,3).join(' · ')+' — and a verification step.</p></div>'+
+      '</div>';
+  }
+
+  // ---------- INTERACTION ----------
+  function openCard(i, instant){
+    var cards = listEl.querySelectorAll(".card");
+    cards.forEach(function(c,idx){
+      var open = idx===i;
+      c.classList.toggle("open", open);
+      c.classList.toggle("sel", open);
+      var head=c.querySelector(".cardhead"); if(head) head.setAttribute("aria-expanded", open);
+    });
+    selectedIdx = i;
+    animateScores(cards[i]);
+  }
+
+  function animateScores(card){
+    if(!card) return;
+    var nums = card.querySelectorAll("[data-n]");
+    nums.forEach(function(el){
+      var target = +el.getAttribute("data-n"), suf = el.getAttribute("data-suf")||"";
+      if(reduce){ el.textContent=target+suf; return; }
+      var start=null, dur=520;
+      function step(ts){
+        if(!start) start=ts;
+        var p=Math.min(1,(ts-start)/dur), e=1-Math.pow(1-p,3);
+        el.textContent = Math.round(target*e)+suf;
+        if(p<1) requestAnimationFrame(step);
+      }
+      el.textContent="0"+suf; requestAnimationFrame(step);
+    });
+  }
+
+  function bindCards(){
+    listEl.querySelectorAll(".cardhead").forEach(function(h){
+      h.addEventListener("click", function(){
+        var i=+h.closest(".card").getAttribute("data-i");
+        openCard(i === selectedIdx && listEl.querySelector('.card[data-i="'+i+'"]').classList.contains("open") ? i : i);
+        openCard(i);
+      });
+      h.addEventListener("keydown", function(e){
+        if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openCard(+h.closest(".card").getAttribute("data-i")); }
+      });
+    });
+    listEl.querySelectorAll(".seg").forEach(function(seg){
+      seg.addEventListener("click", function(e){
+        var b=e.target.closest("button"); if(!b) return;
+        seg.querySelectorAll("button").forEach(function(x){x.classList.remove("on");});
+        b.classList.add("on");
+        var i=+seg.getAttribute("data-i");
+        var body=listEl.querySelector('.custombody[data-i="'+i+'"]');
+        body.innerHTML = customBody(current.results[i], b.getAttribute("data-v"));
+      });
+    });
+    listEl.querySelectorAll("[data-copy]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var i=+b.getAttribute("data-copy");
+        var txt = current.results[i].name + " — Improved prompt (score "+current.results[i].improved+")";
+        if(navigator.clipboard) navigator.clipboard.writeText(txt).catch(function(){});
+        showToast(b.classList.contains("primary") ? "Prompt ready — opening in your model" : "Copied to clipboard");
+      });
+    });
+    listEl.querySelectorAll(".tok .x").forEach(function(x){
+      x.addEventListener("click", function(e){ e.stopPropagation(); x.closest(".tok").remove(); });
+    });
+  }
+
+  var toastT;
+  function showToast(msg){
+    toastMsg.textContent=msg; toast.classList.add("on");
+    clearTimeout(toastT); toastT=setTimeout(function(){ toast.classList.remove("on"); }, 2200);
+  }
+
+  function reset(){
+    document.body.classList.remove("results-on");
+    resEl.classList.remove("on"); loadEl.classList.remove("on");
+    homeEl.style.display=""; qInput.value=""; qInput.focus();
+    window.scrollTo({top:0, behavior: reduce?"auto":"smooth"});
+  }
+
+  // ---------- WIRING ----------
+  renderTop();
+  form.addEventListener("submit", function(e){ e.preventDefault(); submit(); });
+  document.querySelectorAll(".ex").forEach(function(c){
+    c.addEventListener("click", function(){ qInput.value=c.getAttribute("data-q"); submit(); });
+  });
+  $("#newBtn").addEventListener("click", reset);
+  $("#lawBtn").addEventListener("click", function(){
+    var on=document.body.classList.toggle("laws");
+    this.setAttribute("aria-pressed", on);
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key==="/" && document.activeElement!==qInput){ e.preventDefault(); qInput.focus(); }
+    if(!resEl.classList.contains("on")) return;
+    var n=current?current.results.length:0;
+    if(e.key==="ArrowDown"){ e.preventDefault(); openCard(Math.min(n-1,selectedIdx+1)); scrollSel(); }
+    if(e.key==="ArrowUp"){ e.preventDefault(); openCard(Math.max(0,selectedIdx-1)); scrollSel(); }
+    if(e.key==="Escape"){ reset(); }
+  });
+  function scrollSel(){
+    var c=listEl.querySelector('.card[data-i="'+selectedIdx+'"]');
+    if(c) c.scrollIntoView({behavior: reduce?"auto":"smooth", block:"nearest"});
+  }
+})();
+</script>

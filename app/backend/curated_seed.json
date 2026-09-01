@@ -1,0 +1,102 @@
+[
+  {
+    "title": "Equity Earnings Analyst",
+    "prompt": "You are an equity research analyst. Analyze the company's quarterly results provided below. Break down revenue, EBITDA, PAT and margins; compare YoY and QoQ performance; assess management guidance and any one-off or exceptional items; then conclude with a clear Bullish, Neutral, or Bearish call for the stock and a one-line rationale. Use only the numbers given, present the breakdown as a table, and do not speculate beyond the data. Input: {quarterly_results}",
+    "template": "You are an equity research analyst. Analyze the quarterly results. Break down revenue, EBITDA, PAT and margins; compare YoY and QoQ; assess guidance; conclude Bullish/Neutral/Bearish with a rationale. Input: {quarterly_results}",
+    "variables": ["quarterly_results"],
+    "is_template": true,
+    "prompt_type": "text",
+    "purpose": "Financial Analysis",
+    "quality": 94
+  },
+  {
+    "title": "Quarterly Results Deep Dive",
+    "prompt": "Act as a buy-side analyst. Do a line-by-line walkthrough of the attached quarterly earnings: segment-level revenue, gross and operating margins, cash flow, and net debt. Flag one-off items, compare against consensus and the prior quarter, and end with a directional read on the stock. Output structured sections with numbers first. Input: {earnings_report}",
+    "template": "Act as a buy-side analyst. Walk through the quarterly earnings: segment revenue, margins, cash flow, net debt. Flag one-offs, compare vs consensus and prior quarter, end with a directional read. Input: {earnings_report}",
+    "variables": ["earnings_report"],
+    "is_template": true,
+    "prompt_type": "text",
+    "purpose": "Financial Analysis",
+    "quality": 91
+  },
+  {
+    "title": "Fundamental Stock Analyzer",
+    "prompt": "You are a fundamental analyst. Given a company's financials, compute key ratios (ROCE, ROE, net debt/EBITDA, P/E vs sector), assess balance-sheet health, compare valuation against peers, and produce a Bullish/Neutral/Bearish conclusion with the two strongest supporting metrics. Return a compact table plus a two-sentence verdict. Input: {financials}",
+    "template": "You are a fundamental analyst. Compute ROCE, ROE, net debt/EBITDA, P/E vs sector; assess balance sheet; compare valuation to peers; conclude Bullish/Neutral/Bearish. Input: {financials}",
+    "variables": ["financials"],
+    "is_template": true,
+    "prompt_type": "text",
+    "purpose": "Financial Analysis",
+    "quality": 95
+  },
+  {
+    "title": "Facebook Real Estate Lead Generator",
+    "prompt": "You are a performance marketer specializing in real estate. Create a Facebook lead-generation campaign for the project below, targeting investors. Produce 5 ad variations, each with a primary text, a hook, and a CTA; define the audience and a lead-magnet idea; and give image direction per ad. Keep copy concrete, avoid clichés. Inputs: project = {project}, audience = {target_audience}, location = {location}",
+    "template": "You are a performance marketer. Create a Facebook lead-gen campaign for {project} targeting {target_audience} in {location}. Produce 5 ad variations with primary text, hook, CTA; define audience and a lead magnet; give image direction.",
+    "variables": ["project", "target_audience", "location"],
+    "is_template": true,
+    "prompt_type": "text",
+    "purpose": "Marketing",
+    "quality": 93
+  },
+  {
+    "title": "Meta Ads Campaign Architect",
+    "prompt": "Act as a paid-social strategist. Design a full-funnel Meta Ads campaign: TOFU reach, MOFU lead capture, BOFU retargeting. Specify audiences, a suggested budget split, creative angles per stage, an A/B test plan, and the KPIs to watch. Return it as a structured brief. Inputs: offer = {offer}, audience = {audience}, budget = {budget}",
+    "template": "Act as a paid-social strategist. Design a full-funnel Meta Ads campaign (TOFU/MOFU/BOFU) for {offer} to {audience} on {budget}: audiences, budget split, creative angles, A/B plan, KPIs.",
+    "variables": ["offer", "audience", "budget"],
+    "is_template": true,
+    "prompt_type": "text",
+    "purpose": "Marketing",
+    "quality": 95
+  },
+  {
+    "title": "Cold Outreach Sequence Builder",
+    "prompt": "You are a B2B sales strategist. Write a 5-step cold outreach sequence for the offer below aimed at the given ICP. For each step give the channel, the goal, a subject line, and a short body under 90 words, with one clear CTA. Avoid fluff and generic openers. Inputs: company = {company}, ICP = {icp}, offer = {offer}",
+    "template": "You are a B2B sales strategist. Write a 5-step cold outreach sequence for {offer} to {icp} at {company}. Per step: channel, goal, subject line, body under 90 words, one CTA.",
+    "variables": ["company", "icp", "offer"],
+    "is_template": true,
+    "prompt_type": "text",
+    "purpose": "Sales",
+    "quality": 90
+  },
+  {
+    "title": "Cinematic Product Photographer",
+    "prompt": "Cinematic studio product shot of {product}, hero angle, 100mm macro lens, softbox key light with subtle rim light, clean seamless backdrop, high detail on material and reflections, photorealistic, 8k --ar 4:5 --stylize 250 --no clutter",
+    "template": "Cinematic studio product shot of {product}, 100mm macro, softbox key + rim light, clean backdrop, photorealistic, 8k --ar 4:5 --stylize 250 --no clutter",
+    "variables": ["product"],
+    "is_template": true,
+    "prompt_type": "image",
+    "purpose": "Image Generation",
+    "quality": 94
+  },
+  {
+    "title": "Hyperreal Portrait Studio",
+    "prompt": "Hyperrealistic studio portrait of {subject}, 85mm f1.4, shallow depth of field, Rembrandt lighting, soft catchlight in the eyes, natural skin texture, editorial color grade --ar 4:5 --stylize 180",
+    "template": "Hyperrealistic studio portrait of {subject}, 85mm f1.4, Rembrandt lighting, catchlight, natural skin, editorial grade --ar 4:5 --stylize 180",
+    "variables": ["subject"],
+    "is_template": true,
+    "prompt_type": "image",
+    "purpose": "Image Generation",
+    "quality": 92
+  },
+  {
+    "title": "Brand Logo Concepting",
+    "prompt": "Flat vector logo concepts for {brand}, minimal geometric mark, three-colour palette, clean negative space, presented as a 6-concept grid on a neutral background, no gradients, no photorealism --ar 1:1",
+    "template": "Flat vector logo concepts for {brand}, minimal geometric mark, 3-colour palette, 6-concept grid, no gradients --ar 1:1",
+    "variables": ["brand"],
+    "is_template": true,
+    "prompt_type": "image",
+    "purpose": "Graphic Design",
+    "quality": 95
+  },
+  {
+    "title": "Python Bug Triage Assistant",
+    "prompt": "You are a senior Python engineer. Given a traceback and the relevant code, identify the root cause, explain why it fails in two sentences, and provide a corrected code block. If the fix is uncertain, list the top two hypotheses and how to confirm each. Return code only in fenced blocks. Inputs: traceback = {traceback}, code = {code}",
+    "template": "You are a senior Python engineer. Given {traceback} and {code}, find the root cause, explain in 2 sentences, and give a corrected code block. If uncertain, list 2 hypotheses to confirm.",
+    "variables": ["traceback", "code"],
+    "is_template": true,
+    "prompt_type": "coding",
+    "purpose": "Debugging",
+    "quality": 92
+  }
+]

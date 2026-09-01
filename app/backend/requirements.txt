@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+pandas
+openpyxl
+sqlalchemy
+psycopg2-binary   # Postgres driver (prod); SQLite needs no driver
+bcrypt            # password hashing
+pyjwt             # JWT sessions
+slowapi           # rate limiting on auth/vote endpoints
+python-multipart  # multipart form uploads (Excel/CSV ingestion endpoint)
+anthropic         # optional — LLM search enricher + live previews
+python-dotenv     # loads the repo-root .env

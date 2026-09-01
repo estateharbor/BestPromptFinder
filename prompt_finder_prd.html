@@ -1,0 +1,927 @@
+<title>Prompt Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+<style>
+:root{
+  --ground:#F4F3EF; --panel:#FFFFFF; --panel-2:#FBFAF6; --sunk:#F0EEE8;
+  --hairline:#E4E1D9; --hairline-2:#D8D4CA;
+  --ink:#14181F; --ink-2:#4B535F; --ink-3:#828A97;
+  --accent:#2E4BD8; --accent-2:#1B2E8A; --accent-soft:#E9ECFB; --accent-line:#C7CFF4;
+  --good:#1F9D63; --good-soft:#E3F3EA;
+  --mid:#C77A16;  --mid-soft:#F6ECD9;
+  --weak:#D0424D; --weak-soft:#F8E4E4;
+  --gold:#A98518; --silver:#8A929B; --bronze:#9E6B34;
+  --shadow:0 1px 2px rgba(20,24,31,.05), 0 8px 24px -12px rgba(20,24,31,.14);
+  --shadow-lg:0 2px 4px rgba(20,24,31,.06), 0 24px 60px -24px rgba(20,24,31,.22);
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E131B; --panel:#161D28; --panel-2:#121822; --sunk:#0B0F16;
+    --hairline:#26303F; --hairline-2:#313D4E;
+    --ink:#EAEEF4; --ink-2:#9AA6B4; --ink-3:#697384;
+    --accent:#7B90FF; --accent-2:#AAB8FF; --accent-soft:#1A2340; --accent-line:#2E3A63;
+    --good:#37C283; --good-soft:#123227;
+    --mid:#E3A14A; --mid-soft:#33260F;
+    --weak:#F0616C; --weak-soft:#361A1E;
+    --gold:#D3AE4A; --silver:#AEB6C0; --bronze:#C98A4E;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.6);
+    --shadow-lg:0 2px 6px rgba(0,0,0,.5), 0 30px 70px -28px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E131B; --panel:#161D28; --panel-2:#121822; --sunk:#0B0F16;
+  --hairline:#26303F; --hairline-2:#313D4E;
+  --ink:#EAEEF4; --ink-2:#9AA6B4; --ink-3:#697384;
+  --accent:#7B90FF; --accent-2:#AAB8FF; --accent-soft:#1A2340; --accent-line:#2E3A63;
+  --good:#37C283; --good-soft:#123227;
+  --mid:#E3A14A; --mid-soft:#33260F;
+  --weak:#F0616C; --weak-soft:#361A1E;
+  --gold:#D3AE4A; --silver:#AEB6C0; --bronze:#C98A4E;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.6);
+  --shadow-lg:0 2px 6px rgba(0,0,0,.5), 0 30px 70px -28px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  font-size:17px; line-height:1.65; letter-spacing:-0.003em;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif; text-wrap:balance; margin:0; line-height:1.08}
+p{margin:0}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:var(--accent-soft); color:var(--accent-2)}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+
+/* ---- layout spine ---- */
+.wrap{max-width:1140px; margin:0 auto; padding:0 28px}
+.spine{max-width:720px; margin-left:max(28px,calc((100% - 1140px)/2 + 28px))}
+@media(max-width:1180px){.spine{margin-left:0}}
+section{padding:64px 0; border-top:1px solid var(--hairline)}
+section:first-of-type{border-top:0}
+
+/* ---- top bar ---- */
+.topbar{
+  position:sticky; top:0; z-index:50; background:color-mix(in srgb,var(--ground) 88%, transparent);
+  -webkit-backdrop-filter:saturate(1.4) blur(10px); backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--hairline);
+}
+.topbar .wrap{display:flex; align-items:center; gap:20px; height:56px}
+.brand{display:flex; align-items:center; gap:9px; font-family:"Archivo"; font-weight:800; letter-spacing:-0.02em; font-size:16px}
+.brand .dot{width:11px; height:11px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+.topnav{display:flex; gap:4px; margin-left:auto; overflow-x:auto}
+.topnav a{
+  font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--ink-3); padding:6px 9px; border-radius:6px;
+  letter-spacing:.02em; white-space:nowrap;
+}
+.topnav a:hover{color:var(--ink); background:var(--sunk); text-decoration:none}
+@media(max-width:720px){.topnav{display:none}}
+
+/* ---- masthead ---- */
+.mast{padding:88px 0 60px}
+.eyebrow{font-family:"IBM Plex Mono"; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent-2); font-weight:500}
+.mast h1{font-size:clamp(40px,7vw,78px); font-weight:900; letter-spacing:-0.035em; margin:22px 0 0}
+.mast h1 em{font-style:normal; color:var(--accent)}
+.mast .sub{font-size:clamp(19px,2.4vw,23px); color:var(--ink-2); max-width:40ch; margin:26px 0 0; line-height:1.45}
+.metastrip{display:flex; flex-wrap:wrap; gap:10px 28px; margin-top:40px; padding-top:26px; border-top:1px solid var(--hairline)}
+.metastrip div{font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--ink-3)}
+.metastrip b{display:block; color:var(--ink); font-weight:600; font-size:13.5px; margin-top:3px; letter-spacing:0}
+
+/* ---- section headings ---- */
+.sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:28px}
+.sec-num{font-family:"IBM Plex Mono"; font-size:13px; color:var(--accent); font-weight:500; flex:none; padding-top:6px}
+.sec-head h2{font-size:clamp(27px,4vw,38px); font-weight:800; letter-spacing:-0.025em}
+.lede{font-size:19px; color:var(--ink-2); max-width:64ch; line-height:1.55}
+.spine p + p{margin-top:18px}
+.spine h3{font-size:20px; font-weight:700; margin:34px 0 12px; letter-spacing:-0.01em}
+.spine ul{margin:14px 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px}
+.spine ul li{position:relative; padding-left:26px; color:var(--ink-2)}
+.spine ul li::before{content:""; position:absolute; left:4px; top:10px; width:7px; height:7px; border-radius:2px; background:var(--accent); transform:rotate(45deg)}
+.spine ul li b{color:var(--ink)}
+strong{color:var(--ink); font-weight:600}
+
+.pull{font-family:"Archivo"; font-weight:700; font-size:clamp(22px,3vw,30px); line-height:1.25; letter-spacing:-0.02em; color:var(--ink); margin:8px 0; text-wrap:balance}
+.pull span{color:var(--accent)}
+
+/* ---- panels / full width breakouts ---- */
+.panel{background:var(--panel); border:1px solid var(--hairline); border-radius:16px; box-shadow:var(--shadow)}
+.breakout{margin-top:36px}
+.p-pad{padding:26px}
+.caption{font-family:"IBM Plex Mono"; font-size:11.5px; letter-spacing:.03em; color:var(--ink-3); text-transform:uppercase; margin-bottom:14px}
+
+/* ---- generation ladder ---- */
+.gens{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:8px}
+@media(max-width:820px){.gens{grid-template-columns:1fr 1fr}}
+.gen{background:var(--panel-2); border:1px solid var(--hairline); border-radius:12px; padding:18px}
+.gen.now{border-color:var(--accent); background:var(--accent-soft); box-shadow:0 0 0 1px var(--accent-line)}
+.gen .g{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-3); letter-spacing:.05em}
+.gen.now .g{color:var(--accent-2)}
+.gen h4{font-size:15px; margin:8px 0 6px; font-weight:700}
+.gen p{font-size:13.5px; color:var(--ink-2); line-height:1.45}
+.gen .tag{display:inline-block; margin-top:10px; font-family:"IBM Plex Mono"; font-size:10.5px; color:var(--accent-2); background:var(--panel); border:1px solid var(--accent-line); padding:2px 7px; border-radius:20px}
+
+/* ---- competitor table ---- */
+.tablewrap{overflow-x:auto; border:1px solid var(--hairline); border-radius:14px; box-shadow:var(--shadow)}
+table{border-collapse:collapse; width:100%; min-width:720px; background:var(--panel)}
+th,td{text-align:left; padding:14px 16px; border-bottom:1px solid var(--hairline); vertical-align:top}
+thead th{font-family:"IBM Plex Mono"; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-3); font-weight:500; background:var(--panel-2)}
+tbody th{font-family:"Archivo"; font-weight:700; font-size:15px; color:var(--ink); white-space:nowrap}
+td{font-size:13.5px; color:var(--ink-2); line-height:1.5}
+tr:last-child td, tr:last-child th{border-bottom:0}
+td.win{color:var(--ink)}
+.threat{display:inline-block; font-family:"IBM Plex Mono"; font-size:10px; letter-spacing:.04em; color:var(--weak); background:var(--weak-soft); padding:2px 7px; border-radius:20px; margin-top:6px}
+
+/* ---- score specimens ---- */
+.scoregrid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+@media(max-width:820px){.scoregrid{grid-template-columns:1fr}}
+.scard{background:var(--panel); border:1px solid var(--hairline); border-radius:14px; padding:22px; box-shadow:var(--shadow)}
+.scard .k{font-family:"IBM Plex Mono"; font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-3)}
+.scard h4{font-size:18px; margin:6px 0 4px; font-weight:700}
+.scard .q{font-size:13.5px; color:var(--ink-2); line-height:1.5; margin-top:8px}
+.scard .w{font-family:"IBM Plex Mono"; font-size:11px; color:var(--accent-2); margin-top:12px}
+
+.ring{display:flex; align-items:center; gap:16px}
+.ring svg{flex:none}
+.ring .num{font-family:"Archivo"; font-weight:900; font-size:30px; letter-spacing:-0.02em; line-height:1}
+.ring .of{font-family:"IBM Plex Mono"; font-size:12px; color:var(--ink-3)}
+
+.bars{display:flex; flex-direction:column; gap:11px; margin-top:16px}
+.bar .row{display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:5px}
+.bar .row .lab{color:var(--ink-2)}
+.bar .row .val{font-family:"IBM Plex Mono"; color:var(--ink); font-weight:500}
+.track{height:7px; border-radius:6px; background:var(--sunk); overflow:hidden}
+.fill{height:100%; border-radius:6px; background:var(--accent)}
+.fill.good{background:var(--good)} .fill.mid{background:var(--mid)} .fill.weak{background:var(--weak)}
+
+/* formula */
+.formula{display:grid; grid-template-columns:1.3fr 1fr; gap:18px; align-items:center}
+@media(max-width:820px){.formula{grid-template-columns:1fr}}
+.weights{display:flex; flex-direction:column; gap:12px}
+.wrow{display:grid; grid-template-columns:120px 1fr auto; align-items:center; gap:14px}
+.wrow .n{font-size:14px; font-weight:600}
+.wrow .n small{display:block; font-family:"IBM Plex Mono"; font-size:10.5px; color:var(--ink-3); font-weight:400}
+.wrow .val{font-family:"IBM Plex Mono"; font-size:13px; color:var(--ink)}
+.overall{background:var(--ink); color:#fff; border-radius:16px; padding:26px; text-align:center}
+:root[data-theme="dark"] .overall, :root:not([data-theme="light"]) .overall{background:var(--panel-2); border:1px solid var(--hairline-2)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .overall{background:var(--panel-2); border:1px solid var(--hairline-2)}}
+.overall .big{font-family:"Archivo"; font-weight:900; font-size:64px; letter-spacing:-0.03em; color:#fff; line-height:1}
+:root[data-theme="dark"] .overall .big, :root:not([data-theme="light"]) .overall .big{color:var(--good)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .overall .big{color:var(--good)}}
+.overall .lbl{font-family:"IBM Plex Mono"; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.65); margin-top:6px}
+:root[data-theme="dark"] .overall .lbl, :root:not([data-theme="light"]) .overall .lbl{color:var(--ink-3)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .overall .lbl{color:var(--ink-3)}}
+.overall .verdict{display:inline-block; margin-top:14px; font-family:"IBM Plex Mono"; font-size:12px; padding:5px 12px; border-radius:20px; background:var(--good); color:#04231a; font-weight:600}
+
+/* ---- wireframe mock UI ---- */
+.mock{background:var(--panel); border:1px solid var(--hairline-2); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-lg)}
+.mock .chrome{display:flex; align-items:center; gap:7px; padding:11px 14px; background:var(--panel-2); border-bottom:1px solid var(--hairline)}
+.mock .chrome i{width:10px; height:10px; border-radius:50%; background:var(--hairline-2)}
+.mock .chrome .u{margin-left:12px; font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-3); background:var(--ground); border:1px solid var(--hairline); border-radius:6px; padding:3px 10px; flex:1; max-width:340px}
+.mock .screen{padding:24px}
+.mock-label{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.05em; margin:0 0 12px}
+
+.searchbox{border:2px solid var(--accent); border-radius:14px; background:var(--panel); padding:18px 20px; box-shadow:0 0 0 4px var(--accent-soft)}
+.searchbox .ph{font-size:18px; color:var(--ink); font-weight:500}
+.searchbox .cursor{display:inline-block; width:2px; height:20px; background:var(--accent); vertical-align:-3px; margin-left:1px; animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.searchbox .go{float:right; background:var(--accent); color:#fff; font-family:"IBM Plex Mono"; font-size:12px; padding:8px 16px; border-radius:9px; margin-top:-4px}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
+.chip{font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--ink-2); background:var(--sunk); border:1px solid var(--hairline); padding:5px 11px; border-radius:20px}
+.chip.on{color:#fff; background:var(--accent); border-color:var(--accent)}
+
+/* intent parse */
+.parse{display:flex; flex-wrap:wrap; gap:8px}
+.tok{font-family:"IBM Plex Mono"; font-size:12px; border-radius:8px; padding:6px 11px; border:1px solid var(--hairline)}
+.tok b{display:block; font-size:10px; color:var(--ink-3); font-weight:500; letter-spacing:.03em; text-transform:uppercase}
+.tok span{color:var(--ink); font-size:13px}
+.tok.hl{background:var(--accent-soft); border-color:var(--accent-line)} .tok.hl span{color:var(--accent-2)}
+
+/* ranked results */
+.result{display:grid; grid-template-columns:44px 1fr auto; gap:16px; align-items:center; padding:16px; border:1px solid var(--hairline); border-radius:13px; background:var(--panel-2); margin-bottom:10px}
+.result.top{border-color:var(--accent-line); background:var(--accent-soft)}
+.medal{font-family:"Archivo"; font-weight:900; font-size:20px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:10px; color:#fff}
+.m1{background:var(--gold)} .m2{background:var(--silver)} .m3{background:var(--bronze)} .m4{background:var(--ink-3)}
+.result .nm{font-family:"Archivo"; font-weight:700; font-size:16px}
+.result .mt{font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--ink-3); margin-top:3px}
+.miniscores{display:flex; gap:14px; align-items:center}
+.ms{text-align:right}
+.ms .mv{font-family:"Archivo"; font-weight:800; font-size:17px; line-height:1}
+.ms .ml{font-family:"IBM Plex Mono"; font-size:9.5px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em}
+.mv.g{color:var(--good)} .mv.m{color:var(--mid)} .mv.a{color:var(--accent)}
+@media(max-width:620px){.result{grid-template-columns:38px 1fr} .miniscores{grid-column:2; justify-content:flex-start; margin-top:6px}}
+
+/* prompt detail: why */
+.detail{display:grid; grid-template-columns:1.15fr .85fr; gap:18px}
+@media(max-width:820px){.detail{grid-template-columns:1fr}}
+.why{display:flex; flex-direction:column; gap:9px}
+.why .yy{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:var(--ink)}
+.why .yy .ic{color:var(--good); flex:none; font-weight:700; font-family:"IBM Plex Mono"}
+.weak-note{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:var(--ink); background:var(--mid-soft); border:1px solid color-mix(in srgb,var(--mid) 30%, transparent); border-radius:10px; padding:12px 14px; margin-top:14px}
+.weak-note .ic{color:var(--mid); flex:none; font-weight:700; font-family:"IBM Plex Mono"}
+.sample{background:var(--sunk); border:1px solid var(--hairline); border-radius:12px; padding:16px; font-size:13px; color:var(--ink-2); line-height:1.55}
+.sample .who{font-family:"IBM Plex Mono"; font-size:10.5px; color:var(--accent-2); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px}
+.sample .verdict-line{display:inline-block; margin-top:10px; font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; color:var(--good); background:var(--good-soft); padding:4px 10px; border-radius:7px}
+
+/* provenance strip */
+.prov{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hairline); border:1px solid var(--hairline); border-radius:12px; overflow:hidden; margin-top:16px}
+@media(max-width:620px){.prov{grid-template-columns:1fr 1fr}}
+.prov div{background:var(--panel); padding:12px 14px}
+.prov .k{font-family:"IBM Plex Mono"; font-size:10px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em}
+.prov .v{font-size:13px; color:var(--ink); font-weight:500; margin-top:3px}
+
+/* compare */
+.compare{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.cc{border:1px solid var(--hairline); border-radius:12px; padding:16px; background:var(--panel-2)}
+.cc.better{border-color:var(--good); box-shadow:0 0 0 1px var(--good)}
+.cc .nm{font-family:"Archivo"; font-weight:700; font-size:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center}
+.cc .badge{font-family:"IBM Plex Mono"; font-size:10px; color:var(--good); background:var(--good-soft); padding:2px 8px; border-radius:20px}
+.deltas{display:flex; flex-direction:column; gap:8px}
+.d{display:flex; justify-content:space-between; font-size:12.5px}
+.d .lab{color:var(--ink-2)}
+.d .num{font-family:"IBM Plex Mono"; font-weight:500}
+.d .up{color:var(--good)}
+
+/* customize diff */
+.diff{display:flex; flex-direction:column; gap:7px}
+.diff .add{display:flex; gap:9px; font-size:13px; color:var(--ink); align-items:flex-start}
+.diff .add .p{color:var(--good); font-family:"IBM Plex Mono"; font-weight:700; flex:none}
+.togglepill{display:inline-flex; border:1px solid var(--hairline-2); border-radius:9px; overflow:hidden; font-family:"IBM Plex Mono"; font-size:12px; margin-top:14px}
+.togglepill span{padding:7px 14px; color:var(--ink-2)}
+.togglepill span.on{background:var(--accent); color:#fff}
+
+/* flow stepper */
+.flow{display:grid; grid-template-columns:repeat(5,1fr); gap:0; counter-reset:step}
+@media(max-width:820px){.flow{grid-template-columns:1fr 1fr}}
+.step{position:relative; padding:20px 16px 20px 0}
+.step .n{font-family:"IBM Plex Mono"; font-size:11px; color:var(--accent); font-weight:500}
+.step h4{font-size:15px; margin:8px 0 6px; font-weight:700}
+.step p{font-size:12.5px; color:var(--ink-2); line-height:1.45}
+.step:not(:last-child)::after{content:"→"; position:absolute; right:8px; top:20px; color:var(--ink-3); font-size:16px}
+@media(max-width:820px){.step:not(:last-child)::after{display:none}}
+
+/* pipeline strip */
+.pipe{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:8px}
+.stage{font-family:"IBM Plex Mono"; font-size:11.5px; padding:8px 12px; border-radius:9px; border:1px solid var(--hairline); background:var(--panel-2); color:var(--ink-2)}
+.stage.built{border-color:var(--good); background:var(--good-soft); color:var(--ink)}
+.stage.new{border-color:var(--accent-line); background:var(--accent-soft); color:var(--accent-2)}
+.pipe .arr{color:var(--ink-3)}
+.legend{display:flex; gap:18px; margin-top:16px; flex-wrap:wrap}
+.legend span{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-2); display:flex; align-items:center; gap:7px}
+.legend i{width:11px; height:11px; border-radius:3px; display:inline-block}
+
+/* priority matrix */
+.prio td:first-child{font-weight:600; color:var(--ink); white-space:nowrap}
+.pill{font-family:"IBM Plex Mono"; font-size:10.5px; padding:3px 9px; border-radius:20px; font-weight:500; white-space:nowrap}
+.pill.crit{color:var(--weak); background:var(--weak-soft)}
+.pill.high{color:var(--mid); background:var(--mid-soft)}
+.pill.med{color:var(--accent-2); background:var(--accent-soft)}
+.pill.later{color:var(--ink-3); background:var(--sunk)}
+
+/* roadmap */
+.phases{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+@media(max-width:900px){.phases{grid-template-columns:1fr 1fr}}
+.phase{border:1px solid var(--hairline); border-radius:13px; padding:18px; background:var(--panel-2); border-top:3px solid var(--accent)}
+.phase .ph{font-family:"IBM Plex Mono"; font-size:11px; color:var(--accent-2); letter-spacing:.04em}
+.phase h4{font-size:16px; margin:6px 0 10px; font-weight:700}
+.phase ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:7px}
+.phase li{font-size:12.5px; color:var(--ink-2); padding-left:16px; position:relative}
+.phase li::before{content:""; position:absolute; left:2px; top:8px; width:5px; height:5px; border-radius:50%; background:var(--accent)}
+
+/* metrics */
+.kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+@media(max-width:820px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{border:1px solid var(--hairline); border-radius:13px; padding:18px; background:var(--panel)}
+.kpi .big{font-family:"Archivo"; font-weight:900; font-size:30px; letter-spacing:-0.02em; color:var(--accent)}
+.kpi .lab{font-size:12.5px; color:var(--ink-2); margin-top:6px; line-height:1.4}
+
+/* risks */
+.risk{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media(max-width:820px){.risk{grid-template-columns:1fr}}
+.rc{border:1px solid var(--hairline); border-left:3px solid var(--weak); border-radius:10px; padding:16px; background:var(--panel-2)}
+.rc .r{font-weight:600; font-size:14.5px; margin-bottom:6px}
+.rc .m{font-size:13px; color:var(--ink-2); line-height:1.5}
+.rc .m b{color:var(--good)}
+
+/* footer taglines */
+.tagwrap{text-align:center; padding:80px 0 30px}
+.tagwrap .t{font-family:"Archivo"; font-weight:900; font-size:clamp(26px,4.5vw,46px); letter-spacing:-0.03em; line-height:1.12; max-width:20ch; margin:0 auto; color:var(--ink)}
+.tagwrap .t span{color:var(--accent)}
+.tagwrap .sub{font-family:"IBM Plex Mono"; font-size:13px; color:var(--ink-3); margin-top:22px}
+footer{border-top:1px solid var(--hairline); padding:28px 0 60px; text-align:center}
+footer p{font-family:"IBM Plex Mono"; font-size:12px; color:var(--ink-3)}
+
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px}
+</style>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>Prompt&nbsp;Finder</div>
+    <nav class="topnav">
+      <a href="#bet">The Bet</a>
+      <a href="#gap">Gap</a>
+      <a href="#market">Landscape</a>
+      <a href="#scores">3 Scores</a>
+      <a href="#experience">Experience</a>
+      <a href="#system">Design System</a>
+      <a href="#features">Priority</a>
+      <a href="#arch">Architecture</a>
+      <a href="#roadmap">Roadmap</a>
+    </nav>
+  </div>
+</div>
+
+<header class="wrap mast">
+  <div class="eyebrow">Product Requirements · v1.0 · Confidential</div>
+  <h1>Don't search for prompts.<br><em>Tell us what you need.</em></h1>
+  <p class="sub">A recommendation engine that finds, ranks, explains, customizes, and verifies the best prompt for one specific job — and shows its work.</p>
+  <div class="metastrip">
+    <div>Document<b>Product Requirements Doc</b></div>
+    <div>Category<b>AI Prompt Recommendation Engine</b></div>
+    <div>Research dated<b>30 August 2026</b></div>
+    <div>Backend status<b>Evaluation pipeline prototyped</b></div>
+    <div>Positioning<b>Generation 4 · Decision layer</b></div>
+  </div>
+</header>
+
+<main>
+
+<!-- 00 THE BET -->
+<section id="bet"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">00</div><h2>The bet</h2></div>
+  <p class="lede">We are not building another prompt library. That market is saturated and undifferentiated. We are building the layer that sits <em>above</em> every library: the engine that decides which prompt actually solves your problem — and proves it before you run it.</p>
+  <p class="pull">Out of 100,000 prompts, we'll tell you the <span>3</span> most likely to solve your problem — and explain why.</p>
+  <p>The defensible asset is not the prompt collection. Collections get copied. The asset is the <strong>ranking data, user-outcome data, model-specific performance data, and the recommendation algorithm</strong> that compounds with every search and every "did it work?" vote.</p>
+
+  <h3>Four generations of prompt products</h3>
+</div></div>
+
+<div class="wrap breakout">
+  <div class="gens">
+    <div class="gen"><div class="g">GEN 1</div><h4>Prompt dump</h4><p>A static list of 1,000 prompts. No structure, no discovery.</p></div>
+    <div class="gen"><div class="g">GEN 2</div><h4>Searchable library</h4><p>Category · filter · search over 10,000 prompts. <em>AIPRM, FlowGPT.</em></p></div>
+    <div class="gen"><div class="g">GEN 3</div><h4>Marketplace / optimizer</h4><p>Buy, build, or improve prompts. <em>PromptBase, SurePrompts.</em></p></div>
+    <div class="gen now"><div class="g">GEN 4 · OURS</div><h4>Recommendation engine</h4><p>Understands the job, ranks candidates, proves fit with evidence.<span class="tag">the open space</span></p></div>
+  </div>
+</div>
+</section>
+
+<!-- 01 THE GAP -->
+<section id="gap"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">01</div><h2>The problem &amp; the gap</h2></div>
+  <p class="lede">Every incumbent organizes prompts around broad <em>features</em> — writing, coding, analysis, image — not around the <em>job the person is trying to accomplish</em>. Users repeatedly voice this exact complaint.</p>
+  <p>So a person with a real task — "analyze this company's quarterly results and tell me if they're bullish or bearish" — is handed a search box and 200 undifferentiated results, no signal on which one fits, whether it's any good, or whether it's ever actually worked.</p>
+  <p>Three questions go unanswered by today's tools, and each maps to one of our scores:</p>
+  <ul>
+    <li><b>Is this a well-built prompt?</b> — construction quality. Partially solved by SurePrompts.</li>
+    <li><b>Does it solve <em>my</em> exact job?</b> — task relevance. Solved by no one.</li>
+    <li><b>Has it actually worked, and on which model?</b> — real-world reliability. Solved by no one; this becomes our moat.</li>
+  </ul>
+</div></div></section>
+
+<!-- 02 LANDSCAPE -->
+<section id="market"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">02</div><h2>Competitive landscape</h2></div>
+  <p class="lede">Five relevant players, each strong on one axis. None has combined those strengths into a single decision experience — that combination is the opening.</p>
+</div></div>
+
+<div class="wrap breakout">
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Competitor</th><th>Core USP</th><th>Working for them</th><th>The gap</th><th>How we beat it</th></tr></thead>
+      <tbody>
+        <tr>
+          <th>SurePrompts<span class="threat">closest threat</span></th>
+          <td>Generator + templates + optimizer with a 0–100 Prompt Quality Score.</td>
+          <td>Validated the scoring idea: score → suggest → improve, privacy-first.</td>
+          <td>Oriented to "build / improve <em>my</em> prompt", not "which prompt is best for my need." Measures construction, not relevance.</td>
+          <td class="win">Split Quality from a <strong>Match Score</strong>, add a <strong>Reliability Score</strong>. Become a recommender, not a scorer.</td>
+        </tr>
+        <tr>
+          <th>AIPRM</th>
+          <td>Massive community library inside ChatGPT/Claude. 1M+ extension users.</td>
+          <td>Convenience — never leave the chat. Variables, teams, verified tier.</td>
+          <td>Community prompts are untested by default; catalogue noise; no transparent "why A &gt; B."</td>
+          <td class="win">The <strong>Google + Consumer Reports for prompts</strong> — rank by intent, expose weaknesses before you run.</td>
+        </tr>
+        <tr>
+          <th>PromptBase</th>
+          <td>Marketplace for text/image/video prompts. 156k+ Midjourney alone.</td>
+          <td>Creator-economy flywheel; strong model/type filters; expanding to apps.</td>
+          <td>Answers "what can I buy?" not "what's objectively best?" Pay-before-proof skepticism.</td>
+          <td class="win">Prove value <strong>before</strong> purchase — score, sample output, tested model, alternatives. Marketplace comes later.</td>
+        </tr>
+        <tr>
+          <th>FlowGPT</th>
+          <td>Social ecosystem to discover, share, and run prompts &amp; bots.</td>
+          <td>Network effects; run-it-instantly instead of copy/paste.</td>
+          <td>Breadth (roleplay, entertainment, chat) dilutes professional discovery; popularity ≠ fit.</td>
+          <td class="win">Be the <strong>professional decision layer</strong>: task → objective → output → model → ranked prompts.</td>
+        </tr>
+        <tr>
+          <th>PromptHero</th>
+          <td>Visual discovery for AI image/video prompts. 1.5M+ creators.</td>
+          <td>Shows the <em>result</em> beside the prompt — huge confidence boost.</td>
+          <td>Image-inspiration oriented; weak for finance, sales, ops, research, coding.</td>
+          <td class="win">Borrow their superpower — <strong>show the result</strong> — but for every business/text use case, plus objective scoring.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="wrap"><div class="spine" style="margin-top:34px">
+  <p class="pull">The market has plenty of <span>search-box → copy-prompt</span>. It has no <span>need → verified recommendation</span>.</p>
+</div></div>
+</section>
+
+<!-- 03 USERS -->
+<section id="users"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">03</div><h2>Who it's for</h2></div>
+  <p class="lede">Professionals with a job to do and no patience for browsing — they want the right tool, fast, with reasons to trust it.</p>
+  <h3>Primary — The task-driven professional</h3>
+  <p>An analyst, marketer, founder, or operator who thinks in outcomes ("assess these earnings", "launch this campaign"), not in prompt-engineering technique. Values speed, evidence, and being right over exploring a catalogue.</p>
+  <h3>Secondary — The prompt power-user</h3>
+  <p>Builds and reuses prompts, wants versioning, a private library, and compare/customize tools. Becomes a contributor of outcome data.</p>
+  <h3>Later — Teams &amp; B2B</h3>
+  <p>Shared libraries, verified internal prompts, role-based access — the monetization surface once the recommendation engine has earned trust.</p>
+</div></div></section>
+
+<!-- 04 THE PRODUCT / FLOW -->
+<section id="product"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">04</div><h2>The product, in five steps</h2></div>
+  <p class="lede">The entire MVP is one flow. A person describes a goal; we return the best three prompts with the evidence to choose between them.</p>
+</div></div>
+<div class="wrap breakout">
+  <div class="panel p-pad">
+    <div class="flow">
+      <div class="step"><div class="n">STEP 1</div><h4>Describe the need</h4><p>"Create a Facebook campaign for a luxury real-estate project."</p></div>
+      <div class="step"><div class="n">STEP 2</div><h4>Understand intent</h4><p>Marketing → FB Ads → Real Estate → Luxury → Lead-gen.</p></div>
+      <div class="step"><div class="n">STEP 3</div><h4>Retrieve candidates</h4><p>~20 relevant prompts pulled from the corpus.</p></div>
+      <div class="step"><div class="n">STEP 4</div><h4>Rank &amp; prove</h4><p>Score, match, verify → top 3–5 with evidence.</p></div>
+      <div class="step"><div class="n">STEP 5</div><h4>Choose &amp; act</h4><p>View · Customize · Compare · Copy · Run.</p></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 05 THREE SCORES -->
+<section id="scores"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">05</div><h2>Three scores, not one</h2></div>
+  <p class="lede">A single ⭐ rating is noise. We separate <em>quality</em> (is it well built?), <em>match</em> (does it fit my job?), and <em>reliability</em> (has it actually worked?) — because a flawless prompt for the wrong task should never rank.</p>
+</div></div>
+
+<div class="wrap breakout">
+  <div class="scoregrid">
+    <div class="scard">
+      <div class="k">Score 01 · Trust</div>
+      <h4>Prompt Quality</h4>
+      <div class="ring">
+        <svg width="86" height="86" viewBox="0 0 86 86" aria-hidden="true">
+          <circle cx="43" cy="43" r="34" fill="none" stroke="var(--sunk)" stroke-width="9"/>
+          <circle cx="43" cy="43" r="34" fill="none" stroke="var(--good)" stroke-width="9" stroke-linecap="round"
+            stroke-dasharray="213.6" stroke-dashoffset="12.8" transform="rotate(-90 43 43)"/>
+        </svg>
+        <div><div class="num">94</div><div class="of">/ 100 construction</div></div>
+      </div>
+      <div class="bars">
+        <div class="bar"><div class="row"><span class="lab">Length / density</span><span class="val">9/10</span></div><div class="track"><div class="fill good" style="width:90%"></div></div></div>
+        <div class="bar"><div class="row"><span class="lab">Instruction framing</span><span class="val">19/20</span></div><div class="track"><div class="fill good" style="width:95%"></div></div></div>
+        <div class="bar"><div class="row"><span class="lab">Output structure</span><span class="val">19/20</span></div><div class="track"><div class="fill good" style="width:95%"></div></div></div>
+        <div class="bar"><div class="row"><span class="lab">Specificity</span><span class="val">23/25</span></div><div class="track"><div class="fill good" style="width:92%"></div></div></div>
+        <div class="bar"><div class="row"><span class="lab">Context</span><span class="val">14/15</span></div><div class="track"><div class="fill good" style="width:93%"></div></div></div>
+      </div>
+      <div class="w">✔ Already prototyped — the 6-component rubric engine.</div>
+    </div>
+
+    <div class="scard">
+      <div class="k">Score 02 · Core USP</div>
+      <h4>Purpose Match</h4>
+      <div class="ring">
+        <svg width="86" height="86" viewBox="0 0 86 86" aria-hidden="true">
+          <circle cx="43" cy="43" r="34" fill="none" stroke="var(--sunk)" stroke-width="9"/>
+          <circle cx="43" cy="43" r="34" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+            stroke-dasharray="213.6" stroke-dashoffset="6.4" transform="rotate(-90 43 43)"/>
+        </svg>
+        <div><div class="num">97<span style="font-size:18px">%</span></div><div class="of">fit to this job</div></div>
+      </div>
+      <div class="bars">
+        <div class="bar"><div class="row"><span class="lab">Stock / earnings analysis</span><span class="val">match</span></div><div class="track"><div class="fill" style="width:98%"></div></div></div>
+        <div class="bar"><div class="row"><span class="lab">Investor perspective</span><span class="val">match</span></div><div class="track"><div class="fill" style="width:96%"></div></div></div>
+        <div class="bar"><div class="row"><span class="lab">Bullish / bearish output</span><span class="val">match</span></div><div class="track"><div class="fill" style="width:97%"></div></div></div>
+        <div class="bar"><div class="row"><span class="lab">Structured deliverable</span><span class="val">match</span></div><div class="track"><div class="fill" style="width:94%"></div></div></div>
+      </div>
+      <div class="w">A 98/100 LinkedIn-post prompt must not rank here. Quality ≠ relevance.</div>
+    </div>
+
+    <div class="scard">
+      <div class="k">Score 03 · The moat</div>
+      <h4>Reliability / Tested</h4>
+      <div class="ring">
+        <svg width="86" height="86" viewBox="0 0 86 86" aria-hidden="true">
+          <circle cx="43" cy="43" r="34" fill="none" stroke="var(--sunk)" stroke-width="9"/>
+          <circle cx="43" cy="43" r="34" fill="none" stroke="var(--good)" stroke-width="9" stroke-linecap="round"
+            stroke-dasharray="213.6" stroke-dashoffset="19.2" transform="rotate(-90 43 43)"/>
+        </svg>
+        <div><div class="num">91</div><div class="of">/ 100 verified</div></div>
+      </div>
+      <div class="why" style="margin-top:14px">
+        <div class="yy"><span class="ic">✓</span>Tested on GPT-5.6 &amp; Claude</div>
+        <div class="yy"><span class="ic">✓</span>426 successful uses</div>
+        <div class="yy"><span class="ic">✓</span>89% marked "Useful"</div>
+        <div class="yy"><span class="ic">✓</span>Last verified 26 Aug 2026</div>
+      </div>
+      <div class="w">Built from outcome data — compounds and cannot be copied.</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap"><div class="spine"><h3 style="margin-top:44px">The ranking formula</h3>
+  <p>Quality and Match and Reliability roll into one <strong>Overall Recommendation Score</strong>. The weights privilege fit above polish — the whole point of the product.</p>
+</div></div>
+
+<div class="wrap breakout">
+  <div class="panel p-pad">
+    <div class="formula">
+      <div class="weights">
+        <div class="wrow"><div class="n">Purpose Match<small>does it fit the job</small></div><div class="track"><div class="fill" style="width:100%"></div></div><div class="val">40%</div></div>
+        <div class="wrow"><div class="n">Quality<small>is it well built</small></div><div class="track"><div class="fill good" style="width:87%"></div></div><div class="val">35%</div></div>
+        <div class="wrow"><div class="n">Reliability<small>has it worked</small></div><div class="track"><div class="fill" style="width:50%; background:var(--good)"></div></div><div class="val">20%</div></div>
+        <div class="wrow"><div class="n">Freshness<small>recently verified</small></div><div class="track"><div class="fill mid" style="width:12%"></div></div><div class="val">5%</div></div>
+      </div>
+      <div class="overall">
+        <div class="lbl">Overall recommendation</div>
+        <div class="big">94.9</div>
+        <div class="verdict">Excellent match</div>
+      </div>
+    </div>
+  </div>
+  <p class="caption" style="margin-top:12px">Worked example — 94×.35 + 97×.40 + 91×.20 + 100×.05 = 94.9. Far more useful than a generic ⭐ 4.8.</p>
+</div>
+</section>
+
+<!-- 06 UX PRINCIPLES -->
+<section id="principles"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">06</div><h2>UX principles</h2></div>
+  <p class="lede">Five commitments that separate a decision engine from a catalogue. Every screen is measured against them.</p>
+  <ul>
+    <li><b>Intent first, categories never.</b> The home screen asks a question, not a menu. "What are you trying to accomplish?" replaces a wall of topics.</li>
+    <li><b>Show the result, not just the prompt.</b> PromptHero's lesson, generalized: a sample output or benchmark answer beside every recommendation removes the "will this work?" doubt.</li>
+    <li><b>Always explain the ranking.</b> Every result carries a plain-language "Why this prompt" and — rare in this market — its weakness, before the user commits.</li>
+    <li><b>Prove before you sell.</b> Score, model compatibility, tested version, sample, alternatives — value is demonstrated, never asserted.</li>
+    <li><b>Turn browsing into using.</b> One-click customize and compare convert a found prompt into a run, not a copy-paste dead end.</li>
+  </ul>
+</div></div></section>
+
+<!-- 07 EXPERIENCE / WIREFRAMES -->
+<section id="experience"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">07</div><h2>The experience</h2></div>
+  <p class="lede">Screen by screen, built as real interface — not description. This is the bar: the product should feel like an instrument, legible at a glance, evidence everywhere.</p>
+</div></div>
+
+<!-- Wireframe 1: intent search -->
+<div class="wrap breakout">
+  <p class="caption">Screen 1 — Home · intent search</p>
+  <div class="mock">
+    <div class="chrome"><i></i><i></i><i></i><span class="u">promptfinder.app</span></div>
+    <div class="screen">
+      <p class="mock-label">What are you trying to accomplish?</p>
+      <div class="searchbox">
+        <span class="go">Find prompts</span>
+        <span class="ph">Analyze a company's quarterly results and tell me if they're bullish or bearish<span class="cursor"></span></span>
+      </div>
+      <div class="chips">
+        <span class="chip on">Try:</span>
+        <span class="chip">Write a cold sales email</span>
+        <span class="chip">Debug a Python traceback</span>
+        <span class="chip">Plan a product launch</span>
+        <span class="chip">Midjourney product shot</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wireframe 2: intent parse -->
+<div class="wrap breakout">
+  <p class="caption">Screen 2 — Intent understanding (confirm &amp; refine)</p>
+  <div class="mock">
+    <div class="chrome"><i></i><i></i><i></i><span class="u">promptfinder.app/understand</span></div>
+    <div class="screen">
+      <p class="mock-label">We read your goal as —</p>
+      <div class="parse">
+        <div class="tok hl"><b>Purpose</b><span>Financial Analysis</span></div>
+        <div class="tok hl"><b>Task</b><span>Earnings Analysis</span></div>
+        <div class="tok"><b>Intent</b><span>Investment decision support</span></div>
+        <div class="tok"><b>Input</b><span>Quarterly result</span></div>
+        <div class="tok"><b>Output</b><span>Bullish / Bearish</span></div>
+        <div class="tok"><b>Model</b><span>ChatGPT / Claude</span></div>
+        <div class="tok"><b>Level</b><span>Advanced</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wireframe 3: ranked results -->
+<div class="wrap breakout">
+  <p class="caption">Screen 3 — Ranked results · three scores, best three surfaced</p>
+  <div class="mock">
+    <div class="chrome"><i></i><i></i><i></i><span class="u">promptfinder.app/results</span></div>
+    <div class="screen">
+      <p class="mock-label">4 of 20 candidates · ranked by overall fit</p>
+      <div class="result top">
+        <div class="medal m1">1</div>
+        <div><div class="nm">Equity Earnings Analyst</div><div class="mt">GPT-5.6 · Claude · 426 uses</div></div>
+        <div class="miniscores">
+          <div class="ms"><div class="mv g">94</div><div class="ml">Quality</div></div>
+          <div class="ms"><div class="mv a">97%</div><div class="ml">Match</div></div>
+          <div class="ms"><div class="mv g">91</div><div class="ml">Reliab.</div></div>
+        </div>
+      </div>
+      <div class="result">
+        <div class="medal m2">2</div>
+        <div><div class="nm">Quarterly Results Deep Dive</div><div class="mt">GPT-5.6 · 310 uses</div></div>
+        <div class="miniscores">
+          <div class="ms"><div class="mv g">91</div><div class="ml">Quality</div></div>
+          <div class="ms"><div class="mv a">94%</div><div class="ml">Match</div></div>
+          <div class="ms"><div class="mv g">89</div><div class="ml">Reliab.</div></div>
+        </div>
+      </div>
+      <div class="result">
+        <div class="medal m3">3</div>
+        <div><div class="nm">Fundamental Stock Analyzer</div><div class="mt">Claude · 502 uses</div></div>
+        <div class="miniscores">
+          <div class="ms"><div class="mv g">95</div><div class="ml">Quality</div></div>
+          <div class="ms"><div class="mv m">87%</div><div class="ml">Match</div></div>
+          <div class="ms"><div class="mv g">92</div><div class="ml">Reliab.</div></div>
+        </div>
+      </div>
+      <div class="result">
+        <div class="medal m4">4</div>
+        <div><div class="nm">Earnings Call Analyst</div><div class="mt">GPT-5.6 · 188 uses</div></div>
+        <div class="miniscores">
+          <div class="ms"><div class="mv g">88</div><div class="ml">Quality</div></div>
+          <div class="ms"><div class="mv m">82%</div><div class="ml">Match</div></div>
+          <div class="ms"><div class="mv g">86</div><div class="ml">Reliab.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wireframe 4: detail / why + sample + provenance -->
+<div class="wrap breakout">
+  <p class="caption">Screen 4 — Prompt detail · why it ranked, its weakness, a real sample, its provenance</p>
+  <div class="mock">
+    <div class="chrome"><i></i><i></i><i></i><span class="u">promptfinder.app/p/equity-earnings-analyst</span></div>
+    <div class="screen">
+      <div class="detail">
+        <div>
+          <p class="mock-label">Why we recommend this</p>
+          <div class="why">
+            <div class="yy"><span class="ic">✓</span>Purpose-built for quarterly earnings analysis</div>
+            <div class="yy"><span class="ic">✓</span>Defines an equity-research analyst role</div>
+            <div class="yy"><span class="ic">✓</span>Separates revenue, EBITDA, PAT &amp; margins</div>
+            <div class="yy"><span class="ic">✓</span>Compares YoY and QoQ performance</div>
+            <div class="yy"><span class="ic">✓</span>Requires management-guidance analysis</div>
+            <div class="yy"><span class="ic">✓</span>Produces a Bullish / Neutral / Bearish call</div>
+          </div>
+          <div class="weak-note"><span class="ic">!</span><span><b>Weakness —</b> does not automatically compare valuation against sector peers. Add a peer set for full coverage.</span></div>
+        </div>
+        <div>
+          <p class="mock-label">Sample output · GPT-5.6</p>
+          <div class="sample">
+            <div class="who">Assistant</div>
+            Revenue +14% YoY / +3% QoQ; EBITDA margin up 210bps to 28.4%. PAT beat consensus by 6%. Management guided FY margins higher on operating leverage…
+            <div class="verdict-line">Conclusion: Bullish (near-term)</div>
+          </div>
+          <div class="prov">
+            <div><div class="k">Author</div><div class="v">verified · analyst</div></div>
+            <div><div class="k">Source</div><div class="v">Curated</div></div>
+            <div><div class="k">License</div><div class="v">CC-BY</div></div>
+            <div><div class="k">Collected</div><div class="v">Jun 2026</div></div>
+            <div><div class="k">Tested</div><div class="v">GPT-5.6, Claude</div></div>
+            <div><div class="k">Version</div><div class="v">3.1</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wireframe 5: compare + customize -->
+<div class="wrap breakout">
+  <p class="caption">Screen 5 — Improve-before-use · original vs optimized, and side-by-side compare</p>
+  <div class="mock">
+    <div class="chrome"><i></i><i></i><i></i><span class="u">promptfinder.app/customize</span></div>
+    <div class="screen">
+      <div class="compare">
+        <div class="cc">
+          <div class="nm">Original <span class="mono" style="color:var(--mid)">67</span></div>
+          <div class="deltas">
+            <div class="d"><span class="lab">Role definition</span><span class="num" style="color:var(--ink-3)">missing</span></div>
+            <div class="d"><span class="lab">Output structure</span><span class="num" style="color:var(--ink-3)">loose</span></div>
+            <div class="d"><span class="lab">Constraints</span><span class="num" style="color:var(--ink-3)">none</span></div>
+            <div class="d"><span class="lab">Verification step</span><span class="num" style="color:var(--ink-3)">none</span></div>
+          </div>
+        </div>
+        <div class="cc better">
+          <div class="nm">Optimized <span class="badge">93 · +26</span></div>
+          <div class="diff">
+            <div class="add"><span class="p">+</span>Added expert analyst role</div>
+            <div class="add"><span class="p">+</span>Added input context slot</div>
+            <div class="add"><span class="p">+</span>Added structured output</div>
+            <div class="add"><span class="p">+</span>Added constraints</div>
+            <div class="add"><span class="p">+</span>Added verification requirement</div>
+          </div>
+        </div>
+      </div>
+      <div class="togglepill"><span>Original</span><span class="on">Improved</span><span>Compare</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 08 DESIGN SYSTEM -->
+<section id="system"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">08</div><h2>Design system</h2></div>
+  <p class="lede">An instrument, not a feed. Quiet neutrals, one confident accent, and semantic colour reserved strictly for scores so the eye reads fit and risk instantly.</p>
+</div></div>
+<div class="wrap breakout">
+  <div class="scoregrid">
+    <div class="scard">
+      <div class="k">Palette</div>
+      <h4 style="margin-bottom:14px">Chosen, not defaulted</h4>
+      <div style="display:flex; flex-direction:column; gap:8px">
+        <div style="display:flex; align-items:center; gap:10px"><span style="width:26px;height:26px;border-radius:7px;background:var(--accent);border:1px solid var(--hairline)"></span><span class="mono" style="font-size:12px">Cobalt accent — trust / action</span></div>
+        <div style="display:flex; align-items:center; gap:10px"><span style="width:26px;height:26px;border-radius:7px;background:var(--good)"></span><span class="mono" style="font-size:12px">Green — high score</span></div>
+        <div style="display:flex; align-items:center; gap:10px"><span style="width:26px;height:26px;border-radius:7px;background:var(--mid)"></span><span class="mono" style="font-size:12px">Ochre — mid score</span></div>
+        <div style="display:flex; align-items:center; gap:10px"><span style="width:26px;height:26px;border-radius:7px;background:var(--weak)"></span><span class="mono" style="font-size:12px">Coral — weak score</span></div>
+        <div style="display:flex; align-items:center; gap:10px"><span style="width:26px;height:26px;border-radius:7px;background:var(--gold)"></span><span class="mono" style="font-size:12px">Metals — 🥇🥈🥉 rank chips</span></div>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="k">Typography</div>
+      <h4 style="margin-bottom:12px">Three roles</h4>
+      <div style="font-family:'Archivo'; font-weight:900; font-size:30px; letter-spacing:-0.02em; line-height:1">Archivo</div>
+      <div class="mono" style="font-size:11px; color:var(--ink-3)">Display · headlines &amp; score numerals</div>
+      <div style="font-size:20px; margin-top:14px">IBM Plex Sans</div>
+      <div class="mono" style="font-size:11px; color:var(--ink-3)">Body · reading text</div>
+      <div class="mono" style="font-size:18px; margin-top:14px; font-weight:500">IBM Plex Mono</div>
+      <div class="mono" style="font-size:11px; color:var(--ink-3)">Data · scores, labels, tabular figures</div>
+    </div>
+    <div class="scard">
+      <div class="k">Components</div>
+      <h4 style="margin-bottom:14px">A small, strict kit</h4>
+      <div style="display:flex; flex-direction:column; gap:12px">
+        <div style="display:flex; gap:10px; align-items:center"><span class="mv g" style="font-family:'Archivo';font-weight:800;font-size:17px">94</span><span class="mono" style="font-size:12px; color:var(--ink-2)">Score ring &amp; numeral</span></div>
+        <div class="track" style="width:100%"><div class="fill" style="width:78%"></div></div>
+        <div class="mono" style="font-size:11px;color:var(--ink-3);margin-top:-6px">Match / weighting bar</div>
+        <div style="display:flex; gap:6px"><span class="pill crit">Critical</span><span class="pill high">High</span><span class="pill med">Medium</span></div>
+        <div class="mono" style="font-size:11px;color:var(--ink-3)">Priority &amp; state pills</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 09 FEATURE PRIORITY -->
+<section id="features"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">09</div><h2>Feature prioritization</h2></div>
+  <p class="lede">The critical set is the differentiator; everything social is deferred to avoid becoming another feed.</p>
+</div></div>
+<div class="wrap breakout">
+  <div class="tablewrap">
+    <table class="prio">
+      <thead><tr><th>Feature</th><th>Priority</th><th>Competitive value</th></tr></thead>
+      <tbody>
+        <tr><td>Natural-language "what do you want to do?" search</td><td><span class="pill crit">Critical</span></td><td>Major differentiator</td></tr>
+        <tr><td>Purpose classification</td><td><span class="pill crit">Critical</span></td><td>Foundation of discovery</td></tr>
+        <tr><td>Prompt Quality Score</td><td><span class="pill crit">Critical</span></td><td>Trust — already prototyped</td></tr>
+        <tr><td>Purpose Match Score</td><td><span class="pill crit">Critical</span></td><td>Core USP</td></tr>
+        <tr><td>Model-compatibility score</td><td><span class="pill crit">Critical</span></td><td>Increasingly important</td></tr>
+        <tr><td>Explain "why this prompt ranked"</td><td><span class="pill crit">Critical</span></td><td>Trust + differentiation</td></tr>
+        <tr><td>Sample output</td><td><span class="pill crit">Critical</span></td><td>Removes uncertainty</td></tr>
+        <tr><td>One-click customize</td><td><span class="pill crit">Critical</span></td><td>Browsing → usage</td></tr>
+        <tr><td>Prompt compare</td><td><span class="pill high">High</span></td><td>Strong UX advantage</td></tr>
+        <tr><td>Tested on GPT / Claude / Gemini</td><td><span class="pill high">High</span></td><td>Reliability</td></tr>
+        <tr><td>"Worked / didn't work" feedback</td><td><span class="pill high">High</span></td><td>Data moat</td></tr>
+        <tr><td>Prompt versioning</td><td><span class="pill high">High</span></td><td>Professional users</td></tr>
+        <tr><td>Private prompt library</td><td><span class="pill high">High</span></td><td>Retention</td></tr>
+        <tr><td>Team library</td><td><span class="pill med">Medium</span></td><td>B2B monetization</td></tr>
+        <tr><td>Marketplace</td><td><span class="pill later">Later</span></td><td>Monetization</td></tr>
+        <tr><td>Creator profiles · social feed</td><td><span class="pill later">Later</span></td><td>Avoid initially</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- 10 DATA / PROVENANCE + 11 ARCHITECTURE -->
+<section id="arch"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">10</div><h2>Data, provenance &amp; architecture</h2></div>
+  <p class="lede">Trust is a data-integrity problem. Every prompt carries its lineage, and no protected or paywalled content is copied — we index metadata or link to source.</p>
+  <h3>Provenance is a first-class record</h3>
+  <p>Something competitors largely lack. Each prompt tracks: <span class="mono" style="font-size:13px">source → license/permission → author → collected → last verified → model tested → version</span>.</p>
+  <h3>The engine reuses what we've already built</h3>
+  <p>The scraping and multi-stage evaluation pipeline already exists in prototype — normalize, junk/low-effort filter, exact + semantic dedup, the quality rubric, purpose classification, library-value, and template extraction. Match, Reliability, and ranking are the new layers on top.</p>
+</div></div>
+<div class="wrap breakout">
+  <div class="panel p-pad">
+    <p class="caption">Pipeline — green is prototyped today, blue is net-new for Prompt Finder</p>
+    <div class="pipe">
+      <span class="stage built">Ingest</span><span class="arr">→</span>
+      <span class="stage built">Normalize</span><span class="arr">→</span>
+      <span class="stage built">Junk filter</span><span class="arr">→</span>
+      <span class="stage built">Semantic dedup</span><span class="arr">→</span>
+      <span class="stage built">Quality score</span><span class="arr">→</span>
+      <span class="stage built">Purpose classify</span><span class="arr">→</span>
+      <span class="stage built">Templatize</span><span class="arr">→</span>
+      <span class="stage new">Intent parse</span><span class="arr">→</span>
+      <span class="stage new">Match score</span><span class="arr">→</span>
+      <span class="stage new">Reliability</span><span class="arr">→</span>
+      <span class="stage new">Rank &amp; explain</span>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--good)"></i>Prototyped (evaluation pipeline)</span>
+      <span><i style="background:var(--accent)"></i>New for Prompt Finder</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 12 MOAT -->
+<section id="moat"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">11</div><h2>The moat — a reliability flywheel</h2></div>
+  <p class="lede">The Reliability score turns every user into a sensor. Each run and each "did it work?" vote makes the ranking sharper — an asset no competitor can scrape.</p>
+  <ul>
+    <li><b>Run telemetry</b> — which model, which version, success/failure, output consistency.</li>
+    <li><b>Outcome votes</b> — a single "Worked / Didn't work" tap after use, per model.</li>
+    <li><b>Human verification</b> — periodic re-testing stamps a "last verified" date.</li>
+    <li><b>Compounding</b> — more usage → better reliability data → better ranking → more usage.</li>
+  </ul>
+  <p class="pull">The long-term asset isn't the prompts. It's <span>knowing which prompt works, for whom, on which model.</span></p>
+</div></div></section>
+
+<!-- 13 METRICS -->
+<section id="metrics"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">12</div><h2>How we'll know it's working</h2></div>
+  <p class="lede">Success is a person finding the right prompt fast and it actually working — not time-on-site.</p>
+</div></div>
+<div class="wrap breakout">
+  <div class="kpis">
+    <div class="kpi"><div class="big">&lt;30s</div><div class="lab">Need → chosen prompt, median time</div></div>
+    <div class="kpi"><div class="big">Top-3</div><div class="lab">Chosen prompt sits in the top-3 in ≥80% of searches</div></div>
+    <div class="kpi"><div class="big">"Worked"</div><div class="lab">≥75% of runs marked useful — the reliability signal</div></div>
+    <div class="kpi"><div class="big">Return</div><div class="lab">Weekly active pros with a saved private library</div></div>
+  </div>
+</div>
+</section>
+
+<!-- 14 ROADMAP -->
+<section id="roadmap"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">13</div><h2>Roadmap</h2></div>
+  <p class="lede">Ship the decision experience first; add community and marketplace only once the ranking is trusted.</p>
+</div></div>
+<div class="wrap breakout">
+  <div class="phases">
+    <div class="phase"><div class="ph">PHASE 1 · MVP</div><h4>The recommender</h4><ul><li>Intent search + parse</li><li>Quality + Match scores</li><li>Ranked top 3–5</li><li>Why + sample output</li><li>One-click customize</li></ul></div>
+    <div class="phase"><div class="ph">PHASE 2</div><h4>Reliability &amp; trust</h4><ul><li>Model-compat scoring</li><li>Worked/didn't-work votes</li><li>Provenance surfaced</li><li>Compare view</li></ul></div>
+    <div class="phase"><div class="ph">PHASE 3</div><h4>Professional</h4><ul><li>Private library</li><li>Prompt versioning</li><li>Team libraries (B2B)</li><li>Saved intents &amp; alerts</li></ul></div>
+    <div class="phase"><div class="ph">PHASE 4</div><h4>Ecosystem</h4><ul><li>Verified marketplace</li><li>Creator profiles</li><li>API access</li><li>Competitor-feature tracking</li></ul></div>
+  </div>
+</div>
+</section>
+
+<!-- 15 RISKS -->
+<section id="risks"><div class="wrap"><div class="spine">
+  <div class="sec-head"><div class="sec-num">14</div><h2>Risks &amp; mitigations</h2></div>
+</div></div>
+<div class="wrap breakout">
+  <div class="risk">
+    <div class="rc"><div class="r">SurePrompts adds match + reliability</div><div class="m">Our closest threat could copy the scoring split. <b>Mitigation:</b> race to the outcome-data flywheel — the one thing that can't be copied — and own intent-first UX.</div></div>
+    <div class="rc"><div class="r">Cold-start on Reliability data</div><div class="m">Early scores lack run history. <b>Mitigation:</b> seed with human verification + model tests; show "newly added" honestly rather than faking confidence.</div></div>
+    <div class="rc"><div class="r">Scraping paid/protected prompts</div><div class="m">Legal and trust exposure. <b>Mitigation:</b> open/permitted sources, community submissions, own templates; index metadata or link out for paywalled content.</div></div>
+    <div class="rc"><div class="r">Intent parsing gets it wrong</div><div class="m">Bad parse → bad results. <b>Mitigation:</b> the confirm-and-refine step (Screen 2) keeps the user in control before retrieval.</div></div>
+    <div class="rc"><div class="r">LLMs write their own prompts</div><div class="m">"Why pay/search?" skepticism. <b>Mitigation:</b> we sell proof and speed — tested, ranked, model-matched — not raw prompt text.</div></div>
+    <div class="rc"><div class="r">Catalogue noise as corpus grows</div><div class="m">Discovery degrades at scale. <b>Mitigation:</b> aggressive dedup + the quality gate already prune ~50% of raw scrapes before they're ever shown.</div></div>
+  </div>
+</div>
+</section>
+
+</main>
+
+<div class="wrap tagwrap">
+  <div class="eyebrow">Positioning</div>
+  <p class="t" style="margin-top:20px">Google for AI prompts — <span>with a quality score.</span></p>
+  <p class="sub">Describe your goal. Compare ranked prompts. See their scores. Choose the one that actually works.</p>
+</div>
+
+<footer><div class="wrap">
+  <p>Prompt Finder · Product Requirements v1.0 · 30 Aug 2026 · Confidential</p>
+</div></footer>

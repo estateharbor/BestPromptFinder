@@ -1,0 +1,21 @@
+# dependencies / build output
+frontend/node_modules/
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+
+# python
+backend/__pycache__/
+backend/*.pyc
+
+# The built corpus IS committed so a fresh deploy serves the library immediately
+# (the nightly pipeline refreshes it in the shared volume afterwards).
+*.log
+
+# local database (runtime data — Postgres in prod)
+backend/promptfinder.db
+backend/promptfinder.db-wal
+backend/promptfinder.db-shm
+backend/votes.db*
+
+# secrets
+.env

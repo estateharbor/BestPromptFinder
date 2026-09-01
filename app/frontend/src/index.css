@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+/* ---- design tokens registered with Tailwind (utilities: bg-panel, text-ink, ...) ---- */
+@theme {
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-ground: #f4f3ef;
+  --color-panel: #ffffff;
+  --color-panel2: #fbfaf6;
+  --color-sunk: #efede7;
+  --color-hairline: #e4e1d9;
+  --color-hairline2: #d6d2c8;
+  --color-ink: #14181f;
+  --color-ink2: #4b535f;
+  --color-ink3: #828a97;
+  --color-accent: #2e4bd8;
+  --color-accent2: #1b2e8a;
+  --color-accentsoft: #e9ecfb;
+  --color-accentline: #c7cff4;
+  --color-good: #1f9d63;
+  --color-goodsoft: #e3f3ea;
+  --color-mid: #c77a16;
+  --color-midsoft: #f6ecd9;
+  --color-weak: #d0424d;
+  --color-weaksoft: #f8e4e4;
+  --color-gold: #a98518;
+  --color-silver: #8a929b;
+  --color-bronze: #9e6b34;
+}
+
+/* dark theme: override the same token variables so every utility follows */
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-ground: #0e131b;
+    --color-panel: #161d28;
+    --color-panel2: #121822;
+    --color-sunk: #0b0f16;
+    --color-hairline: #26303f;
+    --color-hairline2: #313d4e;
+    --color-ink: #eaeef4;
+    --color-ink2: #9aa6b4;
+    --color-ink3: #697384;
+    --color-accent: #7b90ff;
+    --color-accent2: #aab8ff;
+    --color-accentsoft: #1a2340;
+    --color-accentline: #2e3a63;
+    --color-good: #37c283;
+    --color-goodsoft: #123227;
+    --color-mid: #e3a14a;
+    --color-midsoft: #33260f;
+    --color-weak: #f0616c;
+    --color-weaksoft: #361a1e;
+    --color-gold: #d3ae4a;
+    --color-silver: #aeb6c0;
+    --color-bronze: #c98a4e;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.003em;
+}
+::selection {
+  background: var(--color-accentsoft);
+  color: var(--color-accent2);
+}
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* score-band helpers */
+.band-good { color: var(--color-good); }
+.band-mid { color: var(--color-mid); }
+.band-accent { color: var(--color-accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,81 @@
+# Prompt Finder — full stack: Postgres + API + web.
+# Votes and user libraries live in the `pgdata` volume, so they persist across
+# container restarts and are shared by every backend instance pointed at this DB.
+#
+#   cp .env.example .env   # then edit the secrets
+#   docker compose up --build
+#   open http://localhost:8080
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: promptfinder
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: promptfinder
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U promptfinder"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  backend:
+    build:
+      context: ..                       # repo root (needs pipeline.py + the xlsx)
+      dockerfile: app/backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg2://promptfinder:${POSTGRES_PASSWORD:-changeme}@db:5432/promptfinder
+      JWT_SECRET: ${JWT_SECRET:-please-change-me}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-claude-sonnet-5}
+      DAILY_BUDGET_USD: ${DAILY_BUDGET_USD:-1.0}
+      LLM_BUDGET_FILE: /data/.llm_budget.json   # share the daily cap with the pipeline
+      INGEST_ADMINS: ${INGEST_ADMINS:-}         # emails allowed to use the Upload button
+      CORPUS_PATH: /data/corpus.json     # served from the shared volume; auto-reloads nightly
+    volumes:
+      - appdata:/data
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - "8000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # Nightly refresh worker — NOT started by `up` (profile "tools").
+  # Run on a schedule from the VPS crontab:  docker compose run --rm pipeline
+  pipeline:
+    build:
+      context: ..
+      dockerfile: app/pipeline.Dockerfile
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-claude-sonnet-5}
+      DAILY_BUDGET_USD: ${DAILY_BUDGET_USD:-1.0}
+      LLM_USE_BATCH: "1"
+      LLM_BUDGET_FILE: /data/.llm_budget.json   # persist the daily budget across runs
+      # Optional scraper source keys (sources without a key simply skip):
+      ZENROWS_API_KEY: ${ZENROWS_API_KEY:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      KAGGLE_USERNAME: ${KAGGLE_USERNAME:-}
+      KAGGLE_KEY: ${KAGGLE_KEY:-}
+      REDDIT_CLIENT_ID: ${REDDIT_CLIENT_ID:-}
+      REDDIT_CLIENT_SECRET: ${REDDIT_CLIENT_SECRET:-}
+    volumes:
+      - appdata:/data
+    profiles: ["tools"]
+
+volumes:
+  pgdata:
+  appdata:
