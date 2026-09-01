@@ -21118,7 +21118,7 @@
     "is_template": false,
     "prompt_type": "Image Generation",
     "purpose": "Image Generation",
-    "quality": 78,
+    "quality": 72,
     "library_value": 60,
     "platform": "Hugging Face",
     "models": [
@@ -21144,7 +21144,7 @@
       "eval_source": "llm"
     },
     "engagement": 0,
-    "eval_tier": "Strong",
+    "eval_tier": "Usable",
     "eval_decision": "KEEP"
   },
   {
@@ -21682,7 +21682,7 @@
     "is_template": false,
     "prompt_type": "Image Generation",
     "purpose": "Image Generation",
-    "quality": 78,
+    "quality": 68,
     "library_value": 60,
     "platform": "Hugging Face",
     "models": [
@@ -21708,7 +21708,7 @@
       "eval_source": "llm"
     },
     "engagement": 0,
-    "eval_tier": "Strong",
+    "eval_tier": "Usable",
     "eval_decision": "KEEP"
   },
   {
@@ -21758,7 +21758,7 @@
     "is_template": false,
     "prompt_type": "Image Generation",
     "purpose": "Image Generation",
-    "quality": 78,
+    "quality": 68,
     "library_value": 60,
     "platform": "Hugging Face",
     "models": [
@@ -21782,7 +21782,7 @@
       "eval_source": "llm"
     },
     "engagement": 0,
-    "eval_tier": "Strong",
+    "eval_tier": "Usable",
     "eval_decision": "KEEP"
   },
   {
@@ -30652,8 +30652,8 @@
     ],
     "is_template": true,
     "prompt_type": "Text / General LLM",
-    "purpose": "Summarization",
-    "quality": 64,
+    "purpose": "Research",
+    "quality": 58,
     "library_value": 50,
     "platform": "Hugging Face",
     "models": [
@@ -30677,8 +30677,8 @@
       "eval_source": "llm"
     },
     "engagement": 0,
-    "eval_tier": "Usable",
-    "eval_decision": "KEEP"
+    "eval_tier": "Weak",
+    "eval_decision": "REVIEW"
   },
   {
     "id": "p_544be05290",
@@ -31095,8 +31095,8 @@
     ],
     "is_template": true,
     "prompt_type": "Text / General LLM",
-    "purpose": "Data / Analysis",
-    "quality": 68,
+    "purpose": "Research",
+    "quality": 62,
     "library_value": 50,
     "platform": "Hugging Face",
     "models": [
@@ -33346,8 +33346,8 @@
     ],
     "is_template": true,
     "prompt_type": "Text / General LLM",
-    "purpose": "Editing / Rewriting",
-    "quality": 72,
+    "purpose": "Research",
+    "quality": 62,
     "library_value": 50,
     "platform": "Hugging Face",
     "models": [
@@ -35270,7 +35270,7 @@
     "is_template": true,
     "prompt_type": "Image Generation",
     "purpose": "Image Generation",
-    "quality": 62,
+    "quality": 68,
     "library_value": 50,
     "platform": "Hugging Face",
     "models": [
@@ -35429,9 +35429,9 @@
       "TOPIC"
     ],
     "is_template": true,
-    "prompt_type": "Text / General LLM",
-    "purpose": "Editing / Rewriting",
-    "quality": 78,
+    "prompt_type": "Data / Analysis",
+    "purpose": "Research",
+    "quality": 62,
     "library_value": 50,
     "platform": "Hugging Face",
     "models": [
@@ -35455,7 +35455,7 @@
       "eval_source": "llm"
     },
     "engagement": 0,
-    "eval_tier": "Strong",
+    "eval_tier": "Usable",
     "eval_decision": "KEEP"
   },
   {
@@ -38342,47 +38342,6 @@
     "engagement": 0,
     "eval_tier": "Strong",
     "eval_decision": "KEEP"
-  },
-  {
-    "id": "p_8c899176c8",
-    "title": "Below is an instruction that describes a task. Write a respo...",
-    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request. ### Instruction: Create a Python script that will perform several simple math operations. The script should accept two integers as inputs and output the results of the following operations: addition, subtraction, multiplication, division, and modulo. ### Input: int1 = 10 int2 = 5 ### Output: int1 = 10 int2 = 5 addition = int1 + int2 print('Addition:', addition) subtraction = int1 - int2 print('Subtraction:', subtraction) multiplication = int1 * int2 print('Multiplication:', multiplication) division = int1 / int2 print('Division:', division) modulo = int1 % int2 print('Modulo:', modulo)",
-    "template": "Below is an instruction that describes a task. Write a response that appropriately completes the request. ### Instruction: Create a Python script that will perform several simple math operations. The script should accept {COUNT_2} integers as inputs and output the results of the following operations: addition, subtraction, multiplication, division, and modulo. ### Input: int1 = {COUNT} int2 = 5 ### Output: int1 = 10 int2 = 5 addition = int1 + int2 print('Addition:', addition) subtraction = int1 - int2 print('Subtraction:', subtraction) multiplication = int1 * int2 print('Multiplication:', multiplication) division = int1 / int2 print('Division:', division) modulo = int1 % int2 print('Modulo:', modulo)",
-    "variables": [
-      "COUNT",
-      "COUNT_2"
-    ],
-    "is_template": true,
-    "prompt_type": "coding",
-    "purpose": "Coding",
-    "quality": 47,
-    "library_value": 50,
-    "platform": "Hugging Face",
-    "models": [
-      "Gemini",
-      "GPT-5.6",
-      "Claude"
-    ],
-    "reliability": {
-      "uses": 950,
-      "useful": 87,
-      "tested": [
-        "Gemini",
-        "GPT-5.6",
-        "Claude"
-      ],
-      "last_verified": "2026-08-11",
-      "reliability": 85,
-      "synthetic": true
-    },
-    "provenance": {
-      "source": "Hugging Face",
-      "url": "https://huggingface.co/datasets/iamtarun/python_code_instructions_18k_alpaca",
-      "collected": "2026-08",
-      "version": "1.0",
-      "eval_source": "heuristic"
-    },
-    "engagement": 0
   },
   {
     "id": "p_c286e9de67",
