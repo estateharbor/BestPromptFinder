@@ -52,7 +52,7 @@ _INGEST_ADMINS = {e.strip().lower() for e in os.getenv("INGEST_ADMINS", "").spli
 def _is_admin(email: str) -> bool:
     return bool(_INGEST_ADMINS) and (email or "").lower() in _INGEST_ADMINS
 
-app = FastAPI(title="Prompt Finder API", version="1.2")
+app = FastAPI(title="BestPromptFinder API", version="1.2")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o.strip() for o in _origins if o.strip()],

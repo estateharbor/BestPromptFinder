@@ -18,7 +18,7 @@ export function Header({ showNew, onNew, onHome, onLibrary, onAuth, onUpload }: 
       <div className="max-w-[920px] mx-auto px-6 h-[58px] flex items-center gap-3">
         <button onClick={onHome} className="flex items-center gap-2.5 font-display font-extrabold text-[16px] tracking-tight">
           <span className="w-[11px] h-[11px] rounded-full" style={{ background: "var(--color-accent)", boxShadow: "0 0 0 3px var(--color-accentsoft)" }} />
-          Prompt&nbsp;Finder
+          BestPromptFinder
         </button>
 
         <div className="ml-auto flex items-center gap-2">

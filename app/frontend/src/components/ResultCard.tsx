@@ -236,7 +236,7 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
                 { n: "AIPRM", p: "Community prompt, no fit score.", tag: "free · untested", us: false },
                 { n: "PromptBase", p: "Buy ($2.99) before you see output.", tag: "paid · unproven", us: false },
                 { n: "FlowGPT", p: "Ranked by popularity, not fit.", tag: "free · social", us: false },
-                { n: "Prompt Finder", p: `${s.overall} overall · tested on ${r.models[0]} · why + sample.`, tag: "free · verified", us: true },
+                { n: "BestPromptFinder", p: `${s.overall} overall · tested on ${r.models[0]} · why + sample.`, tag: "free · verified", us: true },
               ].map((c) => (
                 <div key={c.n} className="rounded-[11px] border p-3.5"
                   style={{ background: c.us ? "var(--color-accentsoft)" : "var(--color-panel2)", borderColor: c.us ? "var(--color-accent)" : "var(--color-hairline)" }}>
