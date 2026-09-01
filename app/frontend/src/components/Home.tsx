@@ -1,13 +1,39 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { api } from "../api";
 import type { LeaderItem } from "../types";
+import { useAuth } from "../auth";
 import { Stats } from "./Stats";
 
+// Fallback chips if the leaderboard hasn't loaded yet (or the API is down).
 const EXAMPLES = [
   { label: "Earnings: bullish or bearish?", q: "Analyze a company's quarterly results and tell me if they're bullish or bearish" },
   { label: "Facebook real-estate campaign", q: "Create a Facebook campaign for a luxury real-estate project targeting investors" },
   { label: "Midjourney product shot", q: "Midjourney product shot of a luxury watch, cinematic studio lighting" },
 ];
+
+// Trim a long title into a short, punchy chip label.
+function chipLabel(title: string): string {
+  const t = title.replace(/\s*[—–|:].*$/, "").trim(); // drop trailing sub-clause
+  return t.length > 34 ? t.slice(0, 32).trimEnd() + "…" : t;
+}
+
+// Build the "Try" chips: the best prompt in each distinct category. `preferred` is the
+// signed-in user's most-saved categories — those lead the list (personalized); the rest
+// fill in, lightly shuffled for variety. With no preferences it's just diverse-best.
+function pickChips(items: LeaderItem[], n: number, preferred: string[]): { label: string; q: string }[] {
+  const bestByCat = new Map<string, LeaderItem>();
+  for (const it of items) if (!bestByCat.has(it.purpose)) bestByCat.set(it.purpose, it); // best-first
+  const pref = preferred.filter((c) => bestByCat.has(c));            // user's cats we can serve
+  const rest = [...bestByCat.keys()].filter((c) => !pref.includes(c));
+  for (let i = rest.length - 1; i > 0; i--) {                        // shuffle the filler
+    const j = Math.floor(Math.random() * (i + 1));
+    [rest[i], rest[j]] = [rest[j], rest[i]];
+  }
+  return [...pref, ...rest].slice(0, n).map((c) => {
+    const it = bestByCat.get(c)!;
+    return { label: chipLabel(it.title), q: it.title };
+  });
+}
 
 function Spark({ vals }: { vals: number[] }) {
   const max = Math.max(...vals), min = Math.min(...vals), rng = max - min || 1;
@@ -22,12 +48,34 @@ function Spark({ vals }: { vals: number[] }) {
 }
 
 export function Home({ onSearch, error }: { onSearch: (q: string) => void; error: string | null }) {
+  const { user } = useAuth();
   const [q, setQ] = useState("");
   const [top, setTop] = useState<LeaderItem[]>([]);
+  const [savedCats, setSavedCats] = useState<string[]>([]);
 
   useEffect(() => {
-    api.leaderboard(5).then((r) => setTop(r.results)).catch(() => setTop([]));
+    api.leaderboard(12).then((r) => setTop(r.results)).catch(() => setTop([]));
   }, []);
+
+  // For a signed-in user, rank the categories they save most — those bias the chips.
+  useEffect(() => {
+    if (!user) { setSavedCats([]); return; }
+    api.library()
+      .then((r) => {
+        const freq = new Map<string, number>();
+        for (const p of r.results) freq.set(p.purpose, (freq.get(p.purpose) ?? 0) + 1);
+        setSavedCats([...freq.entries()].sort((a, b) => b[1] - a[1]).map(([c]) => c));
+      })
+      .catch(() => setSavedCats([]));
+  }, [user]);
+
+  // Dynamic "Try" chips from the live best prompts: personalized to the user's saved
+  // categories when signed in, diverse-best otherwise. Falls back to static examples
+  // until the leaderboard loads.
+  const tryChips = useMemo(
+    () => (top.length ? pickChips(top, 4, savedCats) : EXAMPLES),
+    [top, savedCats]
+  );
 
   const trend = (rel: number) => 5 + (rel % 10);
 
@@ -71,7 +119,7 @@ export function Home({ onSearch, error }: { onSearch: (q: string) => void; error
 
       <div className="mt-5 text-left max-w-[620px] mx-auto">
         <span className="font-mono text-[11.5px] mr-1" style={{ color: "var(--color-ink3)" }}>Try:</span>
-        {EXAMPLES.map((ex) => (
+        {tryChips.map((ex) => (
           <button
             key={ex.label}
             onClick={() => onSearch(ex.q)}
@@ -91,7 +139,7 @@ export function Home({ onSearch, error }: { onSearch: (q: string) => void; error
             <span className="font-mono text-[11px] uppercase tracking-wider" style={{ color: "var(--color-ink3)" }}>ranked by reliability</span>
           </div>
           <div className="rounded-[15px] border overflow-hidden" style={{ background: "var(--color-panel)", borderColor: "var(--color-hairline)" }}>
-            {top.map((it, i) => (
+            {top.slice(0, 5).map((it, i) => (
               <button
                 key={it.id}
                 onClick={() => onSearch(it.title)}

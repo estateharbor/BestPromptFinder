@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { api } from "../api";
 import { useAuth } from "../auth";
 import type { PromptResult } from "../types";
+import { sourceLabel } from "../source";
 import { MiniScore, band } from "./Scores";
 import { ArtTile } from "./ArtTile";
 
@@ -183,19 +184,31 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
               )}
 
               <div className="grid grid-cols-3 max-[560px]:grid-cols-2 gap-px rounded-xl overflow-hidden border mt-3.5" style={{ background: "var(--color-hairline)", borderColor: "var(--color-hairline)" }}>
-                {[
-                  ["Source", r.provenance.source],
-                  ["Tested", rel.tested.join(", ")],
-                  ["Useful", `${rel.useful}%`],
-                  ["Verified", rel.last_verified],
-                  ["Version", r.provenance.version],
-                  ["Eval", r.provenance.eval_source],
-                ].map(([k, v]) => (
-                  <div key={k} className="p-2.5" style={{ background: "var(--color-panel)" }}>
-                    <div className="font-mono text-[9.5px] uppercase tracking-wide" style={{ color: "var(--color-ink3)" }}>{k}</div>
-                    <div className="text-[12.5px] font-medium mt-0.5" style={{ color: "var(--color-ink)" }}>{v}</div>
-                  </div>
-                ))}
+                {(() => {
+                  const src = sourceLabel(r.provenance.source, r.provenance.url);
+                  const sourceCell: ReactNode = src.url ? (
+                    <a href={src.url} target="_blank" rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1 hover:underline"
+                      style={{ color: "var(--color-accent2)" }}>
+                      {src.label} <span aria-hidden className="text-[10px]">↗</span>
+                    </a>
+                  ) : src.label;
+                  const rows: [string, ReactNode][] = [
+                    ["Source", sourceCell],
+                    ["Tested", rel.tested.join(", ")],
+                    ["Useful", `${rel.useful}%`],
+                    ["Verified", rel.last_verified],
+                    ["Version", r.provenance.version],
+                    ["Eval", r.provenance.eval_source],
+                  ];
+                  return rows.map(([k, v]) => (
+                    <div key={k} className="p-2.5" style={{ background: "var(--color-panel)" }}>
+                      <div className="font-mono text-[9.5px] uppercase tracking-wide" style={{ color: "var(--color-ink3)" }}>{k}</div>
+                      <div className="text-[12.5px] font-medium mt-0.5" style={{ color: "var(--color-ink)" }}>{v}</div>
+                    </div>
+                  ));
+                })()}
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
 import type { LibraryStats } from "../types";
+import { sourceLabel } from "../source";
 
 function ago(iso: string | null): string {
   if (!iso) return "—";
@@ -18,7 +19,13 @@ export function Stats() {
 
   const graded = (s.eval_source.llm ?? 0) + (s.eval_source.curated ?? 0);
   const gradedPct = s.total ? Math.round((graded / s.total) * 100) : 0;
-  const platforms = Object.entries(s.by_platform).slice(0, 6);
+  // Roll raw platform names up into the same user-facing categories the cards use.
+  const byCategory = new Map<string, number>();
+  for (const [name, n] of Object.entries(s.by_platform)) {
+    const { label } = sourceLabel(name);
+    byCategory.set(label, (byCategory.get(label) ?? 0) + n);
+  }
+  const platforms = [...byCategory.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
   const maxPlat = Math.max(1, ...platforms.map(([, n]) => n));
 
   const Metric = ({ big, lab }: { big: string; lab: string }) => (
