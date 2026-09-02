@@ -50,6 +50,7 @@ function Spark({ vals }: { vals: number[] }) {
 export function Home({ onSearch, error }: { onSearch: (q: string) => void; error: string | null }) {
   const { user } = useAuth();
   const [q, setQ] = useState("");
+  const [focused, setFocused] = useState(false);   // glow the search box only while focused
   const [top, setTop] = useState<LeaderItem[]>([]);
   const [savedCats, setSavedCats] = useState<string[]>([]);
 
@@ -96,11 +97,17 @@ export function Home({ onSearch, error }: { onSearch: (q: string) => void; error
       <form
         onSubmit={(e) => { e.preventDefault(); onSearch(q); }}
         className="max-w-[620px] mx-auto mt-9 flex items-center gap-3 rounded-[15px] pl-5 pr-1.5 py-1.5 border-2"
-        style={{ borderColor: "var(--color-accent)", background: "var(--color-panel)", boxShadow: "0 0 0 5px var(--color-accentsoft)" }}
+        style={{
+          borderColor: "var(--color-accent)", background: "var(--color-panel)",
+          boxShadow: focused ? "0 0 0 4px color-mix(in srgb, var(--color-accent) 22%, transparent)" : "none",
+          transition: "box-shadow .2s ease",
+        }}
       >
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           autoFocus
           placeholder="e.g. analyze a company's quarterly results — bullish or bearish?"
           className="flex-1 bg-transparent outline-none text-[17px] py-3"
