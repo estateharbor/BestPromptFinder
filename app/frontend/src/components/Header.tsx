@@ -1,4 +1,5 @@
 import { useAuth } from "../auth";
+import { InstallButton } from "./InstallButton";
 
 export function Header({ showNew, onNew, onHome, onLibrary, onAuth, onUpload }: {
   showNew: boolean;
@@ -22,6 +23,7 @@ export function Header({ showNew, onNew, onHome, onLibrary, onAuth, onUpload }: 
         </button>
 
         <div className="ml-auto flex items-center gap-2">
+          <InstallButton />
           {showNew && <button onClick={onNew} className={pill} style={pillStyle}>↩ New search</button>}
           {user ? (
             <>
