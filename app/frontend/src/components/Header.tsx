@@ -15,7 +15,14 @@ export function Header({ showNew, onNew, onHome, onLibrary, onAuth, onUpload }: 
 
   return (
     <header className="sticky top-0 z-40 border-b"
-      style={{ background: "color-mix(in srgb, var(--color-ground) 90%, transparent)", backdropFilter: "blur(10px)", borderColor: "var(--color-hairline)" }}>
+      style={{
+        background: "color-mix(in srgb, var(--color-ground) 90%, transparent)",
+        backdropFilter: "blur(10px)", borderColor: "var(--color-hairline)",
+        // Push the bar below the iOS status bar (notch/time/battery) when installed as an app.
+        paddingTop: "env(safe-area-inset-top)",
+        paddingLeft: "env(safe-area-inset-left)",
+        paddingRight: "env(safe-area-inset-right)",
+      }}>
       <div className="max-w-[920px] mx-auto px-6 h-[58px] flex items-center gap-3">
         <button onClick={onHome} className="flex items-center gap-2 font-display font-extrabold text-[16px] tracking-tight">
           <img src="/logo-mark.png" alt="BestPromptFinder logo" className="h-[28px] w-auto" />
