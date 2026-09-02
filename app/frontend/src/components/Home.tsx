@@ -11,10 +11,10 @@ const EXAMPLES = [
   { label: "Midjourney product shot", q: "Midjourney product shot of a luxury watch, cinematic studio lighting" },
 ];
 
-// Trim a long title into a short, punchy chip label.
+// Show the full prompt title on the chip (only clip pathologically long ones).
 function chipLabel(title: string): string {
-  const t = title.replace(/\s*[—–|:].*$/, "").trim(); // drop trailing sub-clause
-  return t.length > 34 ? t.slice(0, 32).trimEnd() + "…" : t;
+  const t = title.trim();
+  return t.length > 72 ? t.slice(0, 70).trimEnd() + "…" : t;
 }
 
 // Build the "Try" chips: the best prompt in each distinct category. `preferred` is the
@@ -124,14 +124,16 @@ export function Home({ onSearch, error }: { onSearch: (q: string) => void; error
 
       {error && <p className="mt-3 font-mono text-[12px]" style={{ color: "var(--color-weak)" }}>{error} — is the API running on :8000?</p>}
 
-      <div className="mt-5 text-left max-w-[620px] mx-auto">
-        <span className="font-mono text-[11.5px] mr-1" style={{ color: "var(--color-ink3)" }}>Try:</span>
+      <div className="mt-6 max-w-[760px] mx-auto flex flex-wrap items-center justify-center gap-2.5">
+        <span className="font-mono text-[12px]" style={{ color: "var(--color-ink3)" }}>Try:</span>
         {tryChips.map((ex) => (
           <button
             key={ex.label}
             onClick={() => onSearch(ex.q)}
-            className="font-mono text-[12px] px-3 py-1.5 rounded-full mr-1.5 mt-1.5 border transition hover:-translate-y-0.5"
+            className="font-mono text-[13px] px-4 py-2 rounded-full border transition hover:-translate-y-0.5"
             style={{ color: "var(--color-ink2)", background: "var(--color-panel)", borderColor: "var(--color-hairline2)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--color-accent)")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--color-hairline2)")}
           >
             {ex.label}
           </button>
