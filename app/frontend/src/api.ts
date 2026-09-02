@@ -32,6 +32,7 @@ export interface AuthResult { token: string; user: AuthUser; }
 export interface IngestResult {
   read: number;
   added: number;
+  curated?: number;
   queued_for_grading: number;
   skipped: number;
   reasons: Record<string, number>;

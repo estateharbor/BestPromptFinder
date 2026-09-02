@@ -42,7 +42,13 @@ _COLS = {
     "model":   ["model", "model_target", "target model", "for", "tool"],
     "source":  ["source", "url", "link", "provenance", "origin"],
     "engagement": ["engagement", "upvotes", "likes", "votes", "stars", "score"],
+    # Mark a prompt you've personally reviewed: it goes live at top quality and is
+    # NEVER AI-graded (eval_source "curated" is excluded from grading).
+    "curated": ["curated", "reviewed", "skip_grading", "skip grading", "pre_reviewed", "best"],
+    "quality": ["quality", "rating", "my_score", "score_override"],
 }
+
+_TRUE = {"1", "true", "yes", "y", "curated", "reviewed", "best", "x", "✓"}
 
 
 def _pick(row: Dict[str, Any], keys: List[str]) -> str:
@@ -75,7 +81,8 @@ def _existing_keys() -> set:
 
 
 def _heuristic_entry(title: str, cleaned: str, feats: Dict[str, Any],
-                     purpose_hint: str, model: str, source: str, engagement: int) -> Dict[str, Any]:
+                     purpose_hint: str, model: str, source: str, engagement: int,
+                     curated: bool = False, quality_override: int = None) -> Dict[str, Any]:
     ptype = pipeline.detect_type(cleaned, purpose_hint)
     # Trust an explicit purpose the uploader provided; only auto-classify when it's blank.
     purpose = purpose_hint.strip() if purpose_hint.strip() else (
@@ -83,6 +90,11 @@ def _heuristic_entry(title: str, cleaned: str, feats: Dict[str, Any],
     comp = pipeline.heuristic_rubric(cleaned, feats, ptype)
     quality = comp["quality_score"]
     libval = pipeline.library_value(cleaned, feats, purpose)
+    if curated:
+        # Reviewed by a human: trusted top-tier, never AI-graded.
+        quality = quality_override if quality_override is not None else max(quality, 92)
+        libval = max(libval, 90)
+    eval_source = "curated" if curated else "heuristic"
     pid = "p_" + hashlib.md5((title + cleaned[:40]).encode()).hexdigest()[:10]
     rel = build_corpus.seed_reliability(title, quality, engagement)
     return {
@@ -94,7 +106,7 @@ def _heuristic_entry(title: str, cleaned: str, feats: Dict[str, Any],
         "platform": "Uploaded", "models": [model] if model and model != "Any" else rel["tested"],
         "reliability": rel,
         "provenance": {"source": "Uploaded", "url": source, "collected": date.today().strftime("%Y-%m"),
-                       "version": "1.0", "eval_source": "heuristic"},
+                       "version": "1.0", "eval_source": eval_source},
         "engagement": engagement,
     }
 
@@ -131,10 +143,18 @@ def ingest_bytes(data: bytes, filename: str = "upload.xlsx",
             continue
         cleaned, feats = pipeline.normalize_prompt(raw)
         ptype = pipeline.detect_type(cleaned, _pick(row, _COLS["purpose"]))
-        ok, why = pipeline.prefilter(cleaned, feats, ptype)
-        if not ok:
-            _skip(why)
-            continue
+        curated = _pick(row, _COLS["curated"]).lower() in _TRUE
+        if curated:
+            # Human-reviewed: bypass the quality/length filter (trust it past the 20k cap),
+            # but keep a sanity ceiling so a runaway paste can't wreck the corpus.
+            if len(cleaned) > 60000:
+                _skip("too large even for curated (>60k chars)")
+                continue
+        else:
+            ok, why = pipeline.prefilter(cleaned, feats, ptype)
+            if not ok:
+                _skip(why)
+                continue
 
         key = pipeline._dedup_key(cleaned)
         if key in existing or key in seen_this_batch:
@@ -152,7 +172,19 @@ def ingest_bytes(data: bytes, filename: str = "upload.xlsx",
         except ValueError:
             engagement = 0
 
-        entry = _heuristic_entry(title, cleaned, feats, purpose_hint, model, source, engagement)
+        q_raw = _pick(row, _COLS["quality"])
+        try:
+            quality_override = max(0, min(100, int(float(q_raw)))) if q_raw else None
+        except ValueError:
+            quality_override = None
+
+        entry = _heuristic_entry(title, cleaned, feats, purpose_hint, model, source, engagement,
+                                 curated=curated, quality_override=quality_override)
+
+        if curated:
+            # You've reviewed it: live immediately at top quality, never AI-graded, no bar.
+            new_entries.append(entry)
+            continue
 
         # Anything that survives prefilter + dedup is kept durably so the nightly LLM
         # re-grades it — the crude heuristic must never permanently lose a good prompt.
@@ -172,18 +204,21 @@ def ingest_bytes(data: bytes, filename: str = "upload.xlsx",
     if uploaded_records:
         _append_uploaded(uploaded_records)
 
-    queued = len(uploaded_records) - len(new_entries)  # kept for AI grade, not live yet
-    junk = len(rows) - len(uploaded_records)            # dropped (dupes / junk)
+    curated_live = sum(1 for e in new_entries if e["provenance"]["eval_source"] == "curated")
+    non_curated_live = len(new_entries) - curated_live
+    queued = len(uploaded_records) - non_curated_live   # kept for AI grade, not live yet
+    junk = len(rows) - len(uploaded_records) - curated_live  # dropped (dupes / junk)
+    curated_note = f"{curated_live} added as curated (reviewed, no AI grading); " if curated_live else ""
     return {
         "read": len(rows),
         "added": len(new_entries),
+        "curated": curated_live,
         "queued_for_grading": queued,
         "skipped": junk,
         "reasons": reasons,
         "added_titles": [e["title"] for e in new_entries[:20]],
-        "message": f"{len(new_entries)} of {len(rows)} prompts are live now (heuristic-graded); "
-                   f"{queued} more are queued for AI grading on the next nightly run; "
-                   f"{junk} were dropped (duplicates or junk).",
+        "message": f"{len(new_entries)} of {len(rows)} prompts are live now; {curated_note}"
+                   f"{queued} queued for AI grading; {junk} dropped (duplicates or junk).",
     }
 
 
