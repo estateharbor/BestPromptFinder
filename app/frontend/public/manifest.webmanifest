@@ -1,6 +1,6 @@
 {
   "name": "BestPromptFinder",
-  "short_name": "BestPrompt",
+  "short_name": "BestPromptFinder",
   "description": "The prompt decision engine — describe your goal, get the best prompt.",
   "id": "/",
   "start_url": "/",
