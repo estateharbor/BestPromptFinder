@@ -68,6 +68,8 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   letter-spacing: -0.003em;
+  /* Keep content clear of the iOS home-indicator and Android gesture bar when installed. */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 ::selection {
   background: var(--color-accentsoft);
