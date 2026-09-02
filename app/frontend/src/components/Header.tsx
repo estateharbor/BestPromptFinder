@@ -17,8 +17,8 @@ export function Header({ showNew, onNew, onHome, onLibrary, onAuth, onUpload }: 
     <header className="sticky top-0 z-40 border-b"
       style={{ background: "color-mix(in srgb, var(--color-ground) 90%, transparent)", backdropFilter: "blur(10px)", borderColor: "var(--color-hairline)" }}>
       <div className="max-w-[920px] mx-auto px-6 h-[58px] flex items-center gap-3">
-        <button onClick={onHome} className="flex items-center gap-2.5 font-display font-extrabold text-[16px] tracking-tight">
-          <span className="w-[11px] h-[11px] rounded-full" style={{ background: "var(--color-accent)", boxShadow: "0 0 0 3px var(--color-accentsoft)" }} />
+        <button onClick={onHome} className="flex items-center gap-2 font-display font-extrabold text-[16px] tracking-tight">
+          <img src="/logo-mark.png" alt="BestPromptFinder logo" className="h-[28px] w-auto" />
           BestPromptFinder
         </button>
 
