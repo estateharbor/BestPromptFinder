@@ -10,7 +10,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Pipeline modules
-COPY scraper_agent.py pipeline.py semantic.py templates.py llm_evaluator.py budget.py ./
+COPY scraper_agent.py pipeline.py semantic.py templates.py llm_evaluator.py budget.py refresh_smart.py ./
 # Corpus builder + curated seed
 COPY app/backend/build_corpus.py app/backend/curated_seed.json ./backend/
 # The refresh entrypoint

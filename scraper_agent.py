@@ -808,13 +808,10 @@ def run_target(target: Dict[str, Any], zenrows_manager: ZenRowsManager) -> List[
     return items
 
 
-def main():
-    # --- CREDENTIALS FROM ENVIRONMENT (.env) ---
-    zenrows_manager = ZenRowsManager(api_key=os.getenv("ZENROWS_API_KEY", ""))
-
+def build_targets() -> List[Dict[str, Any]]:
+    """The full source list — shared by the batch scraper and the incremental refresh."""
     github_token = os.getenv("GITHUB_TOKEN", "YOUR_GITHUB_TOKEN")
-
-    targets = [
+    return [
         # --- HUGGING FACE (keyless, permissive-license datasets) ---
         {
             "target_type": "HUGGINGFACE",
@@ -950,31 +947,33 @@ def main():
         },
     ]
 
-    all_extracted_data: List[PromptData] = []
 
-    log.info("Starting Legal AI Prompt Extraction Agent (parallel)...")
-
-    # Run all sources concurrently — total time ≈ slowest single source.
+def scrape_all() -> List[PromptData]:
+    """Run every source in parallel and return the raw scraped prompts (no grading/export)."""
+    zenrows_manager = ZenRowsManager(api_key=os.getenv("ZENROWS_API_KEY", ""))
+    targets = build_targets()
+    data: List[PromptData] = []
+    log.info("Scraping %d sources in parallel...", len(targets))
     with ThreadPoolExecutor(max_workers=len(targets)) as executor:
-        futures = {
-            executor.submit(run_target, target, zenrows_manager): target
-            for target in targets
-        }
+        futures = {executor.submit(run_target, t, zenrows_manager): t for t in targets}
         for future in as_completed(futures):
-            target = futures[future]
+            t = futures[future]
             try:
-                all_extracted_data.extend(future.result())
+                data.extend(future.result())
             except ValueError as ve:
                 log.error("[Router] %s", ve)
             except Exception as e:
-                log.error("[%s] Unhandled error: %s", target["platform_name"], e)
+                log.error("[%s] Unhandled error: %s", t["platform_name"], e)
+    return data
 
+
+def main():
+    data = scrape_all()
     keep_at = int(os.getenv("QUALITY_KEEP", "70"))
     review_at = int(os.getenv("QUALITY_REVIEW", "45"))
     out_xlsx = os.getenv("OUTPUT_XLSX", "legal_ai_prompts.xlsx")
-    log.info("Extraction complete. Total records: %d. Running evaluation pipeline...",
-             len(all_extracted_data))
-    export_to_excel(all_extracted_data, out_xlsx, keep_at=keep_at, review_at=review_at)
+    log.info("Extraction complete. Total records: %d. Running evaluation pipeline...", len(data))
+    export_to_excel(data, out_xlsx, keep_at=keep_at, review_at=review_at)
 
 
 if __name__ == "__main__":
