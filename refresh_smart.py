@@ -148,7 +148,13 @@ def grade_ungraded(corpus: List[Dict[str, Any]]) -> int:
     prompts = [{"id": c["id"], "prompt": (c.get("prompt") or "")[:8000]} for c in targets]
     log.info("Grading %d prompts (budget remaining $%.2f)...", len(prompts),
              budget.remaining() if budget else -1.0)
-    results = llm_evaluator.evaluate(prompts)
+    try:
+        results = llm_evaluator.evaluate(prompts)
+    except Exception as e:
+        # e.g. out of Anthropic credits, network/API error. Never crash the refresh —
+        # prompts stay heuristic-graded and grading resumes automatically next run.
+        log.warning("Grading unavailable this run (%s) — prompts kept heuristic; will grade when it's back.", e)
+        return 0
     by_id = {c["id"]: c for c in corpus}
     updated = 0
     for pid, r in results.items():
