@@ -9,6 +9,7 @@ import { Results } from "./components/Results";
 import { Library } from "./components/Library";
 import { AuthModal } from "./components/AuthModal";
 import { UploadModal } from "./components/UploadModal";
+import { AdminActivity } from "./components/AdminActivity";
 import { Toast } from "./components/Toast";
 
 type View = "home" | "loading" | "results" | "library";
@@ -21,6 +22,7 @@ function Shell() {
   const [toast, setToast] = useState<string | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
+  const [activityOpen, setActivityOpen] = useState(false);
 
   const runSearch = useCallback(async (q: string) => {
     const trimmed = q.trim();
@@ -56,6 +58,7 @@ function Shell() {
         onLibrary={() => setView("library")}
         onAuth={() => setAuthOpen(true)}
         onUpload={() => setUploadOpen(true)}
+        onActivity={() => setActivityOpen(true)}
       />
       {view === "home" && <Home onSearch={runSearch} error={error} />}
       {view === "loading" && <Loading query={query} />}
@@ -63,6 +66,7 @@ function Shell() {
       {view === "library" && <Library onCopy={flash} onPick={runSearch} />}
       {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
       {uploadOpen && <UploadModal onClose={() => setUploadOpen(false)} onDone={flash} />}
+      {activityOpen && <AdminActivity onClose={() => setActivityOpen(false)} />}
       <Toast message={toast} />
     </>
   );

@@ -1,13 +1,14 @@
 import { useAuth } from "../auth";
 import { InstallButton } from "./InstallButton";
 
-export function Header({ showNew, onNew, onHome, onLibrary, onAuth, onUpload }: {
+export function Header({ showNew, onNew, onHome, onLibrary, onAuth, onUpload, onActivity }: {
   showNew: boolean;
   onNew: () => void;
   onHome: () => void;
   onLibrary: () => void;
   onAuth: () => void;
   onUpload: () => void;
+  onActivity: () => void;
 }) {
   const { user, logout } = useAuth();
   const pill = "font-mono text-[11.5px] px-3 py-1.5 rounded-lg border";
@@ -35,9 +36,14 @@ export function Header({ showNew, onNew, onHome, onLibrary, onAuth, onUpload }: 
           {user ? (
             <>
               {user.is_admin && (
-                <button onClick={onUpload} className={pill} style={pillStyle} title="Upload prompts (admin)">
-                  ⬆ Upload
-                </button>
+                <>
+                  <button onClick={onActivity} className={pill} style={pillStyle} title="Daily activity (admin)">
+                    📊 Activity
+                  </button>
+                  <button onClick={onUpload} className={pill} style={pillStyle} title="Upload prompts (admin)">
+                    ⬆ Upload
+                  </button>
+                </>
               )}
               <button onClick={onLibrary} className={pill} style={{ ...pillStyle, color: "var(--color-accent2)", borderColor: "var(--color-accentline)", background: "var(--color-accentsoft)" }}>
                 ★ My library

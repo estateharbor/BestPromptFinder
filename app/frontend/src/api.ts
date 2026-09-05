@@ -29,6 +29,18 @@ async function json<T>(res: Response): Promise<T> {
 export interface AuthUser { id: number; email: string; is_admin?: boolean; }
 export interface AuthResult { token: string; user: AuthUser; }
 
+export interface ActivityDay {
+  date: string;
+  pulled: number;
+  graded: number;
+  dropped: number;
+  total: number;
+  ai_graded: number;
+  awaiting: number;
+  last_run?: string;
+}
+export interface ActivityResult { days: ActivityDay[]; last_refreshed: string | null; }
+
 export interface IngestResult {
   read: number;
   added: number;
@@ -72,6 +84,11 @@ export const api = {
   },
   async me(): Promise<AuthUser> {
     return json(await fetch("/api/me", { headers: headers(false) }));
+  },
+
+  // ---- admin: daily activity report ----
+  async activity(): Promise<ActivityResult> {
+    return json(await fetch("/api/admin/activity", { headers: headers(false) }));
   },
 
   // ---- admin: upload/ingest an Excel/CSV of prompts ----

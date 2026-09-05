@@ -234,6 +234,27 @@ def me(user: User = Depends(auth.current_user)):
     return {"id": user.id, "email": user.email, "is_admin": _is_admin(user.email)}
 
 
+@app.get("/api/admin/activity")
+def admin_activity(user: User = Depends(auth.current_user)):
+    """Admin-only: daily 'prompts pulled / AI-graded' report from the refresh log."""
+    if not _is_admin(user.email):
+        raise HTTPException(403, "Admins only.")
+    import json as _json
+    path = os.path.join(os.path.dirname(CORPUS) or ".", "activity.json")
+    data = {}
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = _json.load(f)
+        except Exception:
+            data = {}
+    days = [{"date": k, **v} for k, v in sorted(data.items(), reverse=True)][:30]
+    from datetime import datetime, timezone
+    last = (datetime.fromtimestamp(os.path.getmtime(CORPUS), tz=timezone.utc).isoformat()
+            if os.path.exists(CORPUS) else None)
+    return {"days": days, "last_refreshed": last}
+
+
 # ---------------- per-user library ----------------
 @app.get("/api/library")
 def library(user: User = Depends(auth.current_user)):

@@ -14,7 +14,8 @@ import os
 import json
 import hashlib
 import logging
-from datetime import date, timedelta
+from collections import Counter
+from datetime import date, datetime, timedelta
 from typing import Any, Dict, List
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S")
@@ -36,6 +37,7 @@ except Exception:
     budget = None
 
 CORPUS = os.getenv("CORPUS_PATH", os.path.join(ROOT, "app", "backend", "corpus.json"))
+ACTIVITY = os.path.join(os.path.dirname(CORPUS) or ".", "activity.json")  # daily report the admin reads
 MODELS = ["GPT-5.6", "Claude", "Gemini"]
 MERGE_MIN_QUALITY = int(os.getenv("REFRESH_MIN_QUALITY", "45"))  # heuristic floor to admit a new scrape
 
@@ -191,6 +193,34 @@ def dedupe_ids(corpus: List[Dict[str, Any]]) -> int:
     return fixed
 
 
+def record_activity(added: int, graded: int, dropped: int, corpus: List[Dict[str, Any]]) -> None:
+    """Append today's pulled/graded counts to a small daily log the admin dashboard reads."""
+    try:
+        data: Dict[str, Any] = {}
+        if os.path.exists(ACTIVITY):
+            with open(ACTIVITY, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        today = date.today().isoformat()
+        es = Counter(c.get("provenance", {}).get("eval_source") for c in corpus)
+        day = data.get(today, {"pulled": 0, "graded": 0, "dropped": 0})
+        day["pulled"] += added
+        day["graded"] += graded
+        day["dropped"] += dropped
+        day["total"] = len(corpus)
+        day["ai_graded"] = es.get("llm", 0) + es.get("curated", 0)
+        day["awaiting"] = es.get("heuristic", 0)
+        day["last_run"] = datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+        data[today] = day
+        for old in sorted(data)[:-90]:   # keep ~90 days
+            del data[old]
+        tmp = ACTIVITY + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, ACTIVITY)
+    except Exception as e:
+        log.warning("Could not write activity log: %s", e)
+
+
 def main():
     corpus = load_corpus()
     before = len(corpus)
@@ -199,9 +229,13 @@ def main():
     if added:
         save_corpus(corpus)          # new prompts go live immediately, before the (slow) grading
     graded = grade_ungraded(corpus)
+    pre_drop = len(corpus)
     corpus = [c for c in corpus if c.get("eval_decision") != "DROP"]  # drop LLM-rejected junk
+    dropped = pre_drop - len(corpus)
     save_corpus(corpus)
-    log.info("Refresh done. %d -> %d prompts (+%d new, %d graded).", before, len(corpus), added, graded)
+    record_activity(added, graded, dropped, corpus)
+    log.info("Refresh done. %d -> %d prompts (+%d new, %d graded, %d dropped).",
+             before, len(corpus), added, graded, dropped)
 
 
 if __name__ == "__main__":
