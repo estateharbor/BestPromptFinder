@@ -37,6 +37,7 @@ export interface ActivityDay {
   total: number;
   ai_graded: number;
   awaiting: number;
+  grading_status?: string; // ok | out_of_credits | budget_exhausted | error | no_llm
   last_run?: string;
 }
 export interface ActivityResult { days: ActivityDay[]; last_refreshed: string | null; }

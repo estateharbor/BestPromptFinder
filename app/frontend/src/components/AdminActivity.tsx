@@ -21,6 +21,8 @@ export function AdminActivity({ onClose }: { onClose: () => void }) {
 
   const refreshed = ago(data?.last_refreshed);
   const label = "font-mono text-[10px] uppercase tracking-wide";
+  const status = data?.days[0]?.grading_status;
+  const awaiting = data?.days[0]?.awaiting ?? 0;
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4"
@@ -38,7 +40,23 @@ export function AdminActivity({ onClose }: { onClose: () => void }) {
           Prompts pulled and AI-graded each day by the automatic refresh.
         </p>
 
-        {refreshed.stale && data && (
+        {status === "out_of_credits" && (
+          <div className="mb-4 rounded-[10px] px-3.5 py-3 text-[13px] leading-relaxed"
+            style={{ background: "var(--color-weaksoft)", border: "1px solid color-mix(in srgb, var(--color-weak) 45%, transparent)", color: "var(--color-ink)" }}>
+            <b style={{ color: "var(--color-weak)" }}>⏸ Grading paused — out of Anthropic credits.</b><br />
+            New prompts are still being collected ({awaiting} awaiting grades). Add credits at{" "}
+            <a href="https://console.anthropic.com/settings/billing" target="_blank" rel="noopener noreferrer"
+              style={{ color: "var(--color-accent2)", textDecoration: "underline" }}>console.anthropic.com</a>{" "}
+            and grading resumes automatically.
+          </div>
+        )}
+        {status === "error" && (
+          <div className="mb-4 rounded-[10px] px-3.5 py-2.5 text-[12.5px]"
+            style={{ background: "var(--color-weaksoft)", border: "1px solid color-mix(in srgb, var(--color-weak) 35%, transparent)", color: "var(--color-ink)" }}>
+            ⚠ Grading hit an API error on the last run — prompts are queued and will grade on the next run.
+          </div>
+        )}
+        {refreshed.stale && data && status !== "out_of_credits" && (
           <div className="mb-4 rounded-[10px] px-3.5 py-2.5 text-[12.5px]"
             style={{ background: "var(--color-weaksoft)", border: "1px solid color-mix(in srgb, var(--color-weak) 35%, transparent)", color: "var(--color-ink)" }}>
             ⚠ The refresh hasn't run in over 6 hours — the scheduled job may be stalled on the server.

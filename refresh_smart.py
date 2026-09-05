@@ -133,18 +133,20 @@ def collect_new(corpus: List[Dict[str, Any]]) -> int:
     return added
 
 
-def grade_ungraded(corpus: List[Dict[str, Any]]) -> int:
-    """LLM-grade prompts still on heuristic scores, bounded by the daily budget."""
+def grade_ungraded(corpus: List[Dict[str, Any]]):
+    """LLM-grade prompts still on heuristic scores, bounded by the daily budget.
+    Returns (graded_count, status) where status ∈ ok | no_llm | budget_exhausted |
+    out_of_credits | error."""
     if not llm_evaluator.available():
         log.info("LLM unavailable — skipping grading (prompts keep heuristic scores).")
-        return 0
+        return 0, "no_llm"
     if budget and not budget.allowed():
         log.info("Daily budget spent ($%.2f) — grading resumes when it resets.", budget.spent_today())
-        return 0
+        return 0, "budget_exhausted"
     targets = [c for c in corpus if c.get("provenance", {}).get("eval_source") not in ("llm", "curated")]
     if not targets:
         log.info("Nothing to grade — everything is already AI-graded.")
-        return 0
+        return 0, "ok"
     prompts = [{"id": c["id"], "prompt": (c.get("prompt") or "")[:8000]} for c in targets]
     log.info("Grading %d prompts (budget remaining $%.2f)...", len(prompts),
              budget.remaining() if budget else -1.0)
@@ -153,8 +155,9 @@ def grade_ungraded(corpus: List[Dict[str, Any]]) -> int:
     except Exception as e:
         # e.g. out of Anthropic credits, network/API error. Never crash the refresh —
         # prompts stay heuristic-graded and grading resumes automatically next run.
+        status = "out_of_credits" if "credit" in str(e).lower() else "error"
         log.warning("Grading unavailable this run (%s) — prompts kept heuristic; will grade when it's back.", e)
-        return 0
+        return 0, status
     by_id = {c["id"]: c for c in corpus}
     updated = 0
     for pid, r in results.items():
@@ -172,7 +175,7 @@ def grade_ungraded(corpus: List[Dict[str, Any]]) -> int:
         c["eval_decision"] = r.get("decision")
         updated += 1
     log.info("Graded %d prompts. Spent today: $%.2f", updated, budget.spent_today() if budget else -1.0)
-    return updated
+    return updated, "ok"
 
 
 def dedupe_ids(corpus: List[Dict[str, Any]]) -> int:
@@ -199,7 +202,8 @@ def dedupe_ids(corpus: List[Dict[str, Any]]) -> int:
     return fixed
 
 
-def record_activity(added: int, graded: int, dropped: int, corpus: List[Dict[str, Any]]) -> None:
+def record_activity(added: int, graded: int, dropped: int, corpus: List[Dict[str, Any]],
+                    grading_status: str = "ok") -> None:
     """Append today's pulled/graded counts to a small daily log the admin dashboard reads."""
     try:
         data: Dict[str, Any] = {}
@@ -215,6 +219,7 @@ def record_activity(added: int, graded: int, dropped: int, corpus: List[Dict[str
         day["total"] = len(corpus)
         day["ai_graded"] = es.get("llm", 0) + es.get("curated", 0)
         day["awaiting"] = es.get("heuristic", 0)
+        day["grading_status"] = grading_status   # ok | out_of_credits | budget_exhausted | error | no_llm
         day["last_run"] = datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
         data[today] = day
         for old in sorted(data)[:-90]:   # keep ~90 days
@@ -234,12 +239,12 @@ def main():
     added = collect_new(corpus)
     if added:
         save_corpus(corpus)          # new prompts go live immediately, before the (slow) grading
-    graded = grade_ungraded(corpus)
+    graded, gstatus = grade_ungraded(corpus)
     pre_drop = len(corpus)
     corpus = [c for c in corpus if c.get("eval_decision") != "DROP"]  # drop LLM-rejected junk
     dropped = pre_drop - len(corpus)
     save_corpus(corpus)
-    record_activity(added, graded, dropped, corpus)
+    record_activity(added, graded, dropped, corpus, gstatus)
     log.info("Refresh done. %d -> %d prompts (+%d new, %d graded, %d dropped).",
              before, len(corpus), added, graded, dropped)
 
