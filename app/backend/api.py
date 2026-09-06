@@ -29,10 +29,12 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
 from starlette.responses import JSONResponse
+from fastapi.responses import HTMLResponse, Response
 
 from matcher import Recommender
 import store
 import auth
+import seo
 from db import User
 
 # Corpus path is configurable so the nightly pipeline can write a fresh one to a shared
@@ -143,6 +145,37 @@ def prompt(pid: str):
 @app.get("/api/leaderboard")
 def leaderboard(k: int = 6):
     return {"results": rec().leaderboard(k=max(1, min(12, k)))}
+
+
+# ---------------- SEO pages (server-rendered HTML for crawlers + AI answer engines) ----------------
+@app.get("/prompt/{pid}", response_class=HTMLResponse)
+def seo_prompt(pid: str):
+    r = rec()
+    p = r._by_id.get(pid)
+    if not p:
+        raise HTTPException(404, "Prompt not found")
+    purpose = p.get("purpose") or "Other"
+    related = [c for c in r.corpus if c["id"] != pid and (c.get("purpose") or "Other") == purpose]
+    related.sort(key=lambda c: c.get("quality", 0), reverse=True)
+    return HTMLResponse(seo.prompt_page(p, related[:6], seo.slugify(purpose)))
+
+
+@app.get("/category/{slug}", response_class=HTMLResponse)
+def seo_category(slug: str):
+    r = rec()
+    cat = seo.category_slug_map(r.corpus).get(slug)
+    if not cat:
+        raise HTTPException(404, "Category not found")
+    prompts = [c for c in r.corpus if (c.get("purpose") or "Other") == cat]
+    prompts.sort(key=lambda c: c.get("quality", 0), reverse=True)
+    return HTMLResponse(seo.category_page(cat, slug, prompts))
+
+
+@app.get("/sitemap.xml")
+def seo_sitemap():
+    r = rec()
+    slugs = list(seo.category_slug_map(r.corpus).keys())
+    return Response(seo.sitemap(r.corpus, slugs), media_type="application/xml")
 
 
 @app.get("/api/stats")
