@@ -43,6 +43,12 @@ function Shell() {
   const home = useCallback(() => { setView("home"); setData(null); window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
   const flash = useCallback((msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2200); }, []);
 
+  // Run a search from a ?q=... URL (shareable links + Google sitelinks search box).
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("q");
+    if (q) runSearch(q);
+  }, [runSearch]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape" && view !== "home") home(); };
     window.addEventListener("keydown", onKey);
