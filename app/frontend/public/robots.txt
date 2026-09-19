@@ -1,16 +1,28 @@
-# BestPromptFinder — open to search engines and AI answer engines.
+# BestPromptFinder robots policy.
+# Two distinct decisions are kept in separate groups below so you can change one
+# without touching the other:
+#   1) Search & answer-engine crawlers that send you traffic  -> allowed.
+#   2) Model-TRAINING crawlers that ingest your prompts        -> currently allowed.
+# If your prompts are core IP and you'd rather they weren't used for model training,
+# switch the group (2) agents from "Allow: /" to "Disallow: /".
 
+# --- All standard search crawlers (Google, Bing, etc.) ---
 User-agent: *
 Allow: /
 
-# Explicitly welcome AI search / answer-engine crawlers
-User-agent: GPTBot
-Allow: /
-
+# --- (1) AI SEARCH / ANSWER ENGINES (drive referral traffic — keep allowed) ---
 User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# --- (2) MODEL-TRAINING crawlers (ingest content for training — your call) ---
+# To opt out of training use, change these to: Disallow: /
+User-agent: GPTBot
 Allow: /
 
 User-agent: ClaudeBot
@@ -20,9 +32,6 @@ User-agent: anthropic-ai
 Allow: /
 
 User-agent: Claude-Web
-Allow: /
-
-User-agent: PerplexityBot
 Allow: /
 
 User-agent: Google-Extended

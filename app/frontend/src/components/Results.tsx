@@ -10,6 +10,7 @@ export function Results({ data, onCopy, onPick, onRequireAuth }: {
 }) {
   const [openId, setOpenId] = useState<string>(data.results[0]?.id ?? "");
   const { intent, results } = data;
+  const related = data.related ?? [];
 
   const tokens: [string, string, boolean][] = [
     ["Purpose", intent.purpose, true],
@@ -40,7 +41,7 @@ export function Results({ data, onCopy, onPick, onRequireAuth }: {
 
       <div className="flex items-center justify-between mx-0.5 mb-3 gap-3 flex-wrap">
         <span className="font-mono text-[12px] uppercase tracking-wider" style={{ color: "var(--color-ink3)" }}>
-          {results.length} of {data.count} candidates · ranked by overall fit
+          {results.length === 1 ? "1 strong match" : `${results.length} strong matches`} · from {data.count} prompts
         </span>
         <span className="font-mono text-[10.5px] px-2.5 py-1 rounded-full inline-flex items-center gap-1.5"
           style={{
@@ -57,8 +58,29 @@ export function Results({ data, onCopy, onPick, onRequireAuth }: {
           onCopy={onCopy} onPick={onPick} onRequireAuth={onRequireAuth} />
       ))}
 
-      <p className="font-mono text-[11px] mt-3" style={{ color: "var(--color-ink3)" }}>
-        Scores are live from the evaluation API · reliability figures are seeded sample data.
+      {/* Adjacent ideas — clearly separated from the recommendations, never padding them. */}
+      {related.length > 0 && (
+        <div className="mt-8">
+          <div className="font-mono text-[12px] uppercase tracking-wider mb-3" style={{ color: "var(--color-ink3)" }}>
+            Related workflows
+          </div>
+          <div className="grid grid-cols-2 max-[640px]:grid-cols-1 gap-2.5">
+            {related.map((r) => (
+              <button key={r.id} onClick={() => onPick(r.title)}
+                className="text-left rounded-[13px] border p-3.5 transition hover:-translate-y-0.5"
+                style={{ background: "var(--color-panel)", borderColor: "var(--color-hairline)" }}>
+                <div className="font-display font-bold text-[14px] tracking-tight" style={{ color: "var(--color-ink)" }}>{r.title}</div>
+                <div className="font-mono text-[10.5px] mt-1" style={{ color: "var(--color-ink3)" }}>
+                  {r.purpose} · {r.scores.match}% match — explore →
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <p className="font-mono text-[11px] mt-5" style={{ color: "var(--color-ink3)" }}>
+        Quality & match are computed live per search. Confidence is an AI estimate until users vote on outcomes.
       </p>
     </section>
   );

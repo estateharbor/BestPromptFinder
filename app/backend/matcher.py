@@ -37,7 +37,9 @@ try:
 except Exception:
     llm_enrich = None
 
-RETRIEVE_N = 8  # TF-IDF shortlist size sent to the LLM judge before final ranking
+RETRIEVE_N = 8   # TF-IDF shortlist size sent to the LLM judge before final ranking
+MATCH_FLOOR = 55   # below this match, a prompt is "related", never a recommendation
+RELATED_FLOOR = 25  # below this we don't surface it at all
 
 _WORD = re.compile(r"[A-Za-z0-9]+")
 _ROLE = re.compile(r"\b(you are|act as|your task|your job|as an? \w+ (analyst|expert|specialist))\b", re.I)
@@ -163,8 +165,19 @@ class Recommender:
             ranked.append((overall, match, c, e))
         ranked.sort(key=lambda t: t[0], reverse=True)
 
-        results = [self._result(c, o, m, intent, llm=e, votes=votes) for o, m, c, e in ranked[:k]]
-        return {"intent": intent, "count": len(self.corpus), "enriched": used_llm, "results": results}
+        # Hard relevance floor: only genuinely-fitting prompts are "recommended". We never
+        # pad the list — if only one clears the bar, we return one. Weaker-but-adjacent ideas
+        # go in a separate `related` list, NOT under "why we recommend this".
+        strong = [t for t in ranked if t[1] >= MATCH_FLOOR][:k]
+        if not strong and ranked:
+            strong = ranked[:1]  # always answer with the single best candidate
+        strong_ids = {t[2]["id"] for t in strong}
+        related = [t for t in ranked if t[2]["id"] not in strong_ids and t[1] >= RELATED_FLOOR][:3]
+
+        results = [self._result(c, o, m, intent, llm=e, votes=votes) for o, m, c, e in strong]
+        related_out = [self._result(c, o, m, intent, llm=e, votes=votes) for o, m, c, e in related]
+        return {"intent": intent, "count": len(self.corpus), "enriched": used_llm,
+                "results": results, "related": related_out}
 
     def get(self, pid: str) -> Dict[str, Any]:
         c = self._by_id.get(pid)

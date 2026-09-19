@@ -91,14 +91,18 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
         <span>
           <span className="block font-display font-bold text-[17px] tracking-tight">{r.title}</span>
           <span className="block font-mono text-[11.5px] mt-0.5" style={{ color: "var(--color-ink3)" }}>
-            {r.models.join(" · ")} · {rel.uses.toLocaleString()} uses
+            {r.models.join(" · ")}{rel.source === "votes" ? ` · ${rel.uses.toLocaleString()} runs` : ""}
           </span>
         </span>
         <span className="flex gap-3.5 items-center">
-          <MiniScore label="Quality" value={s.quality} />
-          <MiniScore label="Match" value={s.match} suffix="%" />
-          <MiniScore label="Reliab." value={relScore} />
-          <span className="flex flex-col items-center justify-center w-[58px] h-[58px] rounded-[13px] shrink-0" style={{ background: overallSoft }}>
+          <MiniScore label="Quality" value={s.quality} title="AI evaluator's quality score — structure, clarity and reusability, out of 100." />
+          <MiniScore label="Match" value={s.match} suffix="%" title="How well this prompt fits YOUR goal, judged for this specific search." />
+          <MiniScore label={rel.source === "votes" ? "Reliab." : "Confidence"} value={relScore}
+            title={rel.source === "votes"
+              ? `Reliability from ${rel.votes} user outcome vote${rel.votes === 1 ? "" : "s"}.`
+              : "Evaluation confidence — an estimate from the AI grader until users vote on outcomes."} />
+          <span title="Overall = 35% quality + 40% goal-match + 20% confidence + 5% freshness."
+            className="flex flex-col items-center justify-center w-[58px] h-[58px] rounded-[13px] shrink-0" style={{ background: overallSoft }}>
             <span className="font-display font-black text-[21px] leading-none tnum" style={{ color: overallCol }}>{liveOverall}</span>
             <span className="font-mono text-[8px] uppercase tracking-wider mt-0.5" style={{ color: overallCol }}>Overall</span>
           </span>
@@ -194,10 +198,15 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
                       {src.label} <span aria-hidden className="text-[10px]">↗</span>
                     </a>
                   ) : src.label;
+                  // Only claim "useful %" when it comes from real votes; otherwise show the
+                  // AI quality estimate so seeded numbers never masquerade as user evidence.
+                  const usefulRow: [string, ReactNode] = rel.source === "votes"
+                    ? ["Useful", `${rel.useful}% · ${rel.votes} vote${rel.votes === 1 ? "" : "s"}`]
+                    : ["AI estimate", `${s.quality}/100`];
                   const rows: [string, ReactNode][] = [
                     ["Source", sourceCell],
-                    ["Tested", rel.tested.join(", ")],
-                    ["Useful", `${rel.useful}%`],
+                    ["Tested on", rel.tested.join(", ")],
+                    usefulRow,
                     ["Verified", rel.last_verified],
                     ["Version", r.provenance.version],
                     ["Eval", r.provenance.eval_source],
@@ -228,22 +237,20 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
             </div>
           )}
 
-          {/* same job, other tools */}
+          {/* what you get with this pick (neutral value — no competitor claims) */}
           <div className="mt-5 border-t pt-4" style={{ borderColor: "var(--color-hairline)" }}>
-            <div className="font-mono text-[10.5px] uppercase tracking-wider mb-3" style={{ color: "var(--color-ink3)" }}>Same job, other tools</div>
+            <div className="font-mono text-[10.5px] uppercase tracking-wider mb-3" style={{ color: "var(--color-ink3)" }}>What you get here</div>
             <div className="grid grid-cols-4 max-[720px]:grid-cols-2 gap-2.5">
               {[
-                { n: "AIPRM", p: "Community prompt, no fit score.", tag: "free · untested", us: false },
-                { n: "PromptBase", p: "Buy ($2.99) before you see output.", tag: "paid · unproven", us: false },
-                { n: "FlowGPT", p: "Ranked by popularity, not fit.", tag: "free · social", us: false },
-                { n: "BestPromptFinder", p: `${s.overall} overall · tested on ${r.models[0]} · why + sample.`, tag: "free · verified", us: true },
+                { t: "Goal-fit score", d: `${s.match}% match to your goal — not generic popularity.` },
+                { t: "Why + weakness", d: "The reasons it fits, and where it falls short." },
+                { t: "Live sample", d: "Preview real output before you commit." },
+                { t: "Tested & sourced", d: `Checked on ${r.models[0]}; source linked above.` },
               ].map((c) => (
-                <div key={c.n} className="rounded-[11px] border p-3.5"
-                  style={{ background: c.us ? "var(--color-accentsoft)" : "var(--color-panel2)", borderColor: c.us ? "var(--color-accent)" : "var(--color-hairline)" }}>
-                  <div className="font-display font-bold text-[13px]" style={{ color: c.us ? "var(--color-accent2)" : "var(--color-ink)" }}>{c.n}</div>
-                  <div className="font-mono text-[11px] mt-2 leading-relaxed" style={{ color: "var(--color-ink2)" }}>{c.p}</div>
-                  <span className="inline-block mt-2.5 font-mono text-[9.5px] px-2 py-0.5 rounded-full"
-                    style={{ background: c.us ? "var(--color-accent)" : "var(--color-sunk)", color: c.us ? "#fff" : "var(--color-ink3)" }}>{c.tag}</span>
+                <div key={c.t} className="rounded-[11px] border p-3.5"
+                  style={{ background: "var(--color-panel2)", borderColor: "var(--color-hairline)" }}>
+                  <div className="font-display font-bold text-[13px]" style={{ color: "var(--color-ink)" }}>{c.t}</div>
+                  <div className="font-mono text-[11px] mt-2 leading-relaxed" style={{ color: "var(--color-ink2)" }}>{c.d}</div>
                 </div>
               ))}
             </div>

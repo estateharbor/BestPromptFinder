@@ -56,6 +56,7 @@ export interface SearchResponse {
   count: number;
   enriched: boolean;
   results: PromptResult[];
+  related?: PromptResult[];
 }
 
 export interface LibraryStats {

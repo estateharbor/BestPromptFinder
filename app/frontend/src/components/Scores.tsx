@@ -43,10 +43,10 @@ export function Ring({ value, suffix = "", size = 86 }: { value: number; suffix?
   );
 }
 
-export function MiniScore({ label, value, suffix = "" }: { label: string; value: number; suffix?: string }) {
+export function MiniScore({ label, value, suffix = "", title }: { label: string; value: number; suffix?: string; title?: string }) {
   const col = COLOR[band(value)];
   return (
-    <div className="text-right min-w-[46px]">
+    <div className="text-right min-w-[46px]" title={title} style={title ? { cursor: "help" } : undefined}>
       <div style={{ color: col }}>
         <CountUp value={value} suffix={suffix} className="font-display font-extrabold text-[18px] leading-none" />
       </div>

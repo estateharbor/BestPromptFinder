@@ -66,10 +66,12 @@ function Shell() {
         onUpload={() => setUploadOpen(true)}
         onActivity={() => setActivityOpen(true)}
       />
-      {view === "home" && <Home onSearch={runSearch} error={error} />}
-      {view === "loading" && <Loading query={query} />}
-      {view === "results" && data && <Results data={data} onCopy={flash} onPick={runSearch} onRequireAuth={() => setAuthOpen(true)} />}
-      {view === "library" && <Library onCopy={flash} onPick={runSearch} />}
+      <main id="main">
+        {view === "home" && <Home onSearch={runSearch} error={error} />}
+        {view === "loading" && <Loading query={query} />}
+        {view === "results" && data && <Results data={data} onCopy={flash} onPick={runSearch} onRequireAuth={() => setAuthOpen(true)} />}
+        {view === "library" && <Library onCopy={flash} onPick={runSearch} />}
+      </main>
       {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
       {uploadOpen && <UploadModal onClose={() => setUploadOpen(false)} onDone={flash} />}
       {activityOpen && <AdminActivity onClose={() => setActivityOpen(false)} />}

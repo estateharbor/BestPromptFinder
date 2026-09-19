@@ -148,6 +148,15 @@ def leaderboard(k: int = 6):
 
 
 # ---------------- SEO pages (server-rendered HTML for crawlers + AI answer engines) ----------------
+def _tier_a(r: Recommender) -> set:
+    """Indexable prompt ids, cached on the recommender (reset whenever the corpus reloads)."""
+    ids = getattr(r, "_tier_a_ids", None)
+    if ids is None:
+        ids = seo.tier_a_ids(r.corpus)
+        r._tier_a_ids = ids
+    return ids
+
+
 @app.get("/prompt/{pid}", response_class=HTMLResponse)
 def seo_prompt(pid: str):
     r = rec()
@@ -155,9 +164,11 @@ def seo_prompt(pid: str):
     if not p:
         raise HTTPException(404, "Prompt not found")
     purpose = p.get("purpose") or "Other"
-    related = [c for c in r.corpus if c["id"] != pid and (c.get("purpose") or "Other") == purpose]
+    related = [c for c in r.corpus if c["id"] != pid and (c.get("purpose") or "Other") == purpose
+               and seo.is_english(c.get("title"), c.get("prompt"))]
     related.sort(key=lambda c: c.get("quality", 0), reverse=True)
-    return HTMLResponse(seo.prompt_page(p, related[:6], seo.slugify(purpose)))
+    indexable = pid in _tier_a(r)
+    return HTMLResponse(seo.prompt_page(p, related[:6], seo.slugify(purpose), indexable=indexable))
 
 
 @app.get("/category/{slug}", response_class=HTMLResponse)
@@ -175,7 +186,7 @@ def seo_category(slug: str):
 def seo_sitemap():
     r = rec()
     slugs = list(seo.category_slug_map(r.corpus).keys())
-    return Response(seo.sitemap(r.corpus, slugs), media_type="application/xml")
+    return Response(seo.sitemap(r.corpus, slugs, index_ids=_tier_a(r)), media_type="application/xml")
 
 
 @app.get("/api/stats")

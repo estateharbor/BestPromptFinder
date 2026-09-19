@@ -35,7 +35,7 @@ SYSTEM = """You are a prompt recommendation judge. You are given a user's GOAL a
 Return ONLY a valid JSON array (no prose), one object per candidate id:
 {"id": "<id>", "match": <int 0-100, fit to THIS goal>, "why": ["<=4 short reasons this prompt serves the goal>"], "weakness": "<one concrete gap for this goal>"}
 
-Rules: match reflects task/purpose fit to the goal, not polish. A well-built prompt for a different job scores low. Keep each "why" under 12 words and specific to the goal. Evaluate each candidate independently."""
+Rules: match reflects task/purpose fit to the goal, not polish. A well-built prompt for a different job scores low. Keep each "why" under 12 words and specific to the goal. Evaluate each candidate independently. If a prompt does NOT genuinely fit the goal, give it a low match and return an empty "why" list — never invent reasons to recommend a poor fit."""
 
 
 def available() -> bool:

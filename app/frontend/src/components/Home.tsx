@@ -35,17 +35,27 @@ function pickChips(items: LeaderItem[], n: number, preferred: string[]): { label
   });
 }
 
-function Spark({ vals }: { vals: number[] }) {
-  const max = Math.max(...vals), min = Math.min(...vals), rng = max - min || 1;
-  const pts = vals.map((v, i) => `${(i / (vals.length - 1)) * 62 + 1},${(24 - ((v - min) / rng) * 20).toFixed(1)}`).join(" ");
-  const lx = 63, ly = (24 - ((vals[vals.length - 1] - min) / rng) * 20).toFixed(1);
-  return (
-    <svg width="64" height="26" viewBox="0 0 64 26" aria-hidden className="max-[560px]:hidden">
-      <polyline points={pts} fill="none" stroke="var(--color-good)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx={lx} cy={ly} r="2" fill="var(--color-good)" />
-    </svg>
-  );
-}
+// The main categories, with slugs matching the backend's slugify(), rendered as real
+// <a> links so crawlers (and AI answer engines) can follow them to the server-rendered
+// category pages — the homepage's primary actions are otherwise JS buttons.
+const CATEGORIES: { name: string; slug: string }[] = [
+  { name: "Coding", slug: "coding" },
+  { name: "Writing", slug: "writing" },
+  { name: "Image Generation", slug: "image-generation" },
+  { name: "Graphic Design", slug: "graphic-design" },
+  { name: "Financial Analysis", slug: "financial-analysis" },
+  { name: "Data / Analysis", slug: "data-analysis" },
+  { name: "Research", slug: "research" },
+  { name: "Education", slug: "education" },
+  { name: "Roleplay", slug: "roleplay" },
+];
+
+const FAQ: { q: string; a: string }[] = [
+  { q: "What is BestPromptFinder?", a: "A free prompt decision engine: instead of browsing a directory, you describe your goal in plain words and it ranks the prompts most likely to solve it — showing quality, goal-match and confidence before you run one." },
+  { q: "Which AI models do the prompts work with?", a: "ChatGPT, Claude, Google Gemini and Midjourney, across categories like coding, marketing, finance, SEO, image generation, research and education." },
+  { q: "How are the prompts rated?", a: "An AI evaluator grades each prompt on usefulness, clarity, structure and reusability. Confidence starts as that estimate and is refined over time by real 'worked / didn't work' votes from users." },
+  { q: "Is BestPromptFinder free?", a: "Yes. Searching and using prompts is free. You can create an account to save prompts to a private library." },
+];
 
 export function Home({ onSearch, error }: { onSearch: (q: string) => void; error: string | null }) {
   const { user } = useAuth();
@@ -77,8 +87,6 @@ export function Home({ onSearch, error }: { onSearch: (q: string) => void; error
     () => (top.length ? pickChips(top, 4, savedCats) : EXAMPLES),
     [top, savedCats]
   );
-
-  const trend = (rel: number) => 5 + (rel % 10);
 
   return (
     <section className="max-w-[920px] mx-auto px-6 pt-[min(13vh,110px)] pb-16 text-center">
@@ -140,12 +148,12 @@ export function Home({ onSearch, error }: { onSearch: (q: string) => void; error
         ))}
       </div>
 
-      {/* Top performers (leaderboard) */}
+      {/* Highest-rated prompts — by AI quality, honestly labelled (no fabricated trends). */}
       {top.length > 0 && (
         <div className="max-w-[640px] mx-auto mt-14 text-left">
           <div className="flex items-baseline justify-between mb-3.5">
-            <span className="font-display font-extrabold text-[17px] tracking-tight">Top performers this week</span>
-            <span className="font-mono text-[11px] uppercase tracking-wider" style={{ color: "var(--color-ink3)" }}>ranked by reliability</span>
+            <span className="font-display font-extrabold text-[17px] tracking-tight">Highest-rated prompts</span>
+            <span className="font-mono text-[11px] uppercase tracking-wider" style={{ color: "var(--color-ink3)" }}>ranked by AI quality</span>
           </div>
           <div className="rounded-[15px] border overflow-hidden" style={{ background: "var(--color-panel)", borderColor: "var(--color-hairline)" }}>
             {top.slice(0, 5).map((it, i) => (
@@ -153,30 +161,54 @@ export function Home({ onSearch, error }: { onSearch: (q: string) => void; error
                 key={it.id}
                 onClick={() => onSearch(it.title)}
                 className="w-full text-left grid items-center gap-3.5 px-4 py-3 border-t first:border-t-0 transition hover:bg-[var(--color-panel2)]"
-                style={{ borderColor: "var(--color-hairline)", gridTemplateColumns: "26px 1fr auto auto" }}
+                style={{ borderColor: "var(--color-hairline)", gridTemplateColumns: "26px 1fr auto" }}
               >
                 <span className="font-mono text-[13px]" style={{ color: "var(--color-ink3)" }}>{i + 1}</span>
                 <span>
                   <span className="block font-display font-bold text-[14.5px] tracking-tight">{it.title}</span>
                   <span className="block font-mono text-[10.5px] mt-0.5" style={{ color: "var(--color-ink3)" }}>{it.purpose}</span>
                 </span>
-                <Spark vals={[70, 74, 72, 80, 84, it.useful - 2, it.useful]} />
                 <span className="text-right min-w-[64px]">
-                  <span className="block font-display font-extrabold text-[15px] leading-none tnum">{it.useful}%</span>
+                  <span className="block font-display font-extrabold text-[15px] leading-none tnum">{it.reliability}</span>
                   <span className="block font-mono text-[9px] uppercase tracking-wider mt-0.5" style={{ color: "var(--color-ink3)" }}>
-                    useful · {it.uses} uses
+                    {it.source === "votes" ? `${it.votes} votes` : "AI estimate"}
                   </span>
-                  <span className="inline-flex items-center gap-1 font-mono text-[11px] font-medium px-1.5 py-0.5 rounded-full mt-1"
-                    style={{ color: "var(--color-good)", background: "var(--color-goodsoft)" }}>▲ {trend(it.reliability)}%</span>
                 </span>
               </button>
             ))}
           </div>
           <p className="font-mono text-[10.5px] mt-2" style={{ color: "var(--color-ink3)" }}>
-            Reliability figures are seeded sample data — wired to real run telemetry in production.
+            Scores are AI quality estimates. Real “worked / didn’t work” votes refine each prompt’s confidence over time.
           </p>
         </div>
       )}
+
+      {/* Browse by category — real crawlable links to the server-rendered category pages. */}
+      <nav aria-label="Browse prompt categories" className="max-w-[640px] mx-auto mt-12 text-left">
+        <div className="font-mono text-[11px] uppercase tracking-wider mb-3" style={{ color: "var(--color-ink3)" }}>Browse by category</div>
+        <div className="flex flex-wrap gap-2.5">
+          {CATEGORIES.map((c) => (
+            <a key={c.slug} href={`/category/${c.slug}`}
+              className="font-mono text-[13px] px-4 py-2 rounded-full border transition hover:-translate-y-0.5"
+              style={{ color: "var(--color-ink2)", background: "var(--color-panel)", borderColor: "var(--color-hairline2)" }}>
+              {c.name}
+            </a>
+          ))}
+        </div>
+      </nav>
+
+      {/* Visible FAQ — matches the FAQPage structured data so it reflects real on-page content. */}
+      <section aria-label="Frequently asked questions" className="max-w-[640px] mx-auto mt-12 text-left">
+        <h2 className="font-display font-extrabold text-[17px] tracking-tight mb-3.5">Frequently asked questions</h2>
+        <div className="flex flex-col gap-2.5">
+          {FAQ.map((f) => (
+            <details key={f.q} className="rounded-[13px] border px-4 py-3" style={{ background: "var(--color-panel)", borderColor: "var(--color-hairline)" }}>
+              <summary className="font-display font-bold text-[14.5px] cursor-pointer" style={{ color: "var(--color-ink)" }}>{f.q}</summary>
+              <p className="text-[13.5px] mt-2" style={{ color: "var(--color-ink2)" }}>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
 
       <Stats />
     </section>

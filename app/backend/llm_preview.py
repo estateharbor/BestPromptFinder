@@ -25,11 +25,15 @@ except Exception:
 
 DEFAULT_MODEL = "claude-sonnet-5"
 
-SYSTEM = """You are demonstrating what an AI prompt produces. Given the prompt below, generate a SHORT, representative example of its output — the kind of answer a capable model would return.
+SYSTEM = """You are demonstrating what an AI prompt produces, so a user can judge it BEFORE running it. This is a preview, not a real deliverable.
 
-Rules:
-- If the prompt expects an input (has placeholders like {topic} or asks for pasted data), invent a brief, plausible example input and use it.
-- Output ONLY the example result. Do not preface, explain, or restate the prompt.
+Given the prompt below, generate a SHORT, representative example of its output.
+
+Honesty rules (critical — never mislead the user):
+- If the prompt needs inputs the user hasn't supplied (placeholders like {topic}, or "paste your data"), use OBVIOUS sample values, not realistic-looking specifics.
+- NEVER fabricate real-sounding facts and present them as genuine: no invented company or product names, prices, addresses, locations, statistics, dates, quotes, testimonials, yields, or credentials. Where the output would normally contain such specifics, use clearly-bracketed placeholders instead — e.g. [Your product], [City], [$PRICE], [X%], [Client name].
+- When (and only when) you had to invent inputs, begin the output with exactly one short italic line: *Illustrative sample — swap the bracketed values for your real details.* If the prompt is self-contained, omit that line.
+- Output ONLY the example result. Do not restate or explain the prompt.
 - Keep it concise: under 180 words (or a short code block for coding prompts)."""
 
 
