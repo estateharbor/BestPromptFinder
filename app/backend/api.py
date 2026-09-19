@@ -104,6 +104,11 @@ class PreviewBody(BaseModel):
     prompt: Optional[str] = None
 
 
+class FillBody(BaseModel):
+    id: str
+    goal: str = ""
+
+
 class VoteBody(BaseModel):
     id: str
     verdict: str  # 'worked' | 'didnt'
@@ -237,14 +242,14 @@ def preview(body: PreviewBody):
     import llm_preview
     if not llm_preview.available():
         raise HTTPException(503, "Live preview needs an Anthropic API key. Set ANTHROPIC_API_KEY in .env.")
-    text = body.prompt
-    if body.id:
-        c = rec()._by_id.get(body.id)
-        if not c:
-            raise HTTPException(404, "Prompt not found.")
-        if c.get("prompt_type") == "image":
-            raise HTTPException(400, "Image prompts can't be previewed live (needs an image model).")
-        text = c["prompt"]
+    # A compiled prompt (guided-fill) is previewed as-is; the id is still used only to block
+    # image prompts, which have no live text preview.
+    c = rec()._by_id.get(body.id) if body.id else None
+    if body.id and not c:
+        raise HTTPException(404, "Prompt not found.")
+    if c and c.get("prompt_type") == "image":
+        raise HTTPException(400, "Image prompts can't be previewed live (needs an image model).")
+    text = (body.prompt or "").strip() or (c["prompt"] if c else "")
     if not text:
         raise HTTPException(400, "Nothing to preview.")
     try:
@@ -253,6 +258,28 @@ def preview(body: PreviewBody):
         if "budget" in str(e).lower():
             raise HTTPException(429, str(e))
         raise HTTPException(502, f"Preview failed: {e}")
+
+
+@app.post("/api/fill")
+def fill(body: FillBody):
+    """Guided variable fill: extract values for a template's placeholders from the user's goal,
+    without inventing anything. Missing values come back empty for the user to complete."""
+    c = rec()._by_id.get(body.id)
+    if not c:
+        raise HTTPException(404, "Prompt not found.")
+    variables = c.get("variables") or []
+    values = {v: "" for v in variables}
+    if variables and (body.goal or "").strip():
+        import llm_fill
+        if llm_fill.available():
+            try:
+                for k, v in (llm_fill.extract(body.goal, c.get("template") or c.get("prompt") or "", variables) or {}).items():
+                    if k in values and isinstance(v, str):
+                        values[k] = v.strip()
+            except Exception:
+                pass
+    return {"id": body.id, "variables": variables, "values": values,
+            "template": c.get("template") or c.get("prompt") or ""}
 
 
 # ---------------- auth ----------------

@@ -55,7 +55,7 @@ export function Results({ data, onCopy, onPick, onRequireAuth }: {
 
       {results.map((r, i) => (
         <ResultCard key={r.id} r={r} rank={i + 1} open={openId === r.id} onToggle={() => setOpenId(r.id)}
-          onCopy={onCopy} onPick={onPick} onRequireAuth={onRequireAuth} />
+          onCopy={onCopy} onPick={onPick} onRequireAuth={onRequireAuth} goal={intent.query} />
       ))}
 
       {/* Adjacent ideas — clearly separated from the recommendations, never padding them. */}

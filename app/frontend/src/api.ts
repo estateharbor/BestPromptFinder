@@ -69,8 +69,12 @@ export const api = {
   async previewStatus(): Promise<{ available: boolean }> {
     return json(await fetch("/api/preview/status"));
   },
-  async preview(id: string): Promise<{ output: string; model: string }> {
-    return json(await fetch("/api/preview", { method: "POST", headers: headers(), body: JSON.stringify({ id }) }));
+  async preview(id: string, prompt?: string): Promise<{ output: string; model: string }> {
+    const body = prompt ? { id, prompt } : { id };
+    return json(await fetch("/api/preview", { method: "POST", headers: headers(), body: JSON.stringify(body) }));
+  },
+  async fill(id: string, goal: string): Promise<{ id: string; variables: string[]; values: Record<string, string>; template: string }> {
+    return json(await fetch("/api/fill", { method: "POST", headers: headers(), body: JSON.stringify({ id, goal }) }));
   },
   async vote(id: string, verdict: "worked" | "didnt", model = ""): Promise<{ ok: boolean; reliability: Reliability }> {
     return json(await fetch("/api/vote", { method: "POST", headers: headers(), body: JSON.stringify({ id, verdict, model }) }));

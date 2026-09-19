@@ -5,24 +5,13 @@ import type { PromptResult } from "../types";
 import { sourceLabel } from "../source";
 import { MiniScore, band } from "./Scores";
 import { ArtTile } from "./ArtTile";
+import { VariableForm } from "./VariableForm";
 
 const MEDAL = ["", "var(--color-gold)", "var(--color-silver)", "var(--color-bronze)"];
 
-function highlightTemplate(t: string) {
-  // wrap {VAR} tokens in an accent chip
-  const parts = t.split(/(\{[^}]+\})/g);
-  return parts.map((p, i) =>
-    /^\{[^}]+\}$/.test(p) ? (
-      <span key={i} className="font-mono px-1 rounded" style={{ background: "var(--color-accentsoft)", color: "var(--color-accent2)" }}>{p}</span>
-    ) : (
-      <span key={i}>{p}</span>
-    )
-  );
-}
-
-export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireAuth }: {
+export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireAuth, goal = "" }: {
   r: PromptResult; rank: number; open: boolean; onToggle: () => void;
-  onCopy: (m: string) => void; onPick: (q: string) => void; onRequireAuth?: () => void;
+  onCopy: (m: string) => void; onPick: (q: string) => void; onRequireAuth?: () => void; goal?: string;
 }) {
   const s = r.scores;
   const isImg = r.prompt_type === "image";
@@ -157,12 +146,17 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
                     {r.prompt}
                   </div>
 
-                  {pv === "idle" && (
+                  {pv === "idle" && !r.is_template && (
                     <button onClick={runPreview}
                       className="mt-2.5 font-mono text-[12px] px-3.5 py-2 rounded-[10px] border inline-flex items-center gap-2 transition hover:-translate-y-0.5"
                       style={{ borderColor: "var(--color-accentline)", background: "var(--color-accentsoft)", color: "var(--color-accent2)" }}>
                       ▶ Preview live output
                     </button>
+                  )}
+                  {r.is_template && (
+                    <div className="mt-2.5 font-mono text-[11.5px]" style={{ color: "var(--color-ink3)" }}>
+                      This is a template — fill it in below to preview real output (no invented details).
+                    </div>
                   )}
                   {pv === "loading" && (
                     <div className="mt-2.5 font-mono text-[12px] flex items-center gap-2" style={{ color: "var(--color-accent2)" }}>
@@ -222,19 +216,9 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
             </div>
           </div>
 
-          {/* template */}
+          {/* guided variable fill (templates only) */}
           {r.is_template && r.variables.length > 0 && (
-            <div className="mt-5 border-t pt-4" style={{ borderColor: "var(--color-hairline)" }}>
-              <div className="font-mono text-[10.5px] uppercase tracking-wider mb-2.5" style={{ color: "var(--color-ink3)" }}>Reusable template</div>
-              <div className="rounded-xl border p-4 font-mono text-[12.5px] leading-relaxed" style={{ background: "var(--color-panel2)", borderColor: "var(--color-hairline)" }}>
-                {highlightTemplate(r.template)}
-              </div>
-              <div className="flex flex-wrap gap-2 mt-2.5">
-                {r.variables.map((v) => (
-                  <span key={v} className="font-mono text-[11px] px-2 py-1 rounded-md border" style={{ background: "var(--color-accentsoft)", borderColor: "var(--color-accentline)", color: "var(--color-accent2)" }}>{"{" + v + "}"}</span>
-                ))}
-              </div>
-            </div>
+            <VariableForm id={r.id} template={r.template} variables={r.variables} goal={goal} onCopy={onCopy} />
           )}
 
           {/* what you get with this pick (neutral value — no competitor claims) */}
@@ -260,12 +244,7 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
           <div className="flex gap-2.5 flex-wrap mt-5">
             <button onClick={() => copy(r.prompt, "Prompt copied — paste into your model")}
               className="font-display font-bold text-[14.5px] px-5 py-3 rounded-[11px] text-white active:scale-[0.98] transition"
-              style={{ background: "var(--color-accent)" }}>Use this prompt</button>
-            {r.is_template && (
-              <button onClick={() => copy(r.template, "Template copied")}
-                className="font-mono text-[13px] px-4.5 py-3 rounded-[11px] border"
-                style={{ borderColor: "var(--color-hairline2)", background: "var(--color-panel)", color: "var(--color-ink)" }}>Copy template</button>
-            )}
+              style={{ background: "var(--color-accent)" }}>{r.is_template ? "Copy base prompt" : "Use this prompt"}</button>
             <button onClick={onSave}
               className="font-mono text-[13px] px-4.5 py-3 rounded-[11px] border transition"
               style={saved
