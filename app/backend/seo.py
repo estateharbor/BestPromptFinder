@@ -38,6 +38,27 @@ def slugify(s: str) -> str:
     return s or "other"
 
 
+# Prompt ids are "p_" + hex (content hash). Descriptive URLs are "{title-slug}-{id}", which
+# stay unique and permanently stable even if two prompts share a title or the corpus reorders.
+_ID_RE = re.compile(r"(p_[0-9a-f]+)$")
+
+
+def prompt_slug(p: Dict[str, Any]) -> str:
+    base = slugify(p.get("title") or "")[:60].strip("-") or "prompt"
+    return f"{base}-{p['id']}"
+
+
+def prompt_path(p: Dict[str, Any]) -> str:
+    return f"/prompt/{prompt_slug(p)}"
+
+
+def key_to_id(key: str) -> str:
+    """Recover the prompt id from a URL key — works for both a descriptive slug
+    ('equity-earnings-analyst-p_03d5c4c278') and a bare legacy id ('p_03d5c4c278')."""
+    m = _ID_RE.search(key or "")
+    return m.group(1) if m else ""
+
+
 def tier_a_ids(corpus: List[Dict[str, Any]]) -> Set[str]:
     """The set of prompt ids worth indexing: English, editorially/AI-evaluated, substantial,
     and top-quality — capped at INDEX_LIMIT. Everything else is noindex,follow."""
@@ -147,7 +168,7 @@ def prompt_page(p: Dict[str, Any], related: List[Dict[str, Any]], cat_slug: str,
     purpose = p.get("purpose") or "Other"
     title = f"{p['title']} — {purpose} AI Prompt | BestPromptFinder"
     desc = re.sub(r"\s+", " ", (p.get("prompt") or ""))[:155]
-    canonical = f"{SITE}/prompt/{p['id']}"
+    canonical = f"{SITE}{prompt_path(p)}"
     models = ", ".join(p.get("models") or [])
     rel = p.get("reliability", {})
     scores = f"""<div class="scores">
@@ -158,7 +179,7 @@ def prompt_page(p: Dict[str, Any], related: List[Dict[str, Any]], cat_slug: str,
     related_html = ""
     if related:
         cards = "".join(
-            f'<a class="card" href="/prompt/{esc(r["id"])}"><b>{esc(r["title"])}</b><br>'
+            f'<a class="card" href="{esc(prompt_path(r))}"><b>{esc(r["title"])}</b><br>'
             f'<span class="s">Quality {esc(r.get("quality",""))} · {esc(", ".join(r.get("models") or []))}</span></a>'
             for r in related)
         related_html = f"<h2>Related {esc(purpose)} prompts</h2>{cards}"
@@ -225,7 +246,7 @@ def category_page(cat: str, slug: str, prompts: List[Dict[str, Any]]) -> str:
         return esc(s[:120] + ("…" if len(s) > 120 else ""))
 
     cards = "".join(
-        f'<a class="card" data-models="{esc("|".join(p.get("models") or []))}" data-title="{esc((p.get("title") or "").lower())}" href="/prompt/{esc(p["id"])}">'
+        f'<a class="card" data-models="{esc("|".join(p.get("models") or []))}" data-title="{esc((p.get("title") or "").lower())}" href="{esc(prompt_path(p))}">'
         f'<b>{esc(p["title"])}</b><br>'
         f'<span class="desc">{_snippet(p)}</span><br>'
         f'<span class="s">Quality {esc(p.get("quality",""))} · {esc(", ".join(p.get("models") or []))}</span></a>'
@@ -266,7 +287,7 @@ def category_page(cat: str, slug: str, prompts: List[Dict[str, Any]]) -> str:
                 "mainEntity": {
                     "@type": "ItemList", "numberOfItems": len(shown),
                     "itemListElement": [
-                        {"@type": "ListItem", "position": i + 1, "url": f"{SITE}/prompt/{p['id']}", "name": p["title"]}
+                        {"@type": "ListItem", "position": i + 1, "url": f"{SITE}{prompt_path(p)}", "name": p["title"]}
                         for i, p in enumerate(shown)
                     ],
                 },
@@ -295,7 +316,7 @@ def sitemap(corpus: List[Dict[str, Any]], cat_slugs: List[str],
     each with a <lastmod>. Passing index_ids=None includes every prompt (legacy behaviour)."""
     prompts = [c for c in corpus if index_ids is None or c["id"] in index_ids]
     rows = [(f"{SITE}/", "")] + [(f"{SITE}/category/{s}", "") for s in cat_slugs]
-    rows += [(f"{SITE}/prompt/{c['id']}", _lastmod(c)) for c in prompts]
+    rows += [(f"{SITE}{prompt_path(c)}", _lastmod(c)) for c in prompts]
     body = "".join(
         f"<url><loc>{esc(u)}</loc>{f'<lastmod>{lm}</lastmod>' if lm else ''}</url>" for u, lm in rows)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>'

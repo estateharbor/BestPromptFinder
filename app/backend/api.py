@@ -29,7 +29,7 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
 from starlette.responses import JSONResponse
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import HTMLResponse, Response, RedirectResponse
 
 from matcher import Recommender
 import store
@@ -162,12 +162,17 @@ def _tier_a(r: Recommender) -> set:
     return ids
 
 
-@app.get("/prompt/{pid}", response_class=HTMLResponse)
-def seo_prompt(pid: str):
+@app.get("/prompt/{key}", response_class=HTMLResponse)
+def seo_prompt(key: str):
     r = rec()
-    p = r._by_id.get(pid)
+    pid = seo.key_to_id(key)
+    p = r._by_id.get(pid) if pid else None
     if not p:
         raise HTTPException(404, "Prompt not found")
+    # Canonicalise the URL: legacy /prompt/p_xxx and any stale slug 301 to the descriptive slug.
+    canonical = seo.prompt_slug(p)
+    if key != canonical:
+        return RedirectResponse(f"/prompt/{canonical}", status_code=301)
     purpose = p.get("purpose") or "Other"
     related = [c for c in r.corpus if c["id"] != pid and (c.get("purpose") or "Other") == purpose
                and seo.is_english(c.get("title"), c.get("prompt"))]
