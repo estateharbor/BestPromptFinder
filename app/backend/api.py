@@ -192,11 +192,25 @@ def seo_category(slug: str):
     return HTMLResponse(seo.category_page(cat, slug, prompts))
 
 
+@app.get("/browse", response_class=HTMLResponse)
+def seo_browse():
+    r = rec()
+    return HTMLResponse(seo.browse_page(r.corpus, seo.category_slug_map(r.corpus)))
+
+
 @app.get("/sitemap.xml")
 def seo_sitemap():
     r = rec()
     slugs = list(seo.category_slug_map(r.corpus).keys())
     return Response(seo.sitemap(r.corpus, slugs, index_ids=_tier_a(r)), media_type="application/xml")
+
+
+# Static info / policy pages (About, Methodology, Privacy, Terms, Source policy, Submit).
+@app.get("/{slug}", response_class=HTMLResponse)
+def seo_info(slug: str):
+    if slug not in seo.INFO_PAGES:
+        raise HTTPException(404, "Not found")
+    return HTMLResponse(seo.info_page(slug))
 
 
 @app.get("/api/stats")

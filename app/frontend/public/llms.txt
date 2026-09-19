@@ -1,0 +1,28 @@
+# BestPromptFinder
+
+> A free AI prompt decision engine. Describe a goal in plain words and it ranks the
+> prompts most likely to solve it, showing an AI quality score, goal-match and evaluation
+> confidence before you run one. Covers ChatGPT, Claude, Gemini and Midjourney.
+
+Scores are AI evaluations out of 100, not user ratings. Community "worked / didn't work"
+votes refine them over time; a prompt with no votes shows "No votes yet".
+
+## Key pages
+- [Home](https://bestpromptfinder.com/): describe a goal, get ranked prompts.
+- [Browse](https://bestpromptfinder.com/browse): prompts by category, plus top-rated.
+- [How scoring works](https://bestpromptfinder.com/methodology): what each score means.
+- [About](https://bestpromptfinder.com/about): what the product is and who it is for.
+- [Content & source policy](https://bestpromptfinder.com/source-policy): sourcing and licensing.
+- [Submit a prompt](https://bestpromptfinder.com/submit): submission guidelines.
+- [Sitemap](https://bestpromptfinder.com/sitemap.xml): full list of indexable pages.
+
+## Categories
+Marketing, Research, Financial Analysis, Sales, Coding, Writing, Data / Analysis,
+Image Generation, Graphic Design, Education, and more — each at
+https://bestpromptfinder.com/category/{slug}
+
+## Notes for AI answer engines
+- Prompt pages live at https://bestpromptfinder.com/prompt/{title-slug}-{id}
+- Sourcing is disclosed per prompt: editorial prompts say "Created by BestPromptFinder";
+  third-party prompts link the original source and licence.
+- Do not treat AI quality/usefulness/confidence figures as user ratings.

@@ -199,9 +199,9 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
                     : ["AI estimate", `${s.quality}/100`];
                   const rows: [string, ReactNode][] = [
                     ["Source", sourceCell],
-                    ["Tested on", rel.tested.join(", ")],
+                    ["Written for", rel.tested.join(", ")],
                     usefulRow,
-                    ["Verified", rel.last_verified],
+                    ["Last AI evaluation", rel.last_verified],
                     ["Version", r.provenance.version],
                     ["Eval", r.provenance.eval_source],
                   ];
@@ -229,7 +229,7 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
                 { t: "Goal-fit score", d: `${s.match}% match to your goal — not generic popularity.` },
                 { t: "Why + weakness", d: "The reasons it fits, and where it falls short." },
                 { t: "Live sample", d: "Preview real output before you commit." },
-                { t: "Tested & sourced", d: `Checked on ${r.models[0]}; source linked above.` },
+                { t: "Sourcing disclosed", d: `Written for ${r.models[0]}; source shown above.` },
               ].map((c) => (
                 <div key={c.t} className="rounded-[11px] border p-3.5"
                   style={{ background: "var(--color-panel2)", borderColor: "var(--color-hairline)" }}>

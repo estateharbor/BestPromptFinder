@@ -10,6 +10,7 @@ import { Library } from "./components/Library";
 import { AuthModal } from "./components/AuthModal";
 import { UploadModal } from "./components/UploadModal";
 import { AdminActivity } from "./components/AdminActivity";
+import { Footer } from "./components/Footer";
 import { Toast } from "./components/Toast";
 
 type View = "home" | "loading" | "results" | "library";
@@ -24,9 +25,15 @@ function Shell() {
   const [uploadOpen, setUploadOpen] = useState(false);
   const [activityOpen, setActivityOpen] = useState(false);
 
-  const runSearch = useCallback(async (q: string) => {
+  const runSearch = useCallback(async (q: string, opts?: { push?: boolean }) => {
     const trimmed = q.trim();
     if (!trimmed) return;
+    // Shareable, back-button-friendly URL (?q=…). Skip the push when we're reacting to a
+    // popstate or the initial load so we don't fight the history stack.
+    if (opts?.push !== false) {
+      const url = `/?q=${encodeURIComponent(trimmed)}`;
+      if (window.location.search !== `?q=${encodeURIComponent(trimmed)}`) window.history.pushState({ q: trimmed }, "", url);
+    }
     setQuery(trimmed);
     setError(null);
     setView("loading");
@@ -40,13 +47,24 @@ function Shell() {
     }
   }, []);
 
-  const home = useCallback(() => { setView("home"); setData(null); window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
+  const home = useCallback(() => {
+    setView("home"); setData(null);
+    if (window.location.search) window.history.pushState({}, "", "/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const flash = useCallback((msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2200); }, []);
 
-  // Run a search from a ?q=... URL (shareable links + Google sitelinks search box).
+  // Run a search from a ?q=... URL (shareable links + Google sitelinks search box), and keep
+  // the view in sync with browser back/forward.
   useEffect(() => {
-    const q = new URLSearchParams(window.location.search).get("q");
-    if (q) runSearch(q);
+    const sync = () => {
+      const q = new URLSearchParams(window.location.search).get("q");
+      if (q) runSearch(q, { push: false });
+      else { setView("home"); setData(null); }
+    };
+    sync();
+    window.addEventListener("popstate", sync);
+    return () => window.removeEventListener("popstate", sync);
   }, [runSearch]);
 
   useEffect(() => {
@@ -72,6 +90,7 @@ function Shell() {
         {view === "results" && data && <Results data={data} onCopy={flash} onPick={runSearch} onRequireAuth={() => setAuthOpen(true)} />}
         {view === "library" && <Library onCopy={flash} onPick={runSearch} />}
       </main>
+      {view !== "loading" && <Footer />}
       {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
       {uploadOpen && <UploadModal onClose={() => setUploadOpen(false)} onDone={flash} />}
       {activityOpen && <AdminActivity onClose={() => setActivityOpen(false)} />}

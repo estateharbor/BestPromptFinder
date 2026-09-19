@@ -139,10 +139,13 @@ footer a{{color:#aab8ff}}
 {ld}
 </head><body><main class="wrap">
 <header class="hdr"><a class="brand" href="/"><img src="/logo-mark.png" alt="">BestPromptFinder</a>
-<nav class="top"><a href="/">Home</a><a href="{SITE}/sitemap.xml">All prompts</a>
+<nav class="top"><a href="/">Home</a><a href="/browse">Browse</a>
 <form action="/" method="get" role="search"><input type="search" name="q" placeholder="Describe your goal…" aria-label="Search prompts"><button type="submit">Find</button></form></nav></header>
 {body}
-<footer>© BestPromptFinder — the free AI prompt decision engine. <a href="/">Search ranked, AI-graded prompts →</a></footer>
+<footer>
+<p>© BestPromptFinder — the free AI prompt decision engine. Scores are AI evaluations, not user ratings.</p>
+<p><a href="/browse">Browse</a> · <a href="/about">About</a> · <a href="/methodology">How scoring works</a> · <a href="/source-policy">Content &amp; source policy</a> · <a href="/submit">Submit a prompt</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
+</footer>
 </main></body></html>"""
 
 
@@ -155,12 +158,26 @@ def _highlights(p: Dict[str, Any]) -> str:
         items.append(f"AI-graded {p.get('quality')}/100 for quality and structure")
     if p.get("is_template") and p.get("variables"):
         items.append("Reusable template — swap in " + ", ".join("{" + v + "}" for v in p["variables"][:6]))
-    rel = p.get("reliability", {})
-    if rel.get("useful"):
-        items.append(f"{rel['useful']}% found it useful across {', '.join(p.get('models') or ['multiple models'])}")
+    if p.get("models"):
+        items.append("Written for " + ", ".join(p["models"]))
+    # NOTE: no "X% found it useful" claim — these figures are AI estimates, not user votes.
     if not items:
         return ""
     return "<h2>Why this prompt</h2><ul class='hl'>" + "".join(f"<li>{esc(i)}</li>" for i in items) + "</ul>"
+
+
+def _attribution(p: Dict[str, Any]) -> str:
+    """Honest source block: a real clickable origin + licence when we have one, otherwise
+    an explicit 'created by BestPromptFinder' — never an unsupported 'source linked above'."""
+    prov = p.get("provenance") or {}
+    raw = (prov.get("url") or "").strip()
+    url, _, note = raw.partition(" ")          # curated urls are stored as "https://… (MIT)"
+    if url.startswith("http"):
+        lic = f' · <span class="meta">{esc(note.strip("() "))} licence</span>' if note.strip() else ""
+        return (f'<h2>Source</h2><p><a href="{esc(url)}" rel="nofollow noopener" target="_blank">'
+                f'View original source ↗</a>{lic}</p>')
+    return ('<h2>Source</h2><p>Created by BestPromptFinder — editorial prompt, not user-generated. '
+            'See our <a href="/source-policy">content &amp; source policy</a>.</p>')
 
 
 def prompt_page(p: Dict[str, Any], related: List[Dict[str, Any]], cat_slug: str,
@@ -172,10 +189,12 @@ def prompt_page(p: Dict[str, Any], related: List[Dict[str, Any]], cat_slug: str,
     models = ", ".join(p.get("models") or [])
     rel = p.get("reliability", {})
     scores = f"""<div class="scores">
-      <div class="score"><b>{esc(p.get('quality',''))}</b>Quality</div>
-      <div class="score"><b>{esc(rel.get('useful',''))}%</b>Useful</div>
-      <div class="score"><b>{esc(rel.get('reliability',''))}</b>Reliability</div>
-    </div>"""
+      <div class="score"><b>{esc(p.get('quality',''))}</b>AI Quality /100</div>
+      <div class="score"><b>{esc(rel.get('useful',''))}</b>AI Usefulness est. /100</div>
+      <div class="score"><b>{esc(rel.get('reliability',''))}</b>Eval Confidence /100</div>
+      <div class="score"><b>No votes yet</b>Community results</div>
+    </div>
+    <p class="meta" style="margin-top:-4px">Quality, usefulness and confidence are AI evaluations out of 100 — not user ratings. Community results appear once visitors vote. <a href="/methodology">How scoring works →</a></p>"""
     related_html = ""
     if related:
         cards = "".join(
@@ -183,10 +202,7 @@ def prompt_page(p: Dict[str, Any], related: List[Dict[str, Any]], cat_slug: str,
             f'<span class="s">Quality {esc(r.get("quality",""))} · {esc(", ".join(r.get("models") or []))}</span></a>'
             for r in related)
         related_html = f"<h2>Related {esc(purpose)} prompts</h2>{cards}"
-    src = p.get("provenance", {})
-    src_html = ""
-    if src.get("url"):
-        src_html = f'<h2>Source</h2><p><a href="{esc(src["url"])}" rel="nofollow noopener" target="_blank">{esc(src.get("source") or "View source")}</a></p>'
+    src_html = _attribution(p)
     body = f"""
 <div class="crumb"><a href="/">Home</a> › <a href="/category/{esc(cat_slug)}">{esc(purpose)}</a> › {esc(p['title'])}</div>
 <h1>{esc(p['title'])}</h1>
@@ -315,8 +331,142 @@ def sitemap(corpus: List[Dict[str, Any]], cat_slugs: List[str],
     """Sitemap of the homepage, categories, and only the indexable (Tier-A) prompt pages —
     each with a <lastmod>. Passing index_ids=None includes every prompt (legacy behaviour)."""
     prompts = [c for c in corpus if index_ids is None or c["id"] in index_ids]
-    rows = [(f"{SITE}/", "")] + [(f"{SITE}/category/{s}", "") for s in cat_slugs]
+    rows = [(f"{SITE}/", ""), (f"{SITE}/browse", "")]
+    rows += [(f"{SITE}/{s}", "") for s in ("about", "methodology", "source-policy", "submit", "privacy", "terms")]
+    rows += [(f"{SITE}/category/{s}", "") for s in cat_slugs]
     rows += [(f"{SITE}{prompt_path(c)}", _lastmod(c)) for c in prompts]
     body = "".join(
         f"<url><loc>{esc(u)}</loc>{f'<lastmod>{lm}</lastmod>' if lm else ''}</url>" for u, lm in rows)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>'
+
+
+def browse_page(corpus: List[Dict[str, Any]], cat_map: Dict[str, str]) -> str:
+    """Human-facing browse hub: search box, category grid with counts, and top-rated
+    prompts. (sitemap.xml stays machine-only.)"""
+    from collections import Counter
+    counts = Counter((c.get("purpose") or "Other") for c in corpus)
+    cats = sorted(cat_map.items(), key=lambda kv: counts.get(kv[1], 0), reverse=True)
+    cat_cards = "".join(
+        f'<a class="card" href="/category/{esc(slug)}"><b>{esc(name)}</b><br>'
+        f'<span class="s">{counts.get(name, 0)} prompts</span></a>'
+        for slug, name in cats)
+    english = [c for c in corpus if is_english(c.get("title"), c.get("prompt")) and c.get("quality")]
+    top = sorted(english, key=lambda c: c.get("quality", 0), reverse=True)[:24]
+    top_cards = "".join(
+        f'<a class="card" href="{esc(prompt_path(c))}"><b>{esc(c["title"])}</b><br>'
+        f'<span class="s">AI Quality {esc(c.get("quality",""))} · {esc(c.get("purpose",""))}</span></a>'
+        for c in top)
+    body = f"""
+<div class="crumb"><a href="/">Home</a> &rsaquo; Browse</div>
+<h1>Browse AI prompts</h1>
+<p>Explore {len(corpus)} ranked, AI-graded prompts by category, or describe your goal to get a matched recommendation. Scores are AI evaluations out of 100, not user ratings &mdash; see <a href="/methodology">how scoring works</a>.</p>
+<div class="filters"><form action="/" method="get" role="search"><input type="search" name="q" placeholder="Describe your goal - e.g. facebook ad for a commercial property" aria-label="Search prompts"></form></div>
+<h2>Categories</h2>
+{cat_cards}
+<h2>Top-rated prompts</h2>
+{top_cards}
+"""
+    jsonld = {"@context": "https://schema.org", "@type": "CollectionPage",
+              "name": "Browse AI Prompts", "url": f"{SITE}/browse",
+              "description": "Browse ranked, AI-graded AI prompts by category."}
+    return _page("Browse AI Prompts - Categories & Top Rated | BestPromptFinder",
+                 "Browse ranked, AI-graded AI prompts by category, model and quality. Free.",
+                 f"{SITE}/browse", body, jsonld)
+
+
+def _info(title: str, slug: str, desc: str, html_body: str) -> str:
+    body = f'<div class="crumb"><a href="/">Home</a> &rsaquo; {esc(title)}</div><h1>{esc(title)}</h1>{html_body}'
+    return _page(f"{title} | BestPromptFinder", desc, f"{SITE}/{slug}", body)
+
+
+INFO_PAGES = {
+    "about": ("About BestPromptFinder",
+              "What BestPromptFinder is, who it is for, and how it is different.", """
+<p>BestPromptFinder is a free prompt <strong>decision engine</strong>. Instead of browsing a directory of thousands of prompts, you describe your goal in plain words and we rank the prompts most likely to solve it - showing an AI quality score, goal-match and evaluation confidence before you run one.</p>
+<h2>Who it is for</h2>
+<p>Founders, marketers, analysts, agents and operators who want a tested, ready-to-run prompt for a specific job, across ChatGPT, Claude, Gemini and Midjourney.</p>
+<h2>How we are different</h2>
+<ul class="hl">
+<li>Goal-first matching, not keyword browsing.</li>
+<li>Every prompt shows why it fits and where it falls short.</li>
+<li>Transparent scoring - AI evaluations are labelled as estimates, never disguised as user votes. See our <a href="/methodology">methodology</a>.</li>
+<li>Sourcing is disclosed: editorial prompts say so; third-party prompts link the original and licence.</li>
+</ul>
+<p>Questions or corrections: <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a>.</p>"""),
+
+    "methodology": ("How scoring works",
+                    "How BestPromptFinder scores prompts: AI quality, usefulness, confidence and community votes.", """
+<p>Every score on this site is an <strong>AI evaluation out of 100</strong> unless it is explicitly labelled as a community result. We never present an AI estimate as a user rating.</p>
+<h2>The scores</h2>
+<ul class="hl">
+<li><strong>AI Quality</strong> - an AI evaluator's judgement of structure, clarity, specificity and reusability.</li>
+<li><strong>AI Usefulness estimate</strong> - the evaluator's estimate of how useful the output is for its stated purpose.</li>
+<li><strong>Evaluation Confidence</strong> - how confident the evaluation is, given prompt completeness and testing.</li>
+<li><strong>Goal Match</strong> - computed per search: how well a prompt fits the goal you typed.</li>
+<li><strong>Community results</strong> - real "worked / didn't work" votes from visitors. Until a prompt has votes it shows "No votes yet", with the sample size shown once votes exist.</li>
+</ul>
+<h2>Why AI estimates?</h2>
+<p>New prompts have no usage history. An AI evaluation gives an honest first signal, and community votes refine it over time using a weighting that prevents a prompt with two votes from outranking one with five hundred.</p>
+<h2>Limitations</h2>
+<p>AI scores are estimates and can be wrong. Always review a prompt's output before relying on it, especially for financial, legal or real-estate use.</p>"""),
+
+    "source-policy": ("Content and source policy",
+                      "Where prompts come from, how sourcing is disclosed, and licensing.", """
+<p>We disclose the origin of every prompt.</p>
+<ul class="hl">
+<li><strong>Editorial prompts</strong> read "Created by BestPromptFinder" and are not user-generated.</li>
+<li><strong>Third-party prompts</strong> link to the original source and state the licence (e.g. MIT). We keep the attribution and licence with the prompt.</li>
+<li><strong>Dataset / gallery prompts</strong> are labelled by their platform.</li>
+</ul>
+<h2>Accuracy and claims</h2>
+<p>Prompts and AI-generated previews must not invent prices, availability, footfall, yields, returns, guarantees, scarcity or testimonials. Previews insert <code>[VERIFY: ...]</code> where information is missing rather than fabricating it.</p>
+<h2>Takedown</h2>
+<p>If a prompt infringes your rights or is mis-attributed, email <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a> and we will correct or remove it.</p>"""),
+
+    "submit": ("Submit a prompt",
+               "Guidelines for submitting a prompt to BestPromptFinder.", """
+<p>We welcome high-quality, tested prompts. To be accepted, a prompt should:</p>
+<ul class="hl">
+<li>Solve a clear, specific job and state the inputs it needs.</li>
+<li>Be original, or link to its source and licence if adapted.</li>
+<li>Contain no fabricated facts, guarantees, scarcity or testimonial-farming instructions.</li>
+<li>Avoid personal data and anything unlawful in your jurisdiction.</li>
+</ul>
+<p>Send submissions or corrections to <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a> with the prompt text, its intended purpose, and a source link if applicable. Submitting does not guarantee inclusion; accepted prompts are reviewed and scored before they go live.</p>"""),
+
+    "privacy": ("Privacy Policy",
+                "How BestPromptFinder handles your data.", """
+<p class="meta">Last updated: 2026-09. This is a plain-language summary; please review with a legal professional before relying on it commercially.</p>
+<h2>What we collect</h2>
+<ul class="hl">
+<li><strong>Account data</strong> - if you create an account, your email and a hashed password.</li>
+<li><strong>Usage</strong> - searches, saved prompts and "worked / didn't work" votes, to improve rankings.</li>
+<li><strong>Technical</strong> - standard server logs (IP, browser) for security and abuse prevention.</li>
+</ul>
+<h2>What we do not do</h2>
+<p>We do not sell your personal data. We do not place your data in URLs. Prompt text you paste into a live preview is sent to the model provider to generate the preview and is not stored beyond what is needed to return the result.</p>
+<h2>Your choices</h2>
+<p>You can use search without an account. To delete your account or data, email <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a>.</p>
+<p class="meta">Contact: hello@bestpromptfinder.com. Governing jurisdiction: [YOUR JURISDICTION].</p>"""),
+
+    "terms": ("Terms of Use",
+              "The terms for using BestPromptFinder.", """
+<p class="meta">Last updated: 2026-09. This is a starter template; have it reviewed by a legal professional before commercial use.</p>
+<h2>Use of the service</h2>
+<p>BestPromptFinder is provided free, "as is", for lawful use. Prompts and AI-generated previews are provided for convenience and may contain errors - you are responsible for reviewing and verifying any output before you rely on or publish it.</p>
+<h2>No professional advice</h2>
+<p>Nothing here is financial, legal, investment or professional advice. Scores are AI estimates, not guarantees of results.</p>
+<h2>Intellectual property</h2>
+<p>Third-party prompts remain under their original licences (linked on each prompt). Do not use the service to infringe others' rights or to generate false or misleading claims.</p>
+<h2>Liability</h2>
+<p>To the extent permitted by law, BestPromptFinder is not liable for losses arising from use of the service or its outputs.</p>
+<p class="meta">Contact: hello@bestpromptfinder.com. Governing jurisdiction: [YOUR JURISDICTION].</p>"""),
+}
+
+
+def info_page(slug: str):
+    entry = INFO_PAGES.get(slug)
+    if not entry:
+        return None
+    title, desc, body = entry
+    return _info(title, slug, desc, body)

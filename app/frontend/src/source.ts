@@ -25,8 +25,11 @@ const BRANDS: [string, string][] = [
 
 export function sourceLabel(source: string, url?: string): SourceLabel {
   const s = (source || "").toLowerCase();
-  const u = (url || "").toLowerCase();
-  const link = /^https?:\/\//.test(url || "") ? url : undefined;
+  // Curated sources are stored as "https://… (MIT)" — keep only the URL part for the link.
+  const raw = (url || "").trim();
+  const urlPart = raw.split(/\s+/)[0];
+  const u = urlPart.toLowerCase();
+  const link = /^https?:\/\//.test(urlPart) ? urlPart : undefined;
 
   // 1) With a real link, the label is the brand of that exact domain — label and destination
   //    are always consistent. Falls back to the bare hostname for unknown domains.
@@ -39,10 +42,11 @@ export function sourceLabel(source: string, url?: string): SourceLabel {
     }
   }
 
-  // 2) No link → classify the scraped platform name into a neutral category.
+  // 2) No link → classify the scraped platform name; our own entries read "BestPromptFinder"
+  //    (editorial), never a vague "Curated" that implies an unnamed external source.
   if (s.includes("hugging face")) return { label: "Dataset" };
   if (s.includes("gpt-image") || s.includes("gallery") || s.includes("prompthero")) return { label: "Gallery" };
   if (s.includes("hacker news") || s.includes("prompt index")) return { label: "Community" };
   if (s === "github") return { label: "GitHub" };
-  return { label: "Curated" };
+  return { label: "BestPromptFinder" };
 }
