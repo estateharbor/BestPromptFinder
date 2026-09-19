@@ -146,14 +146,14 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
                     {r.prompt}
                   </div>
 
-                  {pv === "idle" && !r.is_template && (
+                  {pv === "idle" && !(r.is_template && r.variables.length > 0) && (
                     <button onClick={runPreview}
                       className="mt-2.5 font-mono text-[12px] px-3.5 py-2 rounded-[10px] border inline-flex items-center gap-2 transition hover:-translate-y-0.5"
                       style={{ borderColor: "var(--color-accentline)", background: "var(--color-accentsoft)", color: "var(--color-accent2)" }}>
                       ▶ Preview live output
                     </button>
                   )}
-                  {r.is_template && (
+                  {r.is_template && r.variables.length > 0 && (
                     <div className="mt-2.5 font-mono text-[11.5px]" style={{ color: "var(--color-ink3)" }}>
                       This is a template — fill it in below to preview real output (no invented details).
                     </div>
@@ -244,7 +244,7 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
           <div className="flex gap-2.5 flex-wrap mt-5">
             <button onClick={() => copy(r.prompt, "Prompt copied — paste into your model")}
               className="font-display font-bold text-[14.5px] px-5 py-3 rounded-[11px] text-white active:scale-[0.98] transition"
-              style={{ background: "var(--color-accent)" }}>{r.is_template ? "Copy base prompt" : "Use this prompt"}</button>
+              style={{ background: "var(--color-accent)" }}>{r.is_template && r.variables.length > 0 ? "Copy base prompt" : "Use this prompt"}</button>
             <button onClick={onSave}
               className="font-mono text-[13px] px-4.5 py-3 rounded-[11px] border transition"
               style={saved
