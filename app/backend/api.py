@@ -29,7 +29,7 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
 from starlette.responses import JSONResponse
-from fastapi.responses import HTMLResponse, Response, RedirectResponse
+from fastapi.responses import HTMLResponse, Response, RedirectResponse, StreamingResponse
 
 from matcher import Recommender
 import store
@@ -294,6 +294,43 @@ def preview(body: PreviewBody):
         if "budget" in str(e).lower():
             raise HTTPException(429, str(e))
         raise HTTPException(502, f"Preview failed: {e}")
+
+
+@app.post("/api/preview/stream")
+def preview_stream(body: PreviewBody):
+    """Same gating as /api/preview, but streams text deltas (text/plain) so the UI shows
+    first tokens almost immediately. Availability/budget are resolved before the 200 so real
+    errors return proper status codes."""
+    import llm_preview
+    if not llm_preview.available():
+        raise HTTPException(503, "Live preview needs an Anthropic API key. Set ANTHROPIC_API_KEY in .env.")
+    c = rec()._by_id.get(body.id) if body.id else None
+    if body.id and not c:
+        raise HTTPException(404, "Prompt not found.")
+    if c and c.get("prompt_type") == "image":
+        raise HTTPException(400, "Image prompts can't be previewed live (needs an image model).")
+    text = (body.prompt or "").strip() or (c["prompt"] if c else "")
+    if not text:
+        raise HTTPException(400, "Nothing to preview.")
+    try:
+        model, chunks = llm_preview.stream(text)
+    except Exception as e:
+        if "budget" in str(e).lower():
+            raise HTTPException(429, str(e))
+        raise HTTPException(502, f"Preview failed: {e}")
+
+    def body_iter():
+        try:
+            for ch in chunks:
+                yield ch
+        except Exception:
+            yield "\n\n[preview interrupted — please try again]"
+
+    return StreamingResponse(
+        body_iter(),
+        media_type="text/plain; charset=utf-8",
+        headers={"X-Model": model, "X-Accel-Buffering": "no", "Cache-Control": "no-cache"},
+    )
 
 
 @app.post("/api/fill")

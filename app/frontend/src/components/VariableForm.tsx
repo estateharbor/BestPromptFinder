@@ -65,14 +65,15 @@ export function VariableForm({ id, template, variables, goal, onCopy }: {
 
   const runPreview = async () => {
     if (missing.length) return;
-    setPv("loading"); setPvErr("");
+    setPv("loading"); setPvErr(""); setPvOut("");
     try {
-      const res = await api.preview(id, compiled);
-      setPvOut(res.output); setPvModel(res.model); setPv("done");
+      const { model } = await api.previewStream(id, compiled, (chunk) => {
+        setPvOut((prev) => prev + chunk);
+        setPv("done");   // show output as soon as the first tokens stream in
+      });
+      setPvModel(model); setPv("done");
     } catch (e) {
-      setPvErr(e instanceof Error && /503/.test(e.message)
-        ? "Add an Anthropic API key (.env) to preview live output."
-        : "Preview failed — try again.");
+      setPvErr(e instanceof Error ? e.message : "Preview failed — try again.");
       setPv("error");
     }
   };
@@ -151,7 +152,7 @@ export function VariableForm({ id, template, variables, goal, onCopy }: {
         <div className="mt-2.5 rounded-xl border p-4 text-[13px] leading-relaxed whitespace-pre-wrap"
           style={{ background: "var(--color-sunk)", borderColor: "var(--color-hairline)", color: "var(--color-ink2)" }}>
           <div className="font-mono text-[10px] uppercase tracking-wide mb-2 flex items-center justify-between" style={{ color: "var(--color-accent2)" }}>
-            <span>Live output · {pvModel}</span>
+            <span>{pvModel ? `Live output · ${pvModel}` : "Live output · streaming…"}</span>
             <button onClick={runPreview} className="normal-case" style={{ color: "var(--color-ink3)" }}>↻ regenerate</button>
           </div>
           {pvOut}

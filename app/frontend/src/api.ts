@@ -76,6 +76,28 @@ export const api = {
   async fill(id: string, goal: string): Promise<{ id: string; variables: string[]; values: Record<string, string>; template: string }> {
     return json(await fetch("/api/fill", { method: "POST", headers: headers(), body: JSON.stringify({ id, goal }) }));
   },
+  // Streaming preview: calls onChunk with each text delta as it arrives; resolves with the model.
+  async previewStream(id: string, prompt: string | undefined, onChunk: (t: string) => void): Promise<{ model: string }> {
+    const res = await fetch("/api/preview/stream", {
+      method: "POST", headers: headers(), body: JSON.stringify(prompt ? { id, prompt } : { id }),
+    });
+    if (!res.ok) {
+      let msg = `API ${res.status}`;
+      try { const b = await res.json(); if (b?.detail) msg = b.detail; } catch { /* non-json */ }
+      throw new Error(msg);
+    }
+    const model = res.headers.get("X-Model") || "";
+    const reader = res.body?.getReader();
+    if (!reader) throw new Error("Streaming not supported");
+    const dec = new TextDecoder();
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = dec.decode(value, { stream: true });
+      if (chunk) onChunk(chunk);
+    }
+    return { model };
+  },
   async vote(id: string, verdict: "worked" | "didnt", model = ""): Promise<{ ok: boolean; reliability: Reliability }> {
     return json(await fetch("/api/vote", { method: "POST", headers: headers(), body: JSON.stringify({ id, verdict, model }) }));
   },

@@ -68,3 +68,30 @@ def generate(prompt: str, model: str = None) -> Dict[str, Any]:
         budget.record(model, resp.usage.input_tokens, resp.usage.output_tokens)
     text = "".join(b.text for b in resp.content if b.type == "text").strip()
     return {"output": text, "model": model}
+
+
+def stream(prompt: str, model: str = None):
+    """Return (model, generator) that yields text deltas as the model produces them, so the UI
+    can show first tokens in ~1-2s instead of waiting for the full response. Budget is checked
+    up-front (raise before streaming) and recorded once the stream completes."""
+    model = model or os.getenv("LLM_MODEL", DEFAULT_MODEL)
+    if budget and not budget.allowed():
+        raise RuntimeError("Daily API budget reached — live preview paused until tomorrow.")
+
+    def gen():
+        import anthropic
+        client = anthropic.Anthropic()
+        with client.messages.stream(
+            model=model,
+            max_tokens=700,
+            thinking={"type": "disabled"},
+            system=SYSTEM,
+            messages=[{"role": "user", "content": prompt[:2000]}],
+        ) as s:
+            for text in s.text_stream:
+                yield text
+            final = s.get_final_message()
+        if budget:
+            budget.record(model, final.usage.input_tokens, final.usage.output_tokens)
+
+    return model, gen()
