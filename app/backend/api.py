@@ -131,12 +131,29 @@ def health():
     return {"status": "ok" if ok else "no-corpus", "corpus_size": len(rec().corpus) if ok else 0}
 
 
+# Small in-memory search cache: identical queries skip the LLM rerank entirely. Keyed by
+# (query, k) and the corpus mtime so it self-invalidates when the library changes.
+_SEARCH_CACHE: dict = {}
+_SEARCH_TTL = 600  # seconds
+
+
 @app.post("/api/search")
 def search(body: SearchBody):
+    import time
     q = (body.query or "").strip()
     if not q:
         raise HTTPException(400, "Empty query.")
-    return rec().search(q, k=max(1, min(10, body.k)))
+    k = max(1, min(10, body.k))
+    r = rec()
+    key = (q.lower(), k, _rec_mtime)
+    hit = _SEARCH_CACHE.get(key)
+    if hit and (time.time() - hit[0]) < _SEARCH_TTL:
+        return hit[1]
+    result = r.search(q, k=k)
+    if len(_SEARCH_CACHE) > 500:
+        _SEARCH_CACHE.clear()
+    _SEARCH_CACHE[key] = (time.time(), result)
+    return result
 
 
 @app.get("/api/prompt/{pid}")

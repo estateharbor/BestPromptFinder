@@ -4,7 +4,7 @@ const STEPS = [
   { tx: "Reading your intent", co: "✓ parsed" },
   { tx: "Retrieving candidates", co: "300+ found" },
   { tx: "Scoring & ranking", co: "top 4" },
-  { tx: "Verifying reliability", co: "verified" },
+  { tx: "Estimating evaluation confidence", co: "AI estimate" },
 ];
 
 export function Loading({ query }: { query: string }) {

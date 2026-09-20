@@ -117,7 +117,7 @@ export function Home({ onSearch, error }: { onSearch: (q: string) => void; error
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           autoFocus
-          placeholder="e.g. analyze a company's quarterly results — bullish or bearish?"
+          placeholder="What do you want AI to help you accomplish?"
           className="flex-1 bg-transparent outline-none text-[17px] py-3"
           style={{ color: "var(--color-ink)" }}
         />

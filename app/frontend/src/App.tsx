@@ -38,7 +38,7 @@ function Shell() {
     setError(null);
     setView("loading");
     try {
-      const [resp] = await Promise.all([api.search(trimmed, 4), new Promise((r) => setTimeout(r, 1800))]);
+      const [resp] = await Promise.all([api.search(trimmed, 4), new Promise((r) => setTimeout(r, 700))]);
       setData(resp);
       setView("results");
     } catch (e) {

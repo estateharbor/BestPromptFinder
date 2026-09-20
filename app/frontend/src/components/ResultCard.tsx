@@ -86,10 +86,10 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
         <span className="flex gap-3.5 items-center">
           <MiniScore label="Quality" value={s.quality} title="AI evaluator's quality score — structure, clarity and reusability, out of 100." />
           <MiniScore label="Match" value={s.match} suffix="%" title="How well this prompt fits YOUR goal, judged for this specific search." />
-          <MiniScore label={rel.source === "votes" ? "Reliab." : "Confidence"} value={relScore}
+          <MiniScore label="Confidence" value={relScore}
             title={rel.source === "votes"
-              ? `Reliability from ${rel.votes} user outcome vote${rel.votes === 1 ? "" : "s"}.`
-              : "Evaluation confidence — an estimate from the AI grader until users vote on outcomes."} />
+              ? `Evaluation confidence, refined by ${rel.votes} community vote${rel.votes === 1 ? "" : "s"}.`
+              : "Evaluation confidence — an AI estimate until the community votes on outcomes."} />
           <span title="Overall = 35% quality + 40% goal-match + 20% confidence + 5% freshness."
             className="flex flex-col items-center justify-center w-[58px] h-[58px] rounded-[13px] shrink-0" style={{ background: overallSoft }}>
             <span className="font-display font-black text-[21px] leading-none tnum" style={{ color: overallCol }}>{liveOverall}</span>
@@ -197,12 +197,17 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
                   const usefulRow: [string, ReactNode] = rel.source === "votes"
                     ? ["Useful", `${rel.useful}% · ${rel.votes} vote${rel.votes === 1 ? "" : "s"}`]
                     : ["AI estimate", `${s.quality}/100`];
+                  // Licence: parse "(MIT)" etc. from the source url; third-party w/o licence
+                  // says "not stated"; editorial (no external link) is created in-house.
+                  const licNote = (r.provenance.url.match(/\(([^)]+)\)/)?.[1] || "").trim();
+                  const hasLink = /^https?:\/\//.test(r.provenance.url);
+                  const licence = licNote ? licNote : hasLink ? "Not stated — check source" : "Editorial (in-house)";
                   const rows: [string, ReactNode][] = [
                     ["Source", sourceCell],
+                    ["Licence", licence],
                     ["Written for", rel.tested.join(", ")],
                     usefulRow,
                     ["Last AI evaluation", rel.last_verified],
-                    ["Version", r.provenance.version],
                     ["Eval", r.provenance.eval_source],
                   ];
                   return rows.map(([k, v]) => (
@@ -268,8 +273,8 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
               style={{ borderColor: "color-mix(in srgb, var(--color-weak) 40%, transparent)", background: "var(--color-weaksoft)", color: "var(--color-weak)" }}>👎 Didn't work</button>
             <span className="font-mono text-[11px]" style={{ color: "var(--color-ink3)" }}>
               {rel.source === "votes"
-                ? `Reliability ${rel.score} · verified by ${rel.votes} vote${rel.votes === 1 ? "" : "s"} (${rel.useful}% useful)`
-                : `Reliability ${rel.score} · seeded estimate`}
+                ? `Evaluation confidence: ${rel.score}/100 · ${rel.votes} community vote${rel.votes === 1 ? "" : "s"} (${rel.useful}% useful)`
+                : `Evaluation confidence: ${rel.score}/100 · AI estimate`}
               {voteMsg && ` — ${voteMsg}`}
             </span>
           </div>

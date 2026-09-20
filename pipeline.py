@@ -108,7 +108,23 @@ def detect_type(text: str, category: str = "") -> str:
 # ==========================================
 # STAGE 3 — RULE-BASED PRE-FILTER (cheap junk/low-effort rejects)
 # ==========================================
+# Content safety: reject prompts that ask a model to INVENT testimonials / success stories /
+# reviews without requiring supplied evidence. Keeps fabricated-testimonial prompts out of the
+# library even when a scraped dataset (e.g. Hugging Face) keeps re-serving them.
+_UNSAFE_TESTIMONIAL = re.compile(r"(testimonial|success stor(y|ies)|customer review|fake review)", re.I)
+_UNSAFE_INVENT = re.compile(r"\b(write|create|generate|make|produce|invent|craft|draft|come up with)\b", re.I)
+_EVIDENCE_GUARD = re.compile(
+    r"(verified|supplied|provided|real customer|actual customer|only use|do not invent|don'?t invent|never invent|without inventing|evidence)", re.I)
+
+
+def is_unsafe_content(text: str) -> bool:
+    t = text or ""
+    return bool(_UNSAFE_TESTIMONIAL.search(t) and _UNSAFE_INVENT.search(t) and not _EVIDENCE_GUARD.search(t))
+
+
 def prefilter(text: str, features: Dict[str, Any], ptype: str) -> Tuple[bool, str]:
+    if is_unsafe_content(text):
+        return False, "solicits fabricated testimonials/results"
     n = features["word_count"]
     min_words = 8 if ptype == "image" else 15
     dense_ok = features["unique_ratio"] >= 0.6 and n >= 6   # short-but-dense escape hatch

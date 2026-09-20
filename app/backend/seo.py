@@ -167,15 +167,29 @@ def _highlights(p: Dict[str, Any]) -> str:
 
 
 def _attribution(p: Dict[str, Any]) -> str:
-    """Honest source block: a real clickable origin + licence when we have one, otherwise
-    an explicit 'created by BestPromptFinder' — never an unsupported 'source linked above'."""
+    """Honest source + licence block. Third-party prompts show origin, dataset/author, licence
+    (or an explicit 'not stated'), whether adapted, and the import date. Editorial prompts say
+    so plainly — never an unsupported 'source linked above'."""
     prov = p.get("provenance") or {}
     raw = (prov.get("url") or "").strip()
     url, _, note = raw.partition(" ")          # curated urls are stored as "https://… (MIT)"
+    imported = esc(prov.get("collected") or "")
+    src_name = esc(prov.get("source") or "")
     if url.startswith("http"):
-        lic = f' · <span class="meta">{esc(note.strip("() "))} licence</span>' if note.strip() else ""
-        return (f'<h2>Source</h2><p><a href="{esc(url)}" rel="nofollow noopener" target="_blank">'
-                f'View original source ↗</a>{lic}</p>')
+        try:
+            host = url.split("/")[2].replace("www.", "")
+        except Exception:
+            host = "original source"
+        lic = note.strip("() ").strip()
+        lic_li = (f"<li><b>Licence:</b> {esc(lic)}</li>" if lic else
+                  "<li><b>Licence:</b> Not stated by the source. Review the original source terms before commercial reuse.</li>")
+        return ("<h2>Source &amp; licence</h2><ul class='hl'>"
+                f'<li><b>Original source:</b> <a href="{esc(url)}" rel="nofollow noopener" target="_blank">{esc(host)} ↗</a></li>'
+                f"<li><b>Author / dataset:</b> {src_name or esc(host)}</li>"
+                f"{lic_li}"
+                "<li><b>Adapted:</b> Imported unmodified.</li>"
+                f"{f'<li><b>Imported:</b> {imported}</li>' if imported else ''}"
+                "</ul>")
     return ('<h2>Source</h2><p>Created by BestPromptFinder — editorial prompt, not user-generated. '
             'See our <a href="/source-policy">content &amp; source policy</a>.</p>')
 
@@ -435,32 +449,42 @@ INFO_PAGES = {
 <p>Send submissions or corrections to <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a> with the prompt text, its intended purpose, and a source link if applicable. Submitting does not guarantee inclusion; accepted prompts are reviewed and scored before they go live.</p>"""),
 
     "privacy": ("Privacy Policy",
-                "How BestPromptFinder handles your data.", """
-<p class="meta">Last updated: 2026-09. This is a plain-language summary; please review with a legal professional before relying on it commercially.</p>
-<h2>What we collect</h2>
+                "How BestPromptFinder collects, uses and protects your data, and your rights under India's DPDP Act.", """
+<p class="meta">Last updated: 2026-09-20. Governed by the laws of India, including the Digital Personal Data Protection Act, 2023 (DPDP).</p>
+<p>BestPromptFinder ("we") is the data fiduciary for personal data processed through this site. This policy explains what we collect, why, who processes it, how long we keep it, and the rights you have as a data principal.</p>
+<h2>What we collect and why</h2>
 <ul class="hl">
-<li><strong>Account data</strong> - if you create an account, your email and a hashed password.</li>
-<li><strong>Usage</strong> - searches, saved prompts and "worked / didn't work" votes, to improve rankings.</li>
-<li><strong>Technical</strong> - standard server logs (IP, browser) for security and abuse prevention.</li>
+<li><strong>Account data</strong> - if you create an account: your email and a securely hashed password, to authenticate you and hold your saved library.</li>
+<li><strong>Usage data</strong> - your searches, saved prompts and "worked / didn't work" votes, used to rank prompts and improve the service.</li>
+<li><strong>Technical data</strong> - standard server logs (IP address, browser type, timestamps) for security, abuse prevention and reliability.</li>
 </ul>
-<h2>What we do not do</h2>
-<p>We do not sell your personal data. We do not place your data in URLs. Prompt text you paste into a live preview is sent to the model provider to generate the preview and is not stored beyond what is needed to return the result.</p>
-<h2>Your choices</h2>
-<p>You can use search without an account. To delete your account or data, email <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a>.</p>
-<p class="meta">Contact: hello@bestpromptfinder.com. Governing jurisdiction: [YOUR JURISDICTION].</p>"""),
+<h2>Are my searches sent to third-party AI models?</h2>
+<p>Yes, for two features only. When you run a <strong>live preview</strong> or use <strong>"prefill from my goal"</strong>, the relevant prompt/goal text is sent to our AI model provider (Anthropic) to generate that result. It is processed to return your result and is not used by us to build a profile of you. Ordinary keyword searching does not send your query to an external model beyond what is needed to rank results.</p>
+<h2>Service providers (processors)</h2>
+<p>We share the minimum data needed with: our hosting/VPS provider (to run the site), and our AI model provider, Anthropic (to generate previews and prefill). We do not sell your personal data or share it for advertising. We never place personal data in URLs.</p>
+<h2>Retention and deletion</h2>
+<p>Account and library data are kept while your account is active. Server logs are retained for a limited operational period and then deleted or anonymised. Preview/prefill inputs are not retained by us beyond returning the result. You can ask us to delete your account and associated data at any time.</p>
+<h2>Your rights (DPDP)</h2>
+<p>You have the right to access, correct, and erase your personal data, to withdraw consent, and to grievance redressal. To exercise any right, or to reach our Grievance Officer, contact <a href="mailto:privacy@bestpromptfinder.com">privacy@bestpromptfinder.com</a>. We will respond within the timelines required by law.</p>
+<h2>Children</h2>
+<p>The service is not directed at children, and we do not knowingly process children's data without verifiable parental consent as required by law.</p>
+<p class="meta">Contact / Grievance Officer: privacy@bestpromptfinder.com</p>"""),
 
     "terms": ("Terms of Use",
-              "The terms for using BestPromptFinder.", """
-<p class="meta">Last updated: 2026-09. This is a starter template; have it reviewed by a legal professional before commercial use.</p>
+              "The terms governing your use of BestPromptFinder.", """
+<p class="meta">Last updated: 2026-09-20. Governed by the laws of India; courts at [CITY], India have exclusive jurisdiction.</p>
 <h2>Use of the service</h2>
-<p>BestPromptFinder is provided free, "as is", for lawful use. Prompts and AI-generated previews are provided for convenience and may contain errors - you are responsible for reviewing and verifying any output before you rely on or publish it.</p>
+<p>BestPromptFinder is provided free of charge, on an "as is" and "as available" basis, for lawful use. Prompts and AI-generated previews are provided for convenience and may contain errors or omissions - you are responsible for reviewing and verifying any output before you rely on it, publish it, or use it commercially.</p>
 <h2>No professional advice</h2>
-<p>Nothing here is financial, legal, investment or professional advice. Scores are AI estimates, not guarantees of results.</p>
-<h2>Intellectual property</h2>
-<p>Third-party prompts remain under their original licences (linked on each prompt). Do not use the service to infringe others' rights or to generate false or misleading claims.</p>
-<h2>Liability</h2>
-<p>To the extent permitted by law, BestPromptFinder is not liable for losses arising from use of the service or its outputs.</p>
-<p class="meta">Contact: hello@bestpromptfinder.com. Governing jurisdiction: [YOUR JURISDICTION].</p>"""),
+<p>Nothing on this site is financial, investment, legal, tax or other professional advice. Scores shown are AI evaluations and estimates, not guarantees of results. Do not rely on generated content for regulated decisions without independent verification.</p>
+<h2>Acceptable use</h2>
+<p>Do not use the service to break the law, infringe others' rights, generate false, misleading or defamatory claims, fabricate testimonials or credentials, or attempt to disrupt or reverse-engineer the service.</p>
+<h2>Intellectual property &amp; third-party prompts</h2>
+<p>Third-party prompts remain under their original licences, shown on each prompt page. You are responsible for complying with those licences when you reuse a prompt, especially commercially. Editorial prompts created by BestPromptFinder may be used for your own work.</p>
+<h2>Limitation of liability</h2>
+<p>To the maximum extent permitted by law, BestPromptFinder and its operators are not liable for any indirect, incidental or consequential losses, or for losses arising from your use of the service or its outputs.</p>
+<h2>Changes</h2>
+<p>We may update these terms; continued use after an update means you accept the revised terms. Questions: <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a>.</p>"""),
 }
 
 

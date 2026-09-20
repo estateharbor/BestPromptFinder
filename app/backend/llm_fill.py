@@ -25,7 +25,8 @@ try:
 except Exception:
     budget = None
 
-DEFAULT_MODEL = "claude-sonnet-5"
+# Prefill is a fast, bounded extraction — use a quick model by default for low latency.
+DEFAULT_MODEL = "claude-haiku-4-5-20251001"
 
 SYSTEM = """You extract values for a prompt template's placeholders from a user's GOAL.
 
@@ -48,7 +49,7 @@ def available() -> bool:
 
 def extract(goal: str, template: str, variables: List[str], model: str = None) -> Dict[str, str]:
     """Return {variable: value} extracted from the goal (empty string when not present)."""
-    model = model or os.getenv("LLM_MODEL", DEFAULT_MODEL)
+    model = model or os.getenv("SEARCH_MODEL", DEFAULT_MODEL)
     out = {v: "" for v in variables}
     if not variables or not (goal or "").strip():
         return out

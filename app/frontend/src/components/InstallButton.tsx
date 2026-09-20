@@ -51,7 +51,7 @@ export function InstallButton() {
         className="font-mono text-[11.5px] px-3 py-1.5 rounded-lg border transition hover:-translate-y-0.5"
         style={{ color: "var(--color-accent2)", borderColor: "var(--color-accentline)", background: "var(--color-accentsoft)" }}
       >
-        ⬇ Install
+        ⬇ Install app
       </button>
 
       {iosOpen && (

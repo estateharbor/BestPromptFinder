@@ -31,6 +31,7 @@ export function Header({ showNew, onNew, onHome, onLibrary, onAuth, onUpload, on
         </button>
 
         <div className="ml-auto flex items-center gap-2">
+          <a href="/browse" className={`${pill} hidden sm:inline-block`} style={pillStyle}>Browse</a>
           <InstallButton />
           {showNew && <button onClick={onNew} className={pill} style={pillStyle}>↩ New search</button>}
           {user ? (

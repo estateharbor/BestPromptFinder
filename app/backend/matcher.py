@@ -37,7 +37,7 @@ try:
 except Exception:
     llm_enrich = None
 
-RETRIEVE_N = 8   # TF-IDF shortlist size sent to the LLM judge before final ranking
+RETRIEVE_N = 6   # TF-IDF shortlist size sent to the LLM judge before final ranking (fewer = faster)
 MATCH_FLOOR = 55   # below this match, a prompt is "related", never a recommendation
 RELATED_FLOOR = 25  # below this we don't surface it at all
 

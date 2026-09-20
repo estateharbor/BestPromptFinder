@@ -28,7 +28,9 @@ try:
 except Exception:
     budget = None
 
-DEFAULT_MODEL = "claude-sonnet-5"
+# Search reranking is a bounded scoring task where latency matters most — use a fast model
+# (Haiku) by default, independent of LLM_MODEL (which governs grading/preview quality).
+DEFAULT_MODEL = "claude-haiku-4-5-20251001"
 
 SYSTEM = """You are a prompt recommendation judge. You are given a user's GOAL and a list of candidate prompts. For EACH candidate, judge how well it solves THAT specific goal — not its general quality.
 
@@ -53,7 +55,7 @@ def available() -> bool:
 def enrich(goal: str, candidates: List[Dict[str, str]],
            model: str = None) -> Dict[str, Dict[str, Any]]:
     """Return {id: {match, why, weakness}} for the candidates, or {} on failure."""
-    model = model or os.getenv("LLM_MODEL", DEFAULT_MODEL)
+    model = model or os.getenv("SEARCH_MODEL", DEFAULT_MODEL)
     try:
         import anthropic
     except Exception:
