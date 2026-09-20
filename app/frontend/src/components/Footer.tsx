@@ -8,6 +8,7 @@ const LINKS: [string, string][] = [
   ["Submit a prompt", "/submit"],
   ["Privacy", "/privacy"],
   ["Terms", "/terms"],
+  ["Contact", "mailto:support@bestpromptfinder.com"],
 ];
 
 export function Footer() {

@@ -144,7 +144,7 @@ footer a{{color:#aab8ff}}
 {body}
 <footer>
 <p>© BestPromptFinder — the free AI prompt decision engine. Scores are AI evaluations, not user ratings.</p>
-<p><a href="/browse">Browse</a> · <a href="/about">About</a> · <a href="/methodology">How scoring works</a> · <a href="/source-policy">Content &amp; source policy</a> · <a href="/submit">Submit a prompt</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
+<p><a href="/browse">Browse</a> · <a href="/about">About</a> · <a href="/methodology">How scoring works</a> · <a href="/source-policy">Content &amp; source policy</a> · <a href="/submit">Submit a prompt</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:support@bestpromptfinder.com">Contact</a></p>
 </footer>
 </main></body></html>"""
 
@@ -406,7 +406,7 @@ INFO_PAGES = {
 <li>Transparent scoring - AI evaluations are labelled as estimates, never disguised as user votes. See our <a href="/methodology">methodology</a>.</li>
 <li>Sourcing is disclosed: editorial prompts say so; third-party prompts link the original and licence.</li>
 </ul>
-<p>Questions or corrections: <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a>.</p>"""),
+<p>Questions or corrections: <a href="mailto:support@bestpromptfinder.com">support@bestpromptfinder.com</a>.</p>"""),
 
     "methodology": ("How scoring works",
                     "How BestPromptFinder scores prompts: AI quality, usefulness, confidence and community votes.", """
@@ -435,7 +435,7 @@ INFO_PAGES = {
 <h2>Accuracy and claims</h2>
 <p>Prompts and AI-generated previews must not invent prices, availability, footfall, yields, returns, guarantees, scarcity or testimonials. Previews insert <code>[VERIFY: ...]</code> where information is missing rather than fabricating it.</p>
 <h2>Takedown</h2>
-<p>If a prompt infringes your rights or is mis-attributed, email <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a> and we will correct or remove it.</p>"""),
+<p>If a prompt infringes your rights or is mis-attributed, email <a href="mailto:support@bestpromptfinder.com">support@bestpromptfinder.com</a> and we will correct or remove it.</p>"""),
 
     "submit": ("Submit a prompt",
                "Guidelines for submitting a prompt to BestPromptFinder.", """
@@ -446,7 +446,7 @@ INFO_PAGES = {
 <li>Contain no fabricated facts, guarantees, scarcity or testimonial-farming instructions.</li>
 <li>Avoid personal data and anything unlawful in your jurisdiction.</li>
 </ul>
-<p>Send submissions or corrections to <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a> with the prompt text, its intended purpose, and a source link if applicable. Submitting does not guarantee inclusion; accepted prompts are reviewed and scored before they go live.</p>"""),
+<p>Send submissions or corrections to <a href="mailto:support@bestpromptfinder.com">support@bestpromptfinder.com</a> with the prompt text, its intended purpose, and a source link if applicable. Submitting does not guarantee inclusion; accepted prompts are reviewed and scored before they go live.</p>"""),
 
     "privacy": ("Privacy Policy",
                 "How BestPromptFinder collects, uses and protects your data, and your rights under India's DPDP Act.", """
@@ -465,10 +465,10 @@ INFO_PAGES = {
 <h2>Retention and deletion</h2>
 <p>Account and library data are kept while your account is active. Server logs are retained for a limited operational period and then deleted or anonymised. Preview/prefill inputs are not retained by us beyond returning the result. You can ask us to delete your account and associated data at any time.</p>
 <h2>Your rights (DPDP)</h2>
-<p>You have the right to access, correct, and erase your personal data, to withdraw consent, and to grievance redressal. To exercise any right, or to reach our Grievance Officer, contact <a href="mailto:privacy@bestpromptfinder.com">privacy@bestpromptfinder.com</a>. We will respond within the timelines required by law.</p>
+<p>You have the right to access, correct, and erase your personal data, to withdraw consent, and to grievance redressal. To exercise any right, or to reach our Grievance Officer, contact <a href="mailto:support@bestpromptfinder.com">support@bestpromptfinder.com</a>. We will respond within the timelines required by law.</p>
 <h2>Children</h2>
 <p>The service is not directed at children, and we do not knowingly process children's data without verifiable parental consent as required by law.</p>
-<p class="meta">Contact / Grievance Officer: privacy@bestpromptfinder.com</p>"""),
+<p class="meta">Contact / Grievance Officer: support@bestpromptfinder.com</p>"""),
 
     "terms": ("Terms of Use",
               "The terms governing your use of BestPromptFinder.", """
@@ -484,7 +484,7 @@ INFO_PAGES = {
 <h2>Limitation of liability</h2>
 <p>To the maximum extent permitted by law, BestPromptFinder and its operators are not liable for any indirect, incidental or consequential losses, or for losses arising from your use of the service or its outputs.</p>
 <h2>Changes</h2>
-<p>We may update these terms; continued use after an update means you accept the revised terms. Questions: <a href="mailto:hello@bestpromptfinder.com">hello@bestpromptfinder.com</a>.</p>"""),
+<p>We may update these terms; continued use after an update means you accept the revised terms. Questions: <a href="mailto:support@bestpromptfinder.com">support@bestpromptfinder.com</a>.</p>"""),
 }
 
 
