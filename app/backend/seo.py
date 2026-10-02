@@ -22,6 +22,15 @@ _CJK = re.compile(r"[　-〿぀-ヿ㐀-䶿一-鿿가-힯＀-￯]")
 ROBOTS_INDEX = "index, follow, max-image-preview:large, max-snippet:-1"
 ROBOTS_NOINDEX = "noindex, follow"
 
+# Static SEO guide pages (served as HTML from the frontend under /guides/).
+GUIDE_SLUGS = [
+    "best-cursor-claude-code-prompts",
+    "chatgpt-mirror-how-you-see-me-prompts",
+    "midjourney-v7-product-prompts",
+    "seo-content-brief-prompts",
+    "claude-xml-structured-prompts",
+]
+
 
 def esc(s: Any) -> str:
     return _html.escape(str(s if s is not None else ""), quote=True)
@@ -144,7 +153,7 @@ footer a{{color:#aab8ff}}
 {body}
 <footer>
 <p>© BestPromptFinder — the free AI prompt decision engine. Scores are AI evaluations, not user ratings.</p>
-<p><a href="/browse">Browse</a> · <a href="/about">About</a> · <a href="/methodology">How scoring works</a> · <a href="/source-policy">Content &amp; source policy</a> · <a href="/submit">Submit a prompt</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:support@bestpromptfinder.com">Contact</a></p>
+<p><a href="/browse">Browse</a> · <a href="/guides/">Guides</a> · <a href="/about">About</a> · <a href="/methodology">How scoring works</a> · <a href="/source-policy">Content &amp; source policy</a> · <a href="/submit">Submit a prompt</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:support@bestpromptfinder.com">Contact</a></p>
 </footer>
 </main></body></html>"""
 
@@ -345,7 +354,8 @@ def sitemap(corpus: List[Dict[str, Any]], cat_slugs: List[str],
     """Sitemap of the homepage, categories, and only the indexable (Tier-A) prompt pages —
     each with a <lastmod>. Passing index_ids=None includes every prompt (legacy behaviour)."""
     prompts = [c for c in corpus if index_ids is None or c["id"] in index_ids]
-    rows = [(f"{SITE}/", ""), (f"{SITE}/browse", "")]
+    rows = [(f"{SITE}/", ""), (f"{SITE}/browse", ""), (f"{SITE}/guides/", "")]
+    rows += [(f"{SITE}/guides/{g}", "") for g in GUIDE_SLUGS]
     rows += [(f"{SITE}/{s}", "") for s in ("about", "methodology", "source-policy", "submit", "privacy", "terms")]
     rows += [(f"{SITE}/category/{s}", "") for s in cat_slugs]
     rows += [(f"{SITE}{prompt_path(c)}", _lastmod(c)) for c in prompts]
@@ -375,6 +385,8 @@ def browse_page(corpus: List[Dict[str, Any]], cat_map: Dict[str, str]) -> str:
 <h1>Browse AI prompts</h1>
 <p>Explore {len(corpus)} ranked, AI-graded prompts by category, or describe your goal to get a matched recommendation. Scores are AI evaluations out of 100, not user ratings &mdash; see <a href="/methodology">how scoring works</a>.</p>
 <div class="filters"><form action="/" method="get" role="search"><input type="search" name="q" placeholder="Describe your goal - e.g. facebook ad for a commercial property" aria-label="Search prompts"></form></div>
+<h2>Guides</h2>
+<a class="card" href="/guides/">Prompt playbooks &rarr; Cursor &amp; Claude Code, ChatGPT mirror, Midjourney v7, SEO briefs, Claude XML</a>
 <h2>Categories</h2>
 {cat_cards}
 <h2>Top-rated prompts</h2>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude XML Structured Prompts (Role → Output Schema)</title>
+  <meta name="description" content="Claude-native XML prompt templates for role, context, rules, examples, and output schema. Copy-paste patterns; rank more structured prompts free today." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://bestpromptfinder.com/guides/claude-xml-structured-prompts" />
+  <meta name="author" content="BestPromptFinder" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="BestPromptFinder" />
+  <meta property="og:url" content="https://bestpromptfinder.com/guides/claude-xml-structured-prompts" />
+  <meta property="og:title" content="Claude XML Structured Prompts (Role → Output Schema)" />
+  <meta property="og:description" content="Claude-native XML prompt templates for role, context, rules, examples, and output schema. Copy-paste patterns; rank more structured prompts free today." />
+  <meta property="og:image" content="https://bestpromptfinder.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-10-02" />
+  <meta property="article:modified_time" content="2026-10-02" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Claude XML Structured Prompts (Role → Output Schema)" />
+  <meta name="twitter:description" content="Claude-native XML prompt templates for role, context, rules, examples, and output schema. Copy-paste patterns; rank more structured prompts free today." />
+  <meta name="twitter:image" content="https://bestpromptfinder.com/og-image.png" />
+
+  <meta name="theme-color" content="#0e131b" />
+  <link rel="icon" type="image/png" href="https://bestpromptfinder.com/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Claude-native structured (XML) prompts",
+      "description": "Claude-native XML prompt templates for role, context, rules, examples, and output schema. Copy-paste patterns; rank more structured prompts free today.",
+      "datePublished": "2026-10-02",
+      "dateModified": "2026-10-02",
+      "author": {
+        "@type": "Organization",
+        "name": "BestPromptFinder",
+        "url": "https://bestpromptfinder.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "BestPromptFinder",
+        "url": "https://bestpromptfinder.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://bestpromptfinder.com/icon-192.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://bestpromptfinder.com/guides/claude-xml-structured-prompts"
+      },
+      "image": "https://bestpromptfinder.com/og-image.png"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://bestpromptfinder.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://bestpromptfinder.com/guides"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Claude XML Structured Prompts (Native)",
+          "item": "https://bestpromptfinder.com/guides/claude-xml-structured-prompts"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why use XML tags in Claude prompts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "XML-style tags help Claude separate role, context, rules, examples, and output format, which improves constraint following on long or multi-part tasks."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do XML tags work only on Claude?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Other models can follow similar structure, but these templates are tuned for Claude’s documented preference for clear sectional markup. Retest if you port them elsewhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get more Claude prompts ranked for my use case?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Describe the goal on BestPromptFinder and compare quality, match, and confidence scores—then copy the winning structured prompt into Claude."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <style>
+:root {
+  --bg: #0e131b;
+  --surface: #151b26;
+  --border: #243044;
+  --text: #eaeef4;
+  --muted: #9aa8bc;
+  --accent: #aab8ff;
+  --accent-strong: #7c91ff;
+  --code-bg: #0a0e14;
+  --ok: #6ee7b7;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  font-size: 17px;
+}
+a { color: var(--accent-strong); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
+.site-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 16px; margin-bottom: 40px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.site-bar .brand { font-family: Archivo, sans-serif; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+.eyebrow { color: var(--accent); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 8px; }
+h1 {
+  font-family: Archivo, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 16px;
+}
+h2 {
+  font-family: Archivo, sans-serif;
+  font-size: 1.35rem; margin: 40px 0 12px; letter-spacing: -0.01em;
+}
+h3 { font-size: 1.05rem; margin: 28px 0 8px; }
+p { margin: 0 0 16px; color: var(--text); }
+.lede { font-size: 1.08rem; color: var(--muted); }
+.muted { color: var(--muted); }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin: 20px 0;
+}
+.card.cta {
+  border-color: #3a4a7a;
+  background: linear-gradient(135deg, #151b26 0%, #1a2240 100%);
+}
+.cta-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 12px 18px;
+  background: var(--accent-strong);
+  color: #0e131b !important;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none !important;
+}
+.cta-btn:hover { filter: brightness(1.08); }
+.prompt-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  margin: 10px 0 22px;
+}
+.prompt-block pre {
+  margin: 0;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #d7e0ef;
+}
+.prompt-label {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  margin: 28px 0 6px;
+}
+.prompt-label strong { font-size: 1rem; }
+.badge {
+  font-size: 0.72rem; font-weight: 600; color: var(--ok);
+  background: rgba(110,231,183,0.1); border: 1px solid rgba(110,231,183,0.25);
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+}
+.diff {
+  border-left: 3px solid var(--accent-strong);
+  padding-left: 16px; margin: 24px 0;
+}
+ul, ol { padding-left: 1.25rem; margin: 0 0 16px; }
+li { margin: 6px 0; }
+.faq details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+.faq summary { cursor: pointer; font-weight: 600; }
+.related a { display: block; margin: 6px 0; }
+footer {
+  margin-top: 56px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 0.9rem;
+}
+</style>
+</head>
+<body>
+  <article class="wrap">
+    <nav class="site-bar" aria-label="Site">
+      <a class="brand" href="https://bestpromptfinder.com/">BestPromptFinder</a>
+      <a href="https://bestpromptfinder.com/browse">Browse prompts</a>
+    </nav>
+
+    <p class="eyebrow">Guide · 2026-10-02</p>
+    <h1>Claude-native structured (XML) prompts</h1>
+    <p class="lede">Claude responds reliably to structured prompts that separate role, context, instructions, examples, and output schema—often with XML-style tags. That structure reduces missed constraints and makes long tasks auditable. Below are paste-ready Claude XML patterns; use BestPromptFinder to rank more structured prompts for your specific workflow.</p>
+
+    <div class="card cta">
+      <p><strong>Next step:</strong> describe your goal and get ranked prompts with quality, match &amp; confidence scores.</p>
+      <a class="cta-btn" href="https://bestpromptfinder.com/?q=Claude%20XML%20structured%20prompts%20role%20context%20rules%20output%20schema">Rank Claude structured prompts →</a>
+      <p class="muted" style="margin:12px 0 0;font-size:0.9rem;">Opens the homepage goal box with a starter query you can edit.</p>
+    </div>
+
+    <h2>Copy-paste prompt templates</h2>
+    <p class="muted">Replace bracketed fields. Run stages in order where noted.</p>
+    
+      <div class="prompt-label">
+        <strong>1. Universal Claude XML scaffold</strong>
+        <span class="badge">Starter</span>
+      </div>
+      <div class="prompt-block"><pre>&lt;role&gt;
+You are [expert role] focused on [outcome].
+&lt;/role&gt;
+
+&lt;context&gt;
+[Background the model needs: product, audience, constraints, data]
+&lt;/context&gt;
+
+&lt;task&gt;
+[Single clear task statement]
+&lt;/task&gt;
+
+&lt;instructions&gt;
+1. [Rule]
+2. [Rule]
+3. [Rule]
+&lt;/instructions&gt;
+
+&lt;constraints&gt;
+- [Hard constraint]
+- [Hard constraint]
+- If information is missing, ask up to 3 clarifying questions instead of guessing.
+&lt;/constraints&gt;
+
+&lt;output_format&gt;
+[Exact structure you want: headings, JSON keys, table columns]
+&lt;/output_format&gt;
+
+&lt;quality_bar&gt;
+Success looks like: [criteria].
+Failure modes to avoid: [list].
+&lt;/quality_bar&gt;</pre></div>
+      <div class="prompt-label">
+        <strong>2. Analysis with citations-to-context</strong>
+        <span class="badge">Research</span>
+      </div>
+      <div class="prompt-block"><pre>&lt;role&gt;Senior analyst. Prefer evidence over eloquence.&lt;/role&gt;
+
+&lt;documents&gt;
+&lt;doc id=&quot;1&quot; title=&quot;[title]&quot;&gt;
+[paste]
+&lt;/doc&gt;
+&lt;doc id=&quot;2&quot; title=&quot;[title]&quot;&gt;
+[paste]
+&lt;/doc&gt;
+&lt;/documents&gt;
+
+&lt;task&gt;
+Answer: [question]
+&lt;/task&gt;
+
+&lt;instructions&gt;
+- Cite claims with doc ids like [1].
+- Separate Facts, Inferences, and Unknowns.
+- List contradictions across documents.
+- Do not invent sources outside &lt;documents&gt;.
+&lt;/instructions&gt;
+
+&lt;output_format&gt;
+## Direct answer
+## Evidence (bullet + [doc id])
+## Inferences
+## Unknowns / gaps
+## Risks if wrong
+&lt;/output_format&gt;</pre></div>
+      <div class="prompt-label">
+        <strong>3. Few-shot extraction to JSON</strong>
+        <span class="badge">Data</span>
+      </div>
+      <div class="prompt-block"><pre>&lt;role&gt;Information extraction engine. Output JSON only.&lt;/role&gt;
+
+&lt;schema&gt;
+{
+  &quot;company&quot;: string,
+  &quot;product&quot;: string,
+  &quot;pricing_model&quot;: &quot;free&quot; | &quot;subscription&quot; | &quot;usage&quot; | &quot;one_time&quot; | &quot;unknown&quot;,
+  &quot;key_features&quot;: string[],
+  &quot;risks&quot;: string[]
+}
+&lt;/schema&gt;
+
+&lt;examples&gt;
+&lt;example&gt;
+&lt;input&gt;[short sample text]&lt;/input&gt;
+&lt;output&gt;{&quot;company&quot;:&quot;...&quot;,&quot;product&quot;:&quot;...&quot;,&quot;pricing_model&quot;:&quot;subscription&quot;,&quot;key_features&quot;:[&quot;...&quot;],&quot;risks&quot;:[&quot;...&quot;]}&lt;/output&gt;
+&lt;/example&gt;
+&lt;/examples&gt;
+
+&lt;input&gt;
+[TEXT TO EXTRACT]
+&lt;/input&gt;
+
+&lt;constraints&gt;
+- Follow &lt;schema&gt; exactly.
+- Use &quot;unknown&quot; rather than guessing.
+- No markdown fences, no commentary—JSON only.
+&lt;/constraints&gt;</pre></div>
+      <div class="prompt-label">
+        <strong>4. Multi-step agent with checkpoints</strong>
+        <span class="badge">Agents</span>
+      </div>
+      <div class="prompt-block"><pre>&lt;role&gt;Methodical operator. You work in stages and wait for approval gates.&lt;/role&gt;
+
+&lt;goal&gt;[user goal]&lt;/goal&gt;
+
+&lt;tools_available&gt;
+[list tools / actions you can take in this environment]
+&lt;/tools_available&gt;
+
+&lt;protocol&gt;
+1. &lt;stage name=&quot;understand&quot;&gt;Restate goal + success criteria. Ask questions if blocked.&lt;/stage&gt;
+2. &lt;stage name=&quot;plan&quot;&gt;Produce a numbered plan. STOP and wait for approval.&lt;/stage&gt;
+3. &lt;stage name=&quot;execute&quot;&gt;Run only the approved step. Report evidence.&lt;/stage&gt;
+4. &lt;stage name=&quot;verify&quot;&gt;Check success criteria. Propose next step or DONE.&lt;/stage&gt;
+&lt;/protocol&gt;
+
+&lt;response_contract&gt;
+Always label the current stage.
+Never skip the plan approval gate.
+If a tool fails, diagnose once, then propose an alternative.
+&lt;/response_contract&gt;
+
+Start at stage understand.</pre></div>
+      <div class="prompt-label">
+        <strong>5. Rewriter with preserved constraints</strong>
+        <span class="badge">Editing</span>
+      </div>
+      <div class="prompt-block"><pre>&lt;role&gt;Editor who improves clarity without changing meaning.&lt;/role&gt;
+
+&lt;input_text&gt;
+[paste]
+&lt;/input_text&gt;
+
+&lt;must_preserve&gt;
+- Facts, numbers, names, and promises
+- Legal/disclaimer language if present
+- Brand voice: [voice notes]
+&lt;/must_preserve&gt;
+
+&lt;change_goals&gt;
+- Cut fluff
+- Improve scannability (short paragraphs, headings if needed)
+- Strengthen verbs; remove hedging unless uncertainty is real
+&lt;/change_goals&gt;
+
+&lt;output_format&gt;
+## Revised text
+## Change log (bullets)
+## Risks (anything that might have drifted in meaning)
+&lt;/output_format&gt;</pre></div>
+      <div class="prompt-label">
+        <strong>6. Rubric grader (prompt or output QA)</strong>
+        <span class="badge">Eval</span>
+      </div>
+      <div class="prompt-block"><pre>&lt;role&gt;Strict evaluator. Score with evidence.&lt;/role&gt;
+
+&lt;rubric&gt;
+1. Clarity (1-5)
+2. Completeness vs task (1-5)
+3. Constraint obedience (1-5)
+4. Factual caution (1-5)
+5. Reusability (1-5)
+&lt;/rubric&gt;
+
+&lt;task_spec&gt;
+[original instructions]
+&lt;/task_spec&gt;
+
+&lt;candidate&gt;
+[prompt or model output to grade]
+&lt;/candidate&gt;
+
+&lt;instructions&gt;
+- Score each rubric dimension with a one-sentence justification.
+- List concrete failure examples.
+- Propose the smallest edit that would raise the weakest score.
+- Do not inflate scores; average work is a 3.
+&lt;/instructions&gt;
+
+&lt;output_format&gt;
+## Scores
+## Failures
+## Smallest fix
+## Verdict: ship / revise / reject
+&lt;/output_format&gt;</pre></div>
+
+    <h2>Why BestPromptFinder (not just another template list)</h2>
+    <div class="diff">
+      <p>Most prompt sites are plain template catalogs. BestPromptFinder is a free decision engine: describe what you need Claude to do, and it ranks structured prompts with quality, match, and confidence scores before you paste them into Claude.</p>
+      <p><a href="https://bestpromptfinder.com/?q=Claude%20XML%20structured%20prompts%20role%20context%20rules%20output%20schema">Describe your goal → get ranked prompts →</a></p>
+    </div>
+
+    <h2>Related guides &amp; categories</h2>
+    <div class="related card">
+      <a href="https://bestpromptfinder.com/guides/best-cursor-claude-code-prompts">Cursor &amp; Claude Code prompts</a>
+<a href="https://bestpromptfinder.com/guides/seo-content-brief-prompts">SEO content brief prompts</a>
+<a href="https://bestpromptfinder.com/category/prompt-engineering">Browse prompt-engineering prompts</a>
+<a href="https://bestpromptfinder.com/category/coding">Browse coding prompts</a>
+    </div>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      
+      <details>
+        <summary>Why use XML tags in Claude prompts?</summary>
+        <p>XML-style tags help Claude separate role, context, rules, examples, and output format, which improves constraint following on long or multi-part tasks.</p>
+      </details>
+      <details>
+        <summary>Do XML tags work only on Claude?</summary>
+        <p>Other models can follow similar structure, but these templates are tuned for Claude’s documented preference for clear sectional markup. Retest if you port them elsewhere.</p>
+      </details>
+      <details>
+        <summary>How do I get more Claude prompts ranked for my use case?</summary>
+        <p>Describe the goal on BestPromptFinder and compare quality, match, and confidence scores—then copy the winning structured prompt into Claude.</p>
+      </details>
+    </div>
+
+    <div class="card cta" style="margin-top:36px;">
+      <p><strong>Ready to go beyond templates?</strong> Tell BestPromptFinder what you need.</p>
+      <a class="cta-btn" href="https://bestpromptfinder.com/?q=Claude%20XML%20structured%20prompts%20role%20context%20rules%20output%20schema">Rank Claude structured prompts →</a>
+    </div>
+
+    <footer>
+      <p>© BestPromptFinder · <a href="https://bestpromptfinder.com/">Home</a> · <a href="https://bestpromptfinder.com/methodology">Methodology</a> · <a href="https://bestpromptfinder.com/about">About</a></p>
+      <p>Standalone HTML guide page — safe to host under <code>/guides/claude-xml-structured-prompts</code> beside the React SPA.</p>
+    </footer>
+  </article>
+</body>
+</html>

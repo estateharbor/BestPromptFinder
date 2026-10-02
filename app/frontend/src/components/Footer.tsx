@@ -2,6 +2,7 @@
 // real routes served by the backend, so a full page load lands on proper content).
 const LINKS: [string, string][] = [
   ["Browse", "/browse"],
+  ["Guides", "/guides/"],
   ["About", "/about"],
   ["How scoring works", "/methodology"],
   ["Content & source policy", "/source-policy"],

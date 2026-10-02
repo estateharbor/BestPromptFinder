@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Best Cursor / Claude Code Prompts: Explore to Verify</title>
+  <meta name="description" content="Copy-paste Explore→Plan→Implement→Verify prompts for Cursor and Claude Code. Rank scored coding-agent prompts free on BestPromptFinder’s decision engine." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://bestpromptfinder.com/guides/best-cursor-claude-code-prompts" />
+  <meta name="author" content="BestPromptFinder" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="BestPromptFinder" />
+  <meta property="og:url" content="https://bestpromptfinder.com/guides/best-cursor-claude-code-prompts" />
+  <meta property="og:title" content="Best Cursor / Claude Code Prompts: Explore to Verify" />
+  <meta property="og:description" content="Copy-paste Explore→Plan→Implement→Verify prompts for Cursor and Claude Code. Rank scored coding-agent prompts free on BestPromptFinder’s decision engine." />
+  <meta property="og:image" content="https://bestpromptfinder.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-10-02" />
+  <meta property="article:modified_time" content="2026-10-02" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Best Cursor / Claude Code Prompts: Explore to Verify" />
+  <meta name="twitter:description" content="Copy-paste Explore→Plan→Implement→Verify prompts for Cursor and Claude Code. Rank scored coding-agent prompts free on BestPromptFinder’s decision engine." />
+  <meta name="twitter:image" content="https://bestpromptfinder.com/og-image.png" />
+
+  <meta name="theme-color" content="#0e131b" />
+  <link rel="icon" type="image/png" href="https://bestpromptfinder.com/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Best Cursor and Claude Code prompts (Explore → Plan → Implement → Verify)",
+      "description": "Copy-paste Explore→Plan→Implement→Verify prompts for Cursor and Claude Code. Rank scored coding-agent prompts free on BestPromptFinder’s decision engine.",
+      "datePublished": "2026-10-02",
+      "dateModified": "2026-10-02",
+      "author": {
+        "@type": "Organization",
+        "name": "BestPromptFinder",
+        "url": "https://bestpromptfinder.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "BestPromptFinder",
+        "url": "https://bestpromptfinder.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://bestpromptfinder.com/icon-192.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://bestpromptfinder.com/guides/best-cursor-claude-code-prompts"
+      },
+      "image": "https://bestpromptfinder.com/og-image.png"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://bestpromptfinder.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://bestpromptfinder.com/guides"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Best Cursor & Claude Code Prompts (2026)",
+          "item": "https://bestpromptfinder.com/guides/best-cursor-claude-code-prompts"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the Explore → Plan → Implement → Verify loop?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is a four-stage workflow for Cursor and Claude Code: explore the repo read-only, plan small steps with acceptance criteria, implement one step at a time, then verify with tests and a ship checklist. It reduces large wrong diffs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do these prompts work in both Cursor and Claude Code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The wording is tool-agnostic. In Cursor, paste into Chat/Agent with @-file context; in Claude Code, paste into the CLI session with the same stage gates (pause after Explore and Plan)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I find more coding prompts ranked for my goal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open BestPromptFinder, describe your goal (for example “refactor auth middleware with tests”), and compare quality, match, and confidence scores before you copy a prompt into your editor."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <style>
+:root {
+  --bg: #0e131b;
+  --surface: #151b26;
+  --border: #243044;
+  --text: #eaeef4;
+  --muted: #9aa8bc;
+  --accent: #aab8ff;
+  --accent-strong: #7c91ff;
+  --code-bg: #0a0e14;
+  --ok: #6ee7b7;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  font-size: 17px;
+}
+a { color: var(--accent-strong); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
+.site-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 16px; margin-bottom: 40px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.site-bar .brand { font-family: Archivo, sans-serif; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+.eyebrow { color: var(--accent); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 8px; }
+h1 {
+  font-family: Archivo, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 16px;
+}
+h2 {
+  font-family: Archivo, sans-serif;
+  font-size: 1.35rem; margin: 40px 0 12px; letter-spacing: -0.01em;
+}
+h3 { font-size: 1.05rem; margin: 28px 0 8px; }
+p { margin: 0 0 16px; color: var(--text); }
+.lede { font-size: 1.08rem; color: var(--muted); }
+.muted { color: var(--muted); }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin: 20px 0;
+}
+.card.cta {
+  border-color: #3a4a7a;
+  background: linear-gradient(135deg, #151b26 0%, #1a2240 100%);
+}
+.cta-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 12px 18px;
+  background: var(--accent-strong);
+  color: #0e131b !important;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none !important;
+}
+.cta-btn:hover { filter: brightness(1.08); }
+.prompt-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  margin: 10px 0 22px;
+}
+.prompt-block pre {
+  margin: 0;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #d7e0ef;
+}
+.prompt-label {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  margin: 28px 0 6px;
+}
+.prompt-label strong { font-size: 1rem; }
+.badge {
+  font-size: 0.72rem; font-weight: 600; color: var(--ok);
+  background: rgba(110,231,183,0.1); border: 1px solid rgba(110,231,183,0.25);
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+}
+.diff {
+  border-left: 3px solid var(--accent-strong);
+  padding-left: 16px; margin: 24px 0;
+}
+ul, ol { padding-left: 1.25rem; margin: 0 0 16px; }
+li { margin: 6px 0; }
+.faq details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+.faq summary { cursor: pointer; font-weight: 600; }
+.related a { display: block; margin: 6px 0; }
+footer {
+  margin-top: 56px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 0.9rem;
+}
+</style>
+</head>
+<body>
+  <article class="wrap">
+    <nav class="site-bar" aria-label="Site">
+      <a class="brand" href="https://bestpromptfinder.com/">BestPromptFinder</a>
+      <a href="https://bestpromptfinder.com/browse">Browse prompts</a>
+    </nav>
+
+    <p class="eyebrow">Guide · 2026-10-02</p>
+    <h1>Best Cursor and Claude Code prompts (Explore → Plan → Implement → Verify)</h1>
+    <p class="lede">Agentic coding tools like Cursor and Claude Code work best when you stop dumping one giant ask and instead run a four-stage loop: Explore the codebase, Plan the change, Implement in small steps, then Verify with tests and review. Below are paste-ready prompts for each stage — then use BestPromptFinder to rank more variants against your exact goal.</p>
+
+    <div class="card cta">
+      <p><strong>Next step:</strong> describe your goal and get ranked prompts with quality, match &amp; confidence scores.</p>
+      <a class="cta-btn" href="https://bestpromptfinder.com/?q=best%20Cursor%20Claude%20Code%20Explore%20Plan%20Implement%20Verify%20workflow%20prompts">Rank coding-agent prompts for my goal →</a>
+      <p class="muted" style="margin:12px 0 0;font-size:0.9rem;">Opens the homepage goal box with a starter query you can edit.</p>
+    </div>
+
+    <h2>Copy-paste prompt templates</h2>
+    <p class="muted">Replace bracketed fields. Run stages in order where noted.</p>
+    
+      <div class="prompt-label">
+        <strong>1. Explore — codebase reconnaissance</strong>
+        <span class="badge">Cursor / Claude Code</span>
+      </div>
+      <div class="prompt-block"><pre>You are exploring an unfamiliar codebase. Do NOT write or edit any files yet.
+
+Goal: [describe the feature or bug in one sentence]
+
+Tasks:
+1. Map the relevant directories, entry points, and key modules.
+2. Identify the data models, APIs, and UI surfaces involved.
+3. List hidden dependencies, config flags, and tests that touch this area.
+4. Flag risks: race conditions, auth boundaries, migrations, flaky tests.
+
+Output format:
+- ## Map (bullet tree of paths)
+- ## Key files (path + one-line why it matters)
+- ## Dependencies &amp; config
+- ## Risks &amp; unknowns
+- ## Suggested next questions for me
+
+Stay concise. Prefer evidence from the repo over assumptions.</pre></div>
+      <div class="prompt-label">
+        <strong>2. Plan — change plan with acceptance criteria</strong>
+        <span class="badge">Before any edits</span>
+      </div>
+      <div class="prompt-block"><pre>Based on the Explore findings below, produce an implementation plan. Do NOT edit files yet.
+
+Explore findings:
+[paste Explore output]
+
+Change goal: [feature / bugfix]
+
+Requirements for the plan:
+1. Break work into ordered steps (each ≤ ~30 minutes of focused work).
+2. For every step: files to touch, approach, and how we verify it.
+3. Call out non-goals and what we will NOT change.
+4. Include a rollback / feature-flag note if the change is risky.
+5. End with acceptance criteria written as testable bullets.
+
+Output:
+## Summary (3–5 sentences)
+## Steps (numbered)
+## Non-goals
+## Acceptance criteria
+## Open questions (only if blocking)</pre></div>
+      <div class="prompt-label">
+        <strong>3. Implement — one step at a time</strong>
+        <span class="badge">Small diffs</span>
+      </div>
+      <div class="prompt-block"><pre>Implement ONLY step [N] from the plan below. Do not start later steps.
+
+Plan:
+[paste Plan]
+
+Constraints:
+- Match existing code style, naming, and patterns in this repo.
+- Prefer minimal diffs; no drive-by refactors.
+- Update or add tests only if this step requires them.
+- After changes, summarize: files changed, what you did, how to verify.
+
+If something in the plan is wrong given the current code, stop and propose a plan amendment instead of improvising a large rewrite.</pre></div>
+      <div class="prompt-label">
+        <strong>4. Verify — tests, review, and regression check</strong>
+        <span class="badge">Ship gate</span>
+      </div>
+      <div class="prompt-block"><pre>Review the changes for step [N] (or the full PR) against the acceptance criteria.
+
+Acceptance criteria:
+[paste]
+
+Diff / changed files:
+[paste or @ reference]
+
+Produce:
+1. ## Criteria checklist — each criterion: PASS / FAIL / UNTESTED + evidence
+2. ## Test commands to run (exact shell commands for this repo)
+3. ## Regression risks — what else might break
+4. ## Code review notes — bugs, edge cases, security, perf (severity)
+5. ## Ship decision — Ready / Needs fixes (list fixes)
+
+Do not rewrite the feature unless a critical bug is found; prefer a short fix list.</pre></div>
+      <div class="prompt-label">
+        <strong>5. Full-loop kickoff (when starting greenfield in-repo)</strong>
+        <span class="badge">One message</span>
+      </div>
+      <div class="prompt-block"><pre>Run Explore → Plan → Implement → Verify for this goal. Pause after Explore and after Plan for my approval before editing files.
+
+Goal: [what to build or fix]
+Repo context: [stack, important paths, constraints]
+Definition of done: [acceptance criteria]
+
+Rules:
+- Explore: read-only, evidence-based map.
+- Plan: ordered steps + acceptance criteria + non-goals.
+- Implement: one approved step at a time, minimal diffs.
+- Verify: criteria checklist + test commands + ship decision.
+
+Start with Explore only.</pre></div>
+      <div class="prompt-label">
+        <strong>6. Bug reproduction detective (before the loop)</strong>
+        <span class="badge">Debugging</span>
+      </div>
+      <div class="prompt-block"><pre>Help me reproduce and isolate a bug before we plan a fix.
+
+Reported issue: [symptoms]
+Environment: [OS, version, branch]
+Steps already tried: [list]
+
+Do the following WITHOUT proposing a full rewrite:
+1. Write a minimal reproduction checklist (exact steps).
+2. Hypothesize 3 root causes ranked by likelihood, with the file/function to inspect for each.
+3. Suggest the smallest probe (log, assertion, or failing test) that would falsify each hypothesis.
+4. Ask me only for missing facts that block diagnosis.
+
+Output as ## Reproduction, ## Hypotheses, ## Probes, ## Questions.</pre></div>
+
+    <h2>Why BestPromptFinder (not just another template list)</h2>
+    <div class="diff">
+      <p>Most prompt sites are static lists or marketplaces. BestPromptFinder is a free prompt decision engine: describe your coding goal and it ranks prompts with quality, match, and confidence scores so you know why a prompt is recommended before you run it in Cursor or Claude Code.</p>
+      <p><a href="https://bestpromptfinder.com/?q=best%20Cursor%20Claude%20Code%20Explore%20Plan%20Implement%20Verify%20workflow%20prompts">Describe your goal → get ranked prompts →</a></p>
+    </div>
+
+    <h2>Related guides &amp; categories</h2>
+    <div class="related card">
+      <a href="https://bestpromptfinder.com/guides/claude-xml-structured-prompts">Claude XML structured prompts</a>
+<a href="https://bestpromptfinder.com/guides/seo-content-brief-prompts">SEO content brief prompts</a>
+<a href="https://bestpromptfinder.com/category/coding">Browse coding prompts</a>
+<a href="https://bestpromptfinder.com/category/debugging">Browse debugging prompts</a>
+    </div>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      
+      <details>
+        <summary>What is the Explore → Plan → Implement → Verify loop?</summary>
+        <p>It is a four-stage workflow for Cursor and Claude Code: explore the repo read-only, plan small steps with acceptance criteria, implement one step at a time, then verify with tests and a ship checklist. It reduces large wrong diffs.</p>
+      </details>
+      <details>
+        <summary>Do these prompts work in both Cursor and Claude Code?</summary>
+        <p>Yes. The wording is tool-agnostic. In Cursor, paste into Chat/Agent with @-file context; in Claude Code, paste into the CLI session with the same stage gates (pause after Explore and Plan).</p>
+      </details>
+      <details>
+        <summary>How do I find more coding prompts ranked for my goal?</summary>
+        <p>Open BestPromptFinder, describe your goal (for example “refactor auth middleware with tests”), and compare quality, match, and confidence scores before you copy a prompt into your editor.</p>
+      </details>
+    </div>
+
+    <div class="card cta" style="margin-top:36px;">
+      <p><strong>Ready to go beyond templates?</strong> Tell BestPromptFinder what you need.</p>
+      <a class="cta-btn" href="https://bestpromptfinder.com/?q=best%20Cursor%20Claude%20Code%20Explore%20Plan%20Implement%20Verify%20workflow%20prompts">Rank coding-agent prompts for my goal →</a>
+    </div>
+
+    <footer>
+      <p>© BestPromptFinder · <a href="https://bestpromptfinder.com/">Home</a> · <a href="https://bestpromptfinder.com/methodology">Methodology</a> · <a href="https://bestpromptfinder.com/about">About</a></p>
+      <p>Standalone HTML guide page — safe to host under <code>/guides/best-cursor-claude-code-prompts</code> beside the React SPA.</p>
+    </footer>
+  </article>
+</body>
+</html>
