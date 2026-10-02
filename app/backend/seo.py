@@ -30,6 +30,18 @@ GUIDE_SLUGS = [
     "seo-content-brief-prompts",
     "claude-xml-structured-prompts",
 ]
+# Last substantive edit of the guides (sitemap <lastmod>) — bump when a guide changes.
+GUIDES_LASTMOD = "2026-10-02"
+
+# Category slug -> (guide slug, link text): in-body "read the guide" link on category pages.
+CATEGORY_GUIDES = {
+    "coding": ("best-cursor-claude-code-prompts", "Best Cursor & Claude Code prompts"),
+    "debugging": ("best-cursor-claude-code-prompts", "Best Cursor & Claude Code prompts"),
+    "seo": ("seo-content-brief-prompts", "SEO content brief prompts"),
+    "image-generation": ("midjourney-v7-product-prompts", "Midjourney v7 product prompts"),
+    "graphic-design": ("midjourney-v7-product-prompts", "Midjourney v7 product prompts"),
+    "prompt-engineering": ("claude-xml-structured-prompts", "Claude XML structured prompts"),
+}
 
 
 def esc(s: Any) -> str:
@@ -309,10 +321,16 @@ def category_page(cat: str, slug: str, prompts: List[Dict[str, Any]]) -> str:
   chips.forEach(function(ch){ch.addEventListener('click',function(){chips.forEach(function(x){x.classList.remove('on');});ch.classList.add('on');model=ch.dataset.model;apply();});});
 })();
 </script>"""
+    guide_html = ""
+    if slug in CATEGORY_GUIDES:
+        g, label = CATEGORY_GUIDES[slug]
+        guide_html = (f'<p><b>Guide:</b> <a href="/guides/{esc(g)}">{esc(label)}</a> — how to structure, '
+                      f'adapt and verify these prompts. <a href="/guides/">All guides</a></p>')
     body = f"""
 <div class="crumb"><a href="/">Home</a> › {esc(cat)}</div>
 <h1>Best {esc(cat)} AI Prompts</h1>
 <p>{len(prompts)} ranked, AI-graded {esc(cat)} prompts for ChatGPT, Claude, Gemini and Midjourney. Open any prompt to view it in full, or <a href="/?q={quote(cat)}">search for your exact goal in the app</a>.</p>
+{guide_html}
 {filters}
 {cards}
 {filter_js}
@@ -354,8 +372,8 @@ def sitemap(corpus: List[Dict[str, Any]], cat_slugs: List[str],
     """Sitemap of the homepage, categories, and only the indexable (Tier-A) prompt pages —
     each with a <lastmod>. Passing index_ids=None includes every prompt (legacy behaviour)."""
     prompts = [c for c in corpus if index_ids is None or c["id"] in index_ids]
-    rows = [(f"{SITE}/", ""), (f"{SITE}/browse", ""), (f"{SITE}/guides/", "")]
-    rows += [(f"{SITE}/guides/{g}", "") for g in GUIDE_SLUGS]
+    rows = [(f"{SITE}/", ""), (f"{SITE}/browse", ""), (f"{SITE}/guides/", GUIDES_LASTMOD)]
+    rows += [(f"{SITE}/guides/{g}", GUIDES_LASTMOD) for g in GUIDE_SLUGS]
     rows += [(f"{SITE}/{s}", "") for s in ("about", "methodology", "source-policy", "submit", "privacy", "terms")]
     rows += [(f"{SITE}/category/{s}", "") for s in cat_slugs]
     rows += [(f"{SITE}{prompt_path(c)}", _lastmod(c)) for c in prompts]
