@@ -258,3 +258,42 @@ Return, in American English:
 4. Five search terms customers would type, comma-separated
 
 Use U.S. units (inches, pounds, °F). Do not invent any feature that is not in the specs."
+Document Undocumented Code (No Behavior Change),Documentation,90,"Claude Code, Cursor",,yes,"Document [path/to/module or directory], which currently has little or no documentation.
+Do not change behavior.
+
+First read the code, its call sites, and its tests. Then:
+1. Add doc comments in the project's existing style ([JSDoc / Google-style docstrings /
+   rustdoc / godoc]) to every public function, class, and type: purpose, parameters,
+   return value, errors raised, and side effects (I/O, network, global state).
+2. Add inline comments only where the ""why"" isn't obvious: workarounds, invariants,
+   ordering constraints, performance tricks. Don't narrate what the code plainly does.
+3. Write or update [README.md in that directory]: what the module is for, how it fits
+   into the system, a minimal usage example based on a real call site, the config or
+   environment variables it reads, and known limitations.
+4. Anything you can't determine from the code (unclear intent, possibly dead code,
+   suspicious behavior) goes in a ""Questions for maintainers"" list in your reply —
+   don't guess in the docs.
+
+Rules: no renames, reformatting, or refactors; only comments and documentation files may
+change. Afterwards run [lint / typecheck / docs build] to confirm nothing broke, then
+summarize what you documented and list the open questions."
+Release Notes from Git History,Documentation,90,"Claude Code, Cursor",,yes,"Draft release notes for [version] covering [previous tag, e.g. v1.4.0]..[HEAD or new tag].
+
+Gather facts first (read-only):
+- git log [from]..[to] --no-merges --pretty=format:""%h %s%n%b""
+- Merged PR titles and descriptions if available, e.g.
+  gh pr list --state merged --search ""merged:>=[YYYY-MM-DD]"" --limit 200
+- The diff for anything that looks breaking: migrations, config, public API, CLI flags.
+
+Then write notes for [audience: end users / API consumers / internal team]:
+1. Highlights — 2–4 user-visible changes in plain language, most important first.
+2. Breaking changes — what changed, who is affected, exact upgrade steps. If none, say ""None"".
+3. New features, Improvements, Bug fixes — one line each, phrased as the user benefit,
+   with the PR number or short commit hash.
+4. Deprecations and security fixes, if any.
+5. Skip internal-only work (CI, refactors, tests, dependency bumps with no user impact)
+   unless I ask for a full changelog.
+
+Rules: every line must trace to a commit or PR — don't invent features or impact. Put
+commits you couldn't classify in a separate ""Needs review"" list. Output Markdown ready
+to paste into [CHANGELOG.md / the GitHub release]. Don't create tags, push, or publish."
