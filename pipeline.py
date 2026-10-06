@@ -114,7 +114,8 @@ def detect_type(text: str, category: str = "") -> str:
 _UNSAFE_TESTIMONIAL = re.compile(r"(testimonial|success stor(y|ies)|customer review|fake review)", re.I)
 _UNSAFE_INVENT = re.compile(r"\b(write|create|generate|make|produce|invent|craft|draft|come up with)\b", re.I)
 _EVIDENCE_GUARD = re.compile(
-    r"(verified|supplied|provided|real customer|actual customer|only use|do not invent|don'?t invent|never invent|without inventing|evidence)", re.I)
+    r"(verified|supplied|provided|real customer|actual customer|only use|do not invent|don'?t invent|never invent|"
+    r"without inventing|no (invented|made[- ]up|fake|fabricated)|evidence)", re.I)
 
 
 def is_unsafe_content(text: str) -> bool:

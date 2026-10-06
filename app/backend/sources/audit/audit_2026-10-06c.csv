@@ -1,0 +1,1409 @@
+id,decision,source,reasons,new_title,new_prompt,licence
+p_f0a3b42287,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Nine-Grid Tips Carousel Poster,"Design a 3:4 vertical poster split into a 3x3 grid that can be sliced into nine separate carousel images.
+
+Inputs
+- Theme: [e.g. better sleep tips]
+- Audience: [e.g. busy young professionals]
+- Brand colours: [default: cream white, beige, light caramel, dark brown text]
+
+Layout
+- Tile 1: cover with a bold title (max 6 words) and a one-line hook.
+- Tiles 2-9: one tip each, with a heading (max 5 words), one or two plain sentences, and a small flat illustration of [an object that matches the tip].
+- Centre each tile's content and keep 8% margins and clear gutters, so every tile reads on its own once sliced.
+
+Rules: one idea per tile, no tiny text, no claims you can't back up, consistent illustration style across all nine.",
+p_7126cf0a1ee4,rewrite,HF no_robots,QUALITY_UPGRADE,Reference Check Request Email,"Write an email asking a reference about a job candidate.
+
+Inputs
+- Reference: [name, relationship to candidate]
+- Candidate: [name]
+- Role I'm hiring for: [title, organisation]
+- What the role needs most: [2-3 items, e.g. supervising students, heavy admin, parent communication]
+- My deadline: [date]
+
+Output
+- Subject line.
+- Body under 200 words: thank them, explain the role in one sentence, then a numbered list of 4-5 questions covering strengths, areas for growth, how the candidate would handle [the key needs], and anything else they'd like to share.
+- Offer a 15-minute phone call as an alternative, with [my availability].
+- Sign-off with [my name, title, phone].
+
+Tone: professional and warm. Don't ask for confidential HR records.",
+p_0ed92c0439,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,1980s Magazine Ad for a Modern Product,"Create a fictional full-page 1980s magazine advertisement for a modern product.
+
+Inputs
+- Product: [name and what it does, e.g. an AI writing assistant]
+- Headline: ""[headline]""
+- Tagline: ""[tagline]""
+- 3 features: [features]
+
+Composition (portrait, 8.5x11 proportions)
+- Top: chrome 3D headline with a starburst highlight; tagline beneath in yellow italic script.
+- Centre: a beige 1980s home computer on a wood-grain desk, a cheerful family gathered around the glowing screen showing the product.
+- Bottom: small-print feature list with bullet icons, a fake price and phone number box, and a placeholder logo.
+
+Style: offset-print texture, slight colour fringing, warm faded palette, period-accurate typography. No real brand logos.",
+p_841609844692,rewrite,HF no_robots,QUALITY_UPGRADE,Anagram Puzzle List With Answer Check,"Create 10 anagram puzzles whose answers all start with the letter [letter].
+
+Rules
+- Answers are common English words of [5-8] letters (no proper nouns).
+- Each anagram must use exactly the same letters as its answer, rearranged, and must not be the answer itself.
+- Mix difficulty: 4 easy, 4 medium, 2 hard.
+
+Output: a numbered list in this exact format:
+(#): ANAGRAM • ANSWER • difficulty
+
+Before finalising, check every pair letter by letter and replace any pair that doesn't match. Finish with one line confirming the check was done.",
+p_034bac7784,rewrite,HF no_robots,QUALITY_UPGRADE,Turn Facts Into a Dramatic Monologue,"Recast the passage below as a stage monologue without losing a single fact.
+
+Inputs
+- Passage: [paste]
+- Speaker: [who is talking, e.g. a museum curator on the night the exhibit closes]
+- Audience on stage: [who they address]
+- Length: [e.g. 250-350 words, about 2 minutes spoken]
+
+Requirements
+- Every fact in the passage appears, accurately; add emotion, rhythm and imagery, never new facts or dates.
+- Open with a line that grabs attention, build to a turning point, and end on a strong closing line.
+- Include 2-3 bracketed stage directions, e.g. [pauses].
+
+After the monologue, list each fact from the passage and the line where it appears, so I can check nothing was dropped.",
+p_e65f32cf1271,rewrite,HF no_robots,QUALITY_UPGRADE,Bullet Summary of a Big Idea,"Explain [philosophy, movement or theory, e.g. Stoicism] to a curious beginner.
+
+Output
+1. One-sentence definition.
+2. Up to 10 bullets, one idea each, in plain words (no jargon unless you define it), ordered: core belief → key concepts → famous figures or texts → common misunderstandings → how people practise it today.
+3. 'Try this' box: one small exercise a reader could do this week.
+4. Two reputable starting points for further reading, with author and title. Don't invent sources; if unsure, say so.
+
+Keep the whole answer under [250] words and stay neutral; present it, don't advocate for it.",
+p_9024ff473a,rewrite,HF no_robots,QUALITY_UPGRADE,Summarize a News Article for a Newcomer,"Summarise the article below for someone who hasn't followed the story.
+
+Inputs
+- Article: [paste]
+- Length: [e.g. 5 sentences]
+- Reader: [e.g. a busy manager, a student]
+
+Output
+- Headline (max 10 words).
+- Summary: lead with the main news, include the key numbers and who is involved, give one sentence of background, and end with why it matters to [reader].
+- 'What we don't know yet': 1-2 bullets, if the article leaves open questions.
+
+Rules: use only facts from the article, keep names and figures exact, and don't add opinion.",
+p_260f35d590,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Strawberry Campaign Banner Set,"Design a set of three promotional banners for a strawberry campaign in a bright, cheerful anime illustration style.
+
+Inputs
+- Brand / product: [name]
+- Mascot: [adult character description]
+- Colour theme: [e.g. strawberry red, cream and mint]
+- Offer: [e.g. 20% off this weekend]
+
+Deliverables
+1. Wide web banner (3:1): mascot left, strawberries cascading right, headline and CTA button.
+2. Square social post (1:1): mascot holding a basket of strawberries, headline on top, offer badge.
+3. Vertical story (9:16): mascot full-body, strawberry pattern background, CTA at the bottom.
+
+Keep the mascot, typography and palette identical across all three; headline max 6 words; CTA: ""[CTA text]"".",
+p_900f38612e,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Jewelry as a Miniature City Ad,"Create a luxury jewellery advertisement where the piece becomes a monument in a tiny city.
+
+Inputs
+- Piece: [e.g. a diamond and ruby necklace]
+- Brand name: [name]
+- Line of copy: ""[short line]""
+
+Scene
+- The jewellery stands huge at the centre like a landmark, lit like a monument at night.
+- A miniature futuristic city grows around and through it: towers, bridges, roads, tiny people looking up.
+- Dark navy background, warm spotlights on the stones, sharp macro detail on facets and metal.
+
+Layout: portrait 4:5, brand name in fine serif capitals at the bottom, the copy line above it, generous empty space. No real brand logos.",
+p_6f87717ce06a,rewrite,HF no_robots,QUALITY_UPGRADE,Tongue-in-Cheek Persuasive Email,"Write a deadpan persuasive email that argues an absurd case so convincingly that it's funny.
+
+Inputs
+- Recipient: [e.g. my school principal]
+- Playful claim: [e.g. Pig Latin should count as my foreign-language credit]
+- What I'm asking for: [e.g. a proficiency exam]
+- One real detail about me: [detail]
+
+Structure (under 250 words)
+1. Respectful opening and the request in one sentence.
+2. Three numbered arguments, each 'serious' and well-reasoned (history, precedent, practical benefit).
+3. Pre-empt the obvious objection.
+4. Polite close with a specific next step.
+
+Tone: formal and earnest throughout; the humour comes from the logic, never from winking at the reader. Keep it kind.",
+p_201bae3b311b,rewrite,prompts.chat / awesome-chatgpt-prompts,QUALITY_UPGRADE,Product Requirements Document (PRD) Writer,"Act as a senior product manager and write a product requirements document.
+
+Inputs
+- Feature or product: [name, one-line description]
+- Users: [who has the problem]
+- Constraints: [deadline, platforms, budget, tech limits]
+- Known data: [metrics, research, support tickets]
+
+First, ask me up to five questions if key details are missing; then write the PRD.
+
+PRD sections (max two pages)
+1. Problem & who has it (evidence from my inputs only)
+2. Goals and success metrics (how we'll measure each)
+3. User stories (""As a…, I want…, so that…"")
+4. Functional requirements (numbered, testable)
+5. Out of scope
+6. Risks & mitigations
+7. Open questions
+
+Write so an engineer and a designer can both start work from it. Mark assumptions as ASSUMPTION.",
+p_005f8e0269bf,rewrite,HF no_robots,QUALITY_UPGRADE,Beginner How-To Article on a Home Repair,"Write a beginner-friendly how-to article on a home repair.
+
+Inputs
+- Repair: [e.g. patching holes in drywall]
+- Length: [e.g. under 700 words]
+- Region / currency for costs: [e.g. India, INR]
+
+Structure
+1. Intro: what this fixes and how long it takes.
+2. Tools & materials: bulleted list, with an approximate cost range for each marked 'approx.'.
+3. Step-by-step for small jobs, then a separate set for large jobs, numbered.
+4. Safety notes.
+5. Common mistakes (3 bullets).
+6. When to call a professional.
+
+Rules: plain language, one action per step, and don't state exact prices as facts; give ranges and say they vary.",
+p_3d6c9b648678,rewrite,HF no_robots,QUALITY_UPGRADE,Funny Job Posting,"Write a humorous job posting that still reads like a real advert.
+
+Inputs
+- Unusual role: [e.g. professional recliner tester at a furniture company]
+- Company: [name, one quirky detail]
+- Location / pay: [details or 'competitive']
+
+Format (under 250 words)
+- Job title (with a pun if it fits)
+- About us (2 sentences)
+- What you'll do (4 bullets)
+- What you'll need (4 bullets, mixing real skills with absurd ones)
+- Perks (3 bullets)
+- How to apply (1 line)
+
+Tone: dry, playful, workplace-appropriate; no jokes about age, gender, disability or appearance.",
+p_45607b4b7b76,rewrite,HF no_robots,QUALITY_UPGRADE,Character Profiles for Unusual Superpowers,"Create profiles for five characters whose superpowers are strange, and who use them in surprising, everyday ways.
+
+Inputs
+- Setting: [e.g. a small coastal town, modern day]
+- Tone: [e.g. cosy and funny / bittersweet]
+- Audience: [e.g. middle-grade readers]
+
+For each character (under 80 words each, under 400 total)
+- Name and one-line identity
+- Power (specific and limited, e.g. 'can hear what houseplants need')
+- How they actually use it (a concrete example)
+- One flaw or cost of the power
+
+Make the five powers distinct from each other and avoid famous existing heroes.",
+p_d7a77791e03d,rewrite,HF no_robots,QUALITY_UPGRADE,Fun Fan Blog Post With Headings,"Write a short, chatty blog post from the point of view of a long-time fan.
+
+Inputs
+- Topic: [e.g. a 90s pop group]
+- Fan's angle: [e.g. why their debut still holds up]
+- Length: [e.g. 600-800 words]
+
+Structure (mark headings exactly as shown)
+- Title
+- Intro paragraph
+- [H2] section one, with two [H3] subsections
+- [H2] section two, with one [H3] subsection
+- Closing paragraph with a question for readers
+
+Rules: fun, personal tone; facts must be accurate (if unsure about a date or chart position, leave it out or mark it [VERIFY]); no copied lyrics.",
+p_c0b8209962,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Travel Food Chips Packet Ad,"Create a vertical (4:5) food advertisement where a crisps packet erupts into a place's flavours and landmarks.
+
+Inputs
+- Place: [city or country]
+- Flavour name on the packet: [e.g. 'Mumbai Street Masala']
+- 3-4 signature foods or spices: [list]
+- 2-3 landmarks: [list]
+
+Composition
+- Bottom centre: a realistic, crinkled crisps packet with the flavour name and place on the label (no real brands).
+- Rising from it: a spiral of sauces, spices, steam and the signature dishes, transforming into the landmarks at the top.
+- Bright commercial lighting, saturated but appetising colour, crisp detail on the crisps themselves.
+
+Add a short headline at the top: ""[headline]"".",
+p_d88c198290,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Anime Reaction YouTube Thumbnail,"Design a 16:9 reaction-video thumbnail that reads instantly at phone size.
+
+Inputs
+- Character: an adult anime character with [hair colour] hair, cat ears and purple eyes
+- Expression: [e.g. shocked, sweating]
+- Headline: ""[max 4 words]""
+- What she's reacting to: [object or screenshot]
+
+Layout
+- Character on the right third, large, cropped at the chest, strong outline.
+- Left: the headline in heavy rounded type with a thick stroke.
+- A red arrow pointing from the character to [the thing she's reacting to].
+- Background: neon pink and black with paint splatters.
+
+Rules: high contrast, max 3 colours plus black, nothing important in the bottom-right corner (timestamp area).",
+p_5a84431dd2,rewrite,HF no_robots,QUALITY_UPGRADE,Python: Download a CSV From a URL,"Write a production-ready Python function that downloads a CSV file from a URL and saves it locally.
+
+Requirements
+- Signature: `download_csv(url: str, dest_path: str, timeout: int = 30) -> str` returning the saved path.
+- Use `requests` with streaming (`iter_content`, 1 MB chunks) so large files don't load into memory.
+- Raise a clear exception with the status code on non-2xx responses; handle timeouts and connection errors.
+- Write to a temporary file first, then rename, so a failed download never leaves a half file.
+- Create parent folders if missing.
+
+Output
+1. The function with docstring and type hints.
+2. A short usage example.
+3. How to load the result into pandas (`pd.read_csv`), including an encoding fallback.
+4. Two pytest tests using a mocked response.",
+p_2cd9688971,rewrite,HF no_robots,QUALITY_UPGRADE,Grade Customer Service Replies,"Act as a customer-support QA reviewer and grade the replies below.
+
+Inputs: [paste each customer message and agent reply as numbered pairs]
+Company tone guide: [optional, e.g. friendly, no jargon]
+
+For each pair, output a row in a table with these columns:
+| # | Rating (Excellent / Good / Poor) | Solved the problem? (Y/N) | Owned any mistake? (Y/N) | Tone respectful? (Y/N) | Reason (max 2 sentences) | Improved reply (only if not Excellent, under 80 words) |
+
+After the table: the three most common issues across all replies, and one coaching tip for each.
+
+Judge only what is in the text; don't assume details the customer didn't give.",
+p_4a5e92dd1cb8,rewrite,HF no_robots,QUALITY_UPGRADE,Birthday Letter From a Superhero,"Write a birthday letter to a child from their favourite superhero.
+
+Inputs
+- Child: [name, age]
+- Hero: [e.g. a caped detective hero]
+- 2-3 true details about the child: [e.g. learned to ride a bike, loves dinosaurs, is kind to their sister]
+- Message from the parent to weave in: [e.g. keep being brave at the new school]
+
+Requirements
+- 150-200 words, in the hero's voice and style.
+- Mention every detail naturally; praise effort and kindness, not just achievements.
+- Include one small 'secret mission' the child can do this week.
+- End with a sign-off the hero would use.
+
+Keep it age-appropriate, warm, and free of anything scary.",
+p_506a970bb4,rewrite,Uploaded (site-authored),QUALITY_UPGRADE,Annual Report to Team Memo,"Turn a company's annual report into a memo for my team.
+
+Inputs
+- Report: [paste or attach]
+- Company: [name]
+- Our relationship to them: [e.g. we sell to them / compete with them]
+- Our industry: [industry]
+
+Memo (under 400 words)
+1. Subject line.
+2. How they did this year, in three sentences.
+3. Numbers that matter: revenue, profit, margins and major changes, as bullets with the year-on-year change.
+4. Trends these point to in [industry].
+5. What this means for us: opportunities, risks, and one recommended action.
+
+Rules: use only figures from the report and cite the page or section for each; mark interpretation as 'Our read:'; flag anything unclear rather than guessing.",
+p_aade097a0e,rewrite,HF databricks-dolly-15k,QUALITY_UPGRADE,Answer a Question From a Book Passage,"Answer a question using only a passage I provide.
+
+Inputs
+- Book and author: [details]
+- Question: [question]
+- Passage: [paste]
+
+Output
+1. Answer: one or two sentences.
+2. Evidence: the exact quoted line(s) from the passage that support it.
+3. Confidence: High / Medium / Low, with one sentence explaining why.
+
+Rules: don't use outside knowledge of the book. If the passage doesn't contain the answer, say 'Not in the passage' and explain what would be needed.",
+p_5593cb7d951b,rewrite,HF no_robots,QUALITY_UPGRADE,Store Intercom Welcome Script,"Write a short in-store intercom announcement.
+
+Inputs
+- Store name: [name]
+- Motto: ""[motto]""
+- Today's highlight (optional): [e.g. fresh bakery items at 5 pm]
+- Tone: [e.g. friendly and upbeat]
+
+Requirements
+- Exactly four sentences, about 20 seconds when read aloud.
+- Order: greeting with the store name, thank-you for shopping, the highlight (or a helpful tip if none), and the motto as the final words.
+- Easy to say aloud: short words, no abbreviations or symbols.
+
+Give two alternative versions: one standard and one for a holiday period.",
+p_ae4a1542a815,rewrite,HF no_robots,QUALITY_UPGRADE,Light Limerick on a Chosen Subject,"Write a playful limerick about [subject, e.g. a cat who believes it owns the neighbourhood].
+
+Rules
+- Five lines, AABBA rhyme.
+- Lines 1, 2 and 5 have three stressed beats; lines 3 and 4 have two.
+- Clean, family-friendly humour, with a twist in the last line.
+- Use [one detail to include, e.g. the cat's name, Biscuit].
+
+Output: the limerick, then a second alternative, then one line naming the twist in each. Read each aloud in your head and fix any line where the rhythm stumbles.",
+p_b23631f665b6,rewrite,HF no_robots,QUALITY_UPGRADE,Memoir From an Unusual Narrator,"Write a short memoir from an unexpected point of view.
+
+Inputs
+- Narrator: [e.g. a goldfish on a family's kitchen counter]
+- The people around it: [who they are]
+- Tone: [e.g. wry and tender]
+- Length: [under 400 words]
+
+Requirements
+- First person, past tense, in a voice that fits the narrator's limited view of the world.
+- Show what it notices that humans miss, and what it thinks of the people.
+- Build to one memorable event, with a small emotional shift at the end.
+- Use concrete sensory detail; avoid explaining the joke.
+
+Give it a title.",
+p_a562a10446,rewrite,HF no_robots,QUALITY_UPGRADE,Turn a News Item Into Fiction,"Rewrite a news story as an excerpt from a novel, keeping the real facts intact.
+
+Inputs
+- News story: [paste]
+- Genre: [e.g. near-future thriller]
+- Point of view: [e.g. a junior reporter, first person]
+- Length: [e.g. 400-600 words]
+
+Requirements
+- Keep every factual element (who, what, where, when, numbers) accurate; invent only scene, inner thoughts and dialogue.
+- Open in the middle of action, build tension, and end on a hook.
+- Don't put invented quotes in the mouths of real, named people; use fictional characters for dialogue.
+
+After the excerpt, list the real facts used, so I can check them.",
+p_bc80fa962b,rewrite,HF no_robots,QUALITY_UPGRADE,Rework a Poem Into a Rhyme Scheme,"Rewrite a poem so it follows a set rhyme scheme while keeping its meaning.
+
+Inputs
+- Poem: [paste]
+- Target scheme: [e.g. ABAB CDCD]
+- Metre (optional): [e.g. iambic tetrameter]
+
+Output
+1. The rewritten poem.
+2. The rhyme letters marked at the end of each line.
+3. A short note listing the lines where you changed the wording most, and why.
+
+Rules: keep the original imagery and as much wording as possible; prefer true rhymes over slant rhymes; don't add new ideas.",
+p_4a13adfb20,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,2x2 Grid of Ads for Four Industries,"Create a 2x2 grid of four advertisements that works as a design-portfolio sample.
+
+Inputs
+- Industries: [1 e.g. skincare], [2], [3], [4]
+- Language for copy: [language]
+
+For each ad (square tile)
+- An invented brand name and simple logo mark (no real brands).
+- A photo-style hero image suited to the industry.
+- A headline (max 6 words) and one supporting line (max 12 words).
+
+Consistency rules: same grid spacing and type system across all four, but each ad gets its own colour palette and mood so the range shows. Thin white gutters between tiles.",
+p_82c1738976,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Strawberry Energy Drink Ad,"Design a high-energy drink advertisement, 4:5 portrait.
+
+Inputs
+- Drink name / flavour: [e.g. 'Volt Strawberry']
+- Headline: ""[max 5 words]""
+- Model: an athletic adult in a light jacket, orange shorts and white trainers
+
+Composition
+- Background: bright orange gradient.
+- Mid-ground: the model mid-jump, with strawberry juice and ice cubes splashing around her in an arc.
+- Foreground: a cold can beaded with condensation, fresh strawberries on a glossy surface, sharp focus.
+- Headline in bold italic sans-serif across the top; small product line at the bottom.
+
+Style: crisp commercial photography, frozen motion, saturated reds and oranges. No real brand logos.",
+p_a78986bbce,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Cute but Dense Explainer Slide,"Create a single explainer slide that mixes cute, friendly flat clip-art illustrations with the packed, everything-on-one-page layout of an official government briefing slide.
+
+Inputs
+- Topic: [e.g. a folk tale, a new policy, a process]
+- Key points to include: [5-8 points]
+- Language: [language]
+
+Layout (16:9)
+- Title band across the top.
+- 6-8 boxed sections connected by arrows, each with a heading, one short sentence and a small illustration.
+- A summary box at the bottom right.
+
+Rules: dense but readable (minimum text size equivalent to 14pt), consistent illustration style, and accurate content only from my key points.",
+p_aace4c2a21,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Recipe Flowchart for a Dish,"Make a step-by-step recipe flowchart sized 3:4 for a social post.
+
+Inputs
+- Dish: [e.g. chilli stir-fried pork]
+- Servings: [number]
+- Ingredients with amounts: [list, or ask me to confirm yours]
+
+Layout
+- Top: dish name, total time and difficulty, then the ingredient list in two columns.
+- Below: 5-8 steps as connected boxes, each with a realistic photo of that stage, a short label (max 8 words) and a key detail (heat level, time).
+- Bottom: one tip for getting it right.
+
+Rules: steps in the correct cooking order, safe cooking temperatures for meat, consistent photo lighting.",
+p_971d37a2e9,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Summer Soda Ad Built for Clicks,"Design a 3:4 summer advertisement photo for a soft drink.
+
+Inputs
+- Drink name: ""[name]"", 500 ml bottle
+- Flavour: [flavour]
+- Offer line: [e.g. 'Buy 2, get 1 free']
+
+Before generating, choose three attention techniques that suit drink ads (for example: one bold colour block, cold condensation and ice, a clearly readable offer) and state them in one line.
+
+Then create the image: the bottle large and in focus, condensation and ice, summery props in [setting], the offer in a high-contrast badge, the drink name legible. No real brands. Finally, give one alternative headline.",
+p_6f3fc32bc426,rewrite,HF no_robots,QUALITY_UPGRADE,Short Absurd Story,"Write a short absurd story that fully commits to a ridiculous premise.
+
+Inputs
+- Premise: [odd premise, e.g. a toilet that can see ghosts]
+- Main character: [who]
+- Length: 200-300 words
+
+Requirements
+- Treat the premise completely seriously; the humour comes from logic, not winks.
+- Clear beginning (normal life plus the oddity), middle (escalation), and end (resolution).
+- At least one specific, vivid detail per paragraph.
+- Land on a surprising or funny final line.
+
+Give it a title, and keep it suitable for a general audience.",
+p_a81ef43f685a,rewrite,HF no_robots,QUALITY_UPGRADE,Fish-Out-of-Water Short Story,"Write a short fish-out-of-water story.
+
+Inputs
+- Character: [name and one trait]
+- Their world, where they excel: [e.g. alpine skiing]
+- Unfamiliar situation: [e.g. a night shift at a busy diner]
+- Tone: [funny or warm]
+- Length: under 300 words
+
+Requirements
+- Show their expertise in the opening lines, then drop them into the new situation.
+- Three escalating mistakes, each caused by applying their old skills wrongly.
+- A turning point where one old skill unexpectedly helps.
+- An ending that shows what they learned.
+
+Give it a title.",
+p_c33e33ed96,rewrite,HF no_robots,QUALITY_UPGRADE,First-Month Plan for a New Hobby or Platform,"I'm starting [activity, e.g. streaming on Twitch]. Help me get through the first month.
+
+About me: [experience level, hours per week, budget, goal]
+
+Output
+1. Setup checklist (essential vs. nice-to-have, with rough costs marked 'approx.').
+2. Week-by-week plan for weeks 1-4: one focus per week and two concrete actions each.
+3. Five common beginner mistakes and how to avoid them.
+4. How to stay motivated when progress is slow: three tactics.
+5. One simple metric to track.
+
+Keep it practical and under 350 words; don't promise income or growth numbers.",
+p_8e825c707abe,rewrite,HF no_robots,QUALITY_UPGRADE,Techniques to Remember What I Read,"I forget most of what I read in [kind of material, e.g. business books]. Give me memory techniques I can start tonight.
+
+About me: [reading time per week, format: paper / e-reader / audio]
+
+Output (under 200 words)
+- 5 techniques as a numbered list. For each: name, how to do it in one sentence, and when to use it (during / right after / a week later).
+- A 10-minute weekly review routine that combines them.
+- One-line explanation of why spaced review works.
+
+Prefer methods with good evidence (retrieval practice, spacing, summarising in your own words) over gimmicks.",
+p_b0fdf65fe8aa,rewrite,HF no_robots,QUALITY_UPGRADE,Short Software Ad With Feature List,"Write a short advertisement for a software product.
+
+Inputs
+- Product: [name], a [what it is, e.g. sports team management app]
+- Audience: [who]
+- Main problem it solves: [problem]
+- Key features: [3-5 features]
+- Offer / CTA: [e.g. free 14-day trial]
+
+Format (under 200 words)
+- Headline (max 8 words) naming the benefit.
+- Opening: 2 sentences on the problem, in the audience's words.
+- Bulleted features, each turned into a benefit.
+- One line of proof only if I give you real data (otherwise skip it; don't invent stats or testimonials).
+- Clear call to action.
+
+Give two headline alternatives at the end.",
+p_9ed7a5118bcf,rewrite,HF no_robots,QUALITY_UPGRADE,Top Companies in a Sector,"List the largest companies in a sector, with sources and dates.
+
+Inputs
+- Sector: [type of business]
+- Country / region: [country]
+- How many: [number]
+- Ranking basis: [revenue / market cap / employees]
+
+Output: a table with Rank | Company | One-line description | Founded | Current CEO | Ranking figure (with year).
+
+Rules
+- State the date your data is from, and flag anything that may be out of date.
+- If you aren't sure of a figure or a CEO, write [VERIFY] instead of guessing.
+- Suggest where I can confirm the figures (e.g. annual reports, stock-exchange filings).",
+p_99a07c9238,rewrite,Uploaded (site-authored),QUALITY_UPGRADE,Socratic Coach to Question My Thinking,"Act as a Socratic coach and help me test a belief.
+
+Inputs
+- Topic: [topic]
+- My current view: [your view, 1-3 sentences]
+
+Rules
+- Don't tell me what you think and don't lecture.
+- Ask one question at a time, then wait for my answer.
+- Move through: why I believe it → evidence → assumptions → strongest counter-argument → what would change my mind.
+- Point out contradictions gently; stay curious, not combative.
+
+After about ten questions, give a summary: where my reasoning held up, where it was weak, the key assumption I rely on, and one source or experiment that could test it.",
+p_1dd893aae78b,rewrite,HF no_robots,QUALITY_UPGRADE,Blog Intro for a Game Design Idea,"Write the opening of a tabletop-gaming blog post that sells a game-design idea.
+
+Inputs
+- Idea: [e.g. countdown timers in encounters]
+- Game system: [e.g. a fantasy tabletop RPG]
+- Credit for the idea: [source, designer or game]
+
+Requirements (max 150 words, one or two paragraphs)
+- Open with a short scene played without the idea (flat), then the same scene with it (tense).
+- Name the idea plainly and credit its source in one sentence.
+- End with a line that makes the reader want the rest of the post.
+
+Tone: enthusiastic, concrete, no jargon a new player wouldn't know.",
+p_4fab831edd49,rewrite,HF no_robots,QUALITY_UPGRADE,Children's Poem About a Topic,"Write a read-aloud poem for young children.
+
+Inputs
+- Topic: [e.g. what computers help us do]
+- Age: [e.g. 4-6]
+- One thing to teach: [e.g. computers follow instructions]
+
+Requirements
+- Four stanzas of four lines, AABB rhyme, a steady bouncy rhythm.
+- Simple words a child of that age knows; no scary or sarcastic content.
+- Include one repeated line or refrain the child can join in on.
+- End with a gentle, positive message.
+
+After the poem, suggest one simple action or question for the adult reading it.",
+p_587a8fb222d7,rewrite,HF no_robots,QUALITY_UPGRADE,Letter to a Pet,"Write a funny, loving letter to my pet.
+
+Inputs
+- Pet: [species, name]
+- Their 'crimes': [3-4 habits, e.g. stealing socks, 5 am wake-ups]
+- What I love about them: [2-3 things]
+
+Structure (150-200 words)
+1. Formal, mock-accusing opening, like a legal notice.
+2. Itemised list of their crimes, with comic 'evidence'.
+3. A turn: 'However…'
+4. Heartfelt paragraph on why I love them.
+5. A sign-off in the same playful-formal voice.
+
+Keep it gentle; the teasing should feel affectionate.",
+p_bffa3349b1ec,rewrite,HF no_robots,QUALITY_UPGRADE,Unsettling First-Person Story Opening,"Write the opening of a psychological suspense story in first person.
+
+Inputs
+- Narrator: [e.g. someone hiding a dark secret]
+- Setting: [place and time]
+- Length: [e.g. 300-400 words]
+
+Requirements
+- Build dread through what the narrator notices and how calmly they describe it, not through gore or explicit violence.
+- Include one detail that seems ordinary but becomes disturbing on reflection.
+- Keep the narrator's motives unclear.
+- Stop at a cliffhanger; no resolution yet.
+
+Avoid graphic harm, and give it a working title.",
+p_96dfbb1edd,rewrite,HF no_robots,QUALITY_UPGRADE,Make an Email More Assertive,"Rewrite an email so it sounds confident and direct while staying polite.
+
+Inputs
+- Email: [paste]
+- What I need from the reader: [the decision or action]
+- Relationship: [e.g. client, manager, vendor]
+
+Rules
+- Lead with the main point or request in the first two sentences.
+- Turn hedges and questions ('I was wondering if…', 'maybe') into clear statements or requests.
+- Keep every fact; add no new information or promises.
+- Include a specific deadline if I gave one.
+
+Output: the rewritten email, then a bullet list of the main changes so I can learn from them.",
+p_354d718b6546,rewrite,HF no_robots,QUALITY_UPGRADE,Three Quick Fixes for an Everyday Problem,"Help me solve a small everyday problem with three practical options.
+
+Inputs
+- Problem: [describe it in a sentence or two]
+- Constraints: [budget, time, tools I have, living situation]
+
+Output: three numbered options, cheapest or easiest first. For each:
+- What to do (1-3 steps)
+- Rough time and cost (mark costs 'approx.')
+- One thing to watch out for
+- How I'll know it worked
+
+No preamble. If the problem could signal a safety issue (electrical, gas, health), say so first and recommend a professional.",
+p_8221b0c826c7,rewrite,HF no_robots,QUALITY_UPGRADE,Gentle Sad Children's Story Opening,"Write the opening of a children's story about loss.
+
+Inputs
+- Character: [name, age, species]
+- What they lose: [e.g. their old dog]
+- Reader age: [e.g. 5-8]
+- Length: [e.g. 250-350 words]
+
+Requirements
+- Third person, gentle and sad but never frightening; no graphic details.
+- Show the character's feelings through small actions (an empty bowl, a quiet walk).
+- Include one comforting adult or friend.
+- End the opening on a soft note of hope, with the story clearly still to continue.
+
+Use short sentences and words the reader age knows.",
+p_e88d2e5d83dd,rewrite,HF no_robots,QUALITY_UPGRADE,Persuasive Pet Adoption Blurb From an Animal,"Write a persuasive adoption blurb in the voice of an excited animal.
+
+Inputs
+- Animal and breed: [e.g. a Labrador]
+- Name and personality: [details]
+- Real facts about the breed to include: [2-3 facts, or ask me]
+- Shelter / contact: [details]
+
+Format: three paragraphs, under 300 words.
+1. Enthusiastic self-introduction.
+2. Why I'd be a great pet: the facts, told in the animal's voice.
+3. Honest needs (exercise, space, care) and a call to adopt with the contact details.
+
+Keep it truthful about the breed's needs; don't overpromise.",
+p_2e85f62aa2,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Overthinking: Sitting on a Giant Version of Your Own Head,"Create a conceptual campaign photo about a mental-health or lifestyle theme.
+
+Inputs
+- Theme: [e.g. overthinking]
+- Subject: [e.g. an adult woman in casual streetwear and tinted sunglasses]
+- Tagline: ""[max 4 words]""
+- Brand / cause (optional): [name]
+
+Scene
+- The subject lounges, completely relaxed, on top of a huge, lifelike sculpture of her own head.
+- Clean urban backdrop (concrete plaza), bright midday light, crisp shadows.
+- Composition: full-body, subject in the upper third, sculpture filling the lower half.
+
+Layout: 4:5, the tagline in small, precise sans-serif type at the bottom left, lots of breathing room.",
+p_d2b0e508d1,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Historical Ruler's Parody Social Media Page,"Create a parody social-media profile page for a historical ruler at a turning point.
+
+Inputs
+- Figure: [e.g. the founder of a dynasty] (historical, long-deceased only)
+- Moment: [e.g. just after taking the throne]
+- Language: [language]
+
+Include
+- A profile photo in period dress (painted portrait style), name, bio (max 20 words), and invented follower counts.
+- 3-4 posts in the figure's voice about the moment, each grounded in real historical events.
+- 2 replies under each post from contemporaries (officials, rivals).
+
+Rules: a generic interface with no real app logos; historically accurate names and events, with any jokes clearly playful; avoid modern political commentary.",
+p_1e1fd35e9b,rewrite,HF databricks-dolly-15k,QUALITY_UPGRADE,SQL: Filter Rows by a Condition,"Teach me how to filter rows in SQL with clear, runnable examples.
+
+Inputs
+- My table: [table name and columns], or use a simple example table
+- Database: [e.g. PostgreSQL, MySQL, SQLite]
+
+Cover, each with a one-line explanation and a runnable query:
+1. WHERE with =, <>, <, >
+2. AND / OR, and parentheses for precedence
+3. IN and NOT IN
+4. LIKE with % and _ (and ILIKE where relevant)
+5. IS NULL / IS NOT NULL, and why = NULL doesn't work
+6. BETWEEN for ranges and dates
+
+End with three practice exercises on my table, and their answers hidden under a 'Solutions' heading.",
+p_5d527cc0f6,rewrite,HF no_robots,QUALITY_UPGRADE,Redact Personal Information From Text,"Act as a privacy reviewer and redact personal information from the text below.
+
+Inputs
+- Text: [paste]
+- Keep visible (optional): [e.g. company names, job titles]
+
+Redact and replace with a typed tag:
+- Names → [NAME], addresses → [ADDRESS], phone numbers → [PHONE], emails → [EMAIL], dates of birth → [DOB], ID / account / card numbers → [ID], and any other detail that could identify a person (e.g. a unique job + location combination) → [IDENTIFIER].
+
+Output
+1. The redacted text, otherwise unchanged (same wording, order and formatting).
+2. A table: tag | count.
+3. A list of borderline items you weren't sure about, so I can decide.
+
+Don't summarise or rephrase anything that isn't personal information.",
+p_03fe23c9e16c,rewrite,HF no_robots,QUALITY_UPGRADE,Website Homepage Intro,"Write the hero section and intro copy for a website homepage.
+
+Inputs
+- Company: [name]
+- Service: [what you offer]
+- Audience: [who it's for]
+- Key points: [2-4, e.g. one-to-one and group classes, all levels welcome]
+- Main action: [e.g. view the class schedule], with page link: [page]
+- Tone: [e.g. friendly and clear]
+
+Output
+- Headline (max 8 words, benefit-led).
+- Subheadline (max 20 words).
+- Intro paragraph (under 80 words) covering the key points.
+- Primary button text (2-4 words) and a secondary link text.
+
+Rules: plain words, no invented awards, statistics or testimonials. Give two headline alternatives.",
+p_49279c590e,rewrite,HF no_robots,QUALITY_UPGRADE,Extract Names and Key Facts From an Article,"Extract specific facts from a news article.
+
+Inputs
+- Article: [paste]
+- People to identify: [e.g. those injured, the officials quoted]
+- Key fact to pull out: [e.g. the number affected and the cause]
+
+Output: exactly two bullet points with a blank line between them.
+- Bullet 1: one sentence naming the people, as the article names them.
+- Bullet 2: one sentence giving the key fact, with the article's exact figures.
+
+Rules: use only what the article states; if a name or figure isn't given, write 'not stated in the article' instead of guessing. Keep the wording neutral.",
+p_08fd7bd239bf,rewrite,HF no_robots,QUALITY_UPGRADE,Continue a Fable With a Clear Moral,"Continue a fable from the opening I give you.
+
+Inputs
+- Story so far: [paste the start]
+- Main character: [name, species]
+- The choice they've made: [e.g. trading his voice for golden feathers]
+- Moral to land: [e.g. what you are matters more than how you look]
+- Length: [e.g. 300-400 words]
+- Reader age: [age]
+
+Structure
+1. Excitement: the character enjoys the choice at first.
+2. Three moments where it slowly goes wrong, each worse than the last.
+3. The realisation: a specific event that makes them understand.
+4. Ending: what they learn, shown through action, with the moral as one closing line.
+
+Match the voice of the opening and keep it suitable for the reader age.",
+p_75a5870ff9e1,rewrite,HF no_robots,QUALITY_UPGRADE,Funny Psychic Reading of My Future,"Write a comic 'psychic reading' of my future.
+
+Inputs
+- Things to predict: [e.g. meeting the love of my life, a big trip, a career change]
+- Details about me to weave in: [2-3 harmless details]
+- Length: 300-500 words
+
+Character: a dramatic, slightly unhinged psychic named [name] with a crystal ball that 'keeps buffering'.
+
+Structure
+- Theatrical opening ritual.
+- One section per prediction, each with an oddly specific detail and an ironic twist.
+- A 'warning from the spirits' about something trivial.
+- Sign-off with a bill for services.
+
+Keep it obviously playful: no health, death or money predictions presented as real advice.",
+p_887bacce6223,rewrite,HF no_robots,QUALITY_UPGRADE,Funny Email From an Unusual Sender,"Write a funny email from an unexpected sender.
+
+Inputs
+- Sender: [e.g. an astronaut on the Moon]
+- Recipient: [e.g. mission control]
+- Strange event: [e.g. the base appears to be haunted]
+- Tone: [e.g. worried and mildly panicked, but trying to stay professional]
+- Length: under 250 words
+
+Format
+- Subject line.
+- Email with a numbered 'incident log' of 3-4 escalating observations.
+- A request for instructions.
+- A P.S. that undercuts everything.
+
+The humour comes from a professional voice describing absurd events; keep it light and clean.",
+p_9000363cf224,rewrite,HF no_robots,QUALITY_UPGRADE,Character Inner Monologue for a Novel,"Write an inner monologue for a character in my novel.
+
+Inputs
+- Character: [name, age, key traits]
+- Situation right now: [what's happening in the scene]
+- What she wants vs. what she fears: [both]
+- Tone: [e.g. casual and a little funny]
+- Length: [e.g. 250-350 words]
+
+Requirements
+- First person, present tense, in her own voice and vocabulary.
+- Show worries through how she talks to herself (self-corrections, half-finished thoughts, one recurring phrase).
+- Reveal one thing she won't say out loud.
+- End on a decision or a small shift in mood.
+
+Avoid summarising her feelings; let the thoughts show them.",
+p_97852a9fa155,rewrite,HF no_robots,QUALITY_UPGRADE,Opening of a Workplace Drama Scene,"Write the opening of a tense workplace drama scene.
+
+Inputs
+- Situation: [e.g. an employee being let go]
+- Point of view: first person, from [whose point of view]
+- Style device: [e.g. the manager's corporate jargon contrasting with the narrator's thoughts]
+- Length: [word count]
+
+Requirements
+- Start in the middle of the moment, not with backstory.
+- Build tension through dialogue, small physical details and the gap between what's said and what's meant.
+- Include at least three lines of realistic dialogue.
+- Stop at a turning point, with the scene unresolved.
+
+Keep the characters fictional and avoid melodrama.",
+p_b5febcb821,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Online Store Product Page for a Fictional Robot,"Design a long, scrolling e-commerce product page for an invented product.
+
+Inputs
+- Product: [fictional product, e.g. a retro household helper robot] (original design, no film or game characters)
+- Price: [price]
+- Language for all text: [language]
+- 4-6 features: [list]
+
+Sections, top to bottom
+1. Hero image with product name, price and a 'Buy' button.
+2. Front, side and back views.
+3. Detail close-ups (joints, materials, control panel).
+4. Feature list with simple icons.
+5. Three lifestyle scenes of it in use.
+6. Specs table and what's in the box.
+
+Style: a clean marketplace layout, consistent product lighting, no real brands or logos.",
+p_4e44a1f67b,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Encyclopedia Infographic on One Subject,"Create a science-encyclopedia infographic about one subject.
+
+Inputs
+- Subject: [e.g. the giant squid, a famous inventor, the redwood tree]
+- 6-8 facts to feature: [list, or ask me to confirm yours]
+- Language: [language]
+
+Layout (portrait)
+- Aged cream paper background, with an elegant title and subtitle at the top.
+- Centre: a realistic, detailed rendering of the subject that seems to lift off the page.
+- Around it: 6-8 framed fact panels with headings (e.g. anatomy, habitat, history, surprising facts), joined to the relevant part of the subject by fine leader lines.
+- Bottom: a scale reference and a short 'Did you know?' line.
+
+Rules: accurate facts only (mark anything uncertain [VERIFY]), legible captions, no logos.",
+p_f21c1d777bdd,rewrite,HF databricks-dolly-15k,QUALITY_UPGRADE,Extract Items From a Passage as a List,"Extract every item of a given type from a passage.
+
+Inputs
+- Item type: [e.g. industries the city leads in]
+- Passage: [paste]
+
+Output
+- One line, comma-separated, in the order the items appear.
+- Then, on a new line, the count of items found.
+
+Rules
+- Use the passage's own wording for each item; don't merge or rename items.
+- Include only items the passage states, not implied ones.
+- If there are none, reply exactly: none found.",
+p_bcda1ad63b5d,rewrite,HF no_robots,QUALITY_UPGRADE,Balanced Explainer Article With Lesser-Known Facts,"Write a balanced, plain-language explainer article.
+
+Inputs
+- Topic: [e.g. online banking]
+- Reader: [e.g. older adults new to it]
+- Length: under [word count] words
+
+Structure
+1. Hook: one surprising but true fact.
+2. What it is, in two sentences.
+3. Main benefits (3 bullets).
+4. Lesser-known facts (3 bullets).
+5. Downsides and risks, explained fairly, with how to reduce each.
+6. A one-paragraph bottom line.
+
+Rules: no jargon without a definition, no invented statistics (write [VERIFY] if a number is needed), and no product endorsements.",
+p_3b1342e00c30,rewrite,HF no_robots,QUALITY_UPGRADE,Short Kids' Story With Named Characters,"Write a short, light-hearted story for children.
+
+Inputs
+- Characters: [names and one trait each]
+- Setting: [place]
+- What they want: [goal]
+- What gets in the way: [obstacle]
+- Reader age: [e.g. 5-8]
+- Length: under 300 words
+
+Requirements
+- Clear beginning, a problem, three tries to solve it, and a happy resolution.
+- Each character's trait matters to the solution.
+- Simple sentences, some dialogue, and one fun sound word or repeated phrase.
+- End with a gentle takeaway, shown rather than preached.
+
+Give it a title.",
+p_7006ddf98725,rewrite,HF no_robots,QUALITY_UPGRADE,Story Outline in Bullet Points,"Outline a story in clear beats.
+
+Inputs
+- Main character: [name, role]
+- Premise: [e.g. a secret agent on one last mission]
+- Genre and tone: [e.g. spy thriller, tense]
+- Length of the finished story: [short story / novella / novel]
+
+Output: 8-10 bullets, one sentence each, labelled:
+Setup • Inciting incident • First obstacle • Midpoint twist • Rising stakes • Low point • Turning point • Climax • Resolution (+ optional epilogue)
+
+Then add: the character's goal, what they fear, and how they change by the end (one line each). Keep cause and effect clear between beats.",
+p_839367ff6373,rewrite,HF no_robots,QUALITY_UPGRADE,Guided Meditation Script,"Write a guided meditation script.
+
+Inputs
+- Purpose: [e.g. winding down after work]
+- Length: [e.g. 5 minutes spoken, under 400 words]
+- Listener: [e.g. a beginner, seated at a desk]
+
+Structure
+1. Settling in: posture and eyes.
+2. Breath: a simple counted pattern (e.g. in 4, out 6), with cues.
+3. Body scan or visualisation suited to the purpose.
+4. Gentle return and one intention for the rest of the day.
+
+Formatting: short sentences in second person, pauses marked like [pause 5s], and calm, plain words.
+
+Avoid medical claims; add one line advising listeners to stop if they feel unwell.",
+p_bd0291260cd2,rewrite,HF no_robots,QUALITY_UPGRADE,Beginner Steps for Learning a Skill,"Write a beginner's step-by-step guide to the first stage of learning a skill.
+
+Inputs
+- Skill: [e.g. riding a bike as an adult]
+- Learner: [age, any constraints]
+- Equipment they have: [list]
+
+Output
+- 'Before you start': safety gear and setup, 2-3 bullets.
+- Five numbered steps, each with: what to do (1-2 sentences), how you know you're ready for the next step, and a tip for the part people usually struggle with.
+- A 15-minute first practice plan.
+
+Keep the language encouraging and practical; include safety notes where the skill has physical risk.",
+p_dff3bc503d81,rewrite,HF no_robots,QUALITY_UPGRADE,Twist on a Classic Nursery Rhyme,"Rewrite a classic nursery rhyme with a twist.
+
+Inputs
+- Rhyme: [a traditional, public-domain nursery rhyme]
+- Twist: [e.g. the rescuers are alarmed to find the egg can talk]
+- Audience: [children / adults]
+- Length: [e.g. 4-6 stanzas]
+
+Requirements
+- Open in the rhyme's original metre and rhyme pattern.
+- Let the style drift step by step as the twist takes over (longer lines, modern words, or a change of rhythm).
+- Keep it clever, not mean, and suitable for the stated audience.
+- End with a punchline stanza.
+
+After it, add one line explaining the style shift for a reader who didn't notice.",
+p_f190ef311a10,rewrite,HF no_robots,QUALITY_UPGRADE,Letter From a Prehistoric or Historical Character,"Write an imagined letter from a character in the deep past.
+
+Inputs
+- Character: [e.g. a Neanderthal woman]
+- Recipient: [e.g. her sister in another valley]
+- News: [e.g. she has learned to make fire on demand]
+- Tone: [e.g. proud and funny]
+- Length: under 400 words
+
+Requirements
+- Give her modern fluency, but ground every detail in her world (tools, food, weather, animals).
+- Use vivid sensory description of the discovery.
+- Include a worry or complication, plus a request to the recipient.
+- Close with a personal sign-off.
+
+Keep period details plausible; avoid modern objects unless they're part of the joke.",
+p_dca53433891a,rewrite,HF no_robots,QUALITY_UPGRADE,Recipes From What I Have,"Suggest recipes I can make with what I already have.
+
+Inputs
+- Ingredients I have: [list with rough amounts]
+- Equipment: [e.g. oven, no mixer]
+- Dish type: [e.g. cookies]
+- How many ideas: [number]
+- Dietary needs: [allergies, vegetarian]
+
+Output
+1. A numbered list of ideas: name, which of my ingredients it uses, and at most one cheap extra ingredient (named).
+2. Full recipe for your top pick: ingredient list with amounts, numbered steps, temperature, time, and how to tell when it's done.
+3. One substitution tip if I'm missing something.
+
+Only suggest recipes that genuinely work with these ingredients.",
+p_311c271fea,rewrite,HF databricks-dolly-15k,QUALITY_UPGRADE,Business Ideas With First Steps,"Suggest three business ideas that fit my situation, with a plan to test each one cheaply.
+
+About me
+- Skills: [skills]
+- Budget to start: [amount]
+- Time per week: [hours]
+- Location: [city / online]
+- Interests: [interests]
+
+For each idea
+- One-line pitch.
+- Who pays and why (the problem it solves).
+- Start-up costs, itemised (mark them 'approx.').
+- Three first steps to test demand this month, each with a measurable signal of success.
+- The biggest risk.
+
+Finish with your recommendation and why. Don't promise income figures.",
+p_9a1b723b5a,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Gold-Lit Eastern Fantasy City Poster,"Create a 9:16 Eastern-fantasy city poster.
+
+Inputs
+- City: [city]
+- 3-5 landmarks: [list]
+- Title text: ""[city name or slogan]""
+
+Composition
+- Background: black fading to deep red at the bottom, with faint stardust.
+- A ribbon of golden light winds in an S-curve from bottom left to top right.
+- Inside the ribbon, the landmarks emerge layer by layer as fine line drawings with glowing gold volumes.
+- Bottom: an adult woman with long white hair, eyes closed, holding flowers; her hair dissolves into the golden light.
+- Title in elegant calligraphic type at the top, with generous empty space.
+
+Style: luminous gold line art, deep contrast, poetic and calm.",
+p_16c379654b,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Production Character Sheet From a Reference,"Using my uploaded character as the reference, create a production-ready character sheet.
+
+Keep exactly: silhouette, helmet, visor, armour and clothing details. Character name: [name].
+
+Layout (16:9, light grey background)
+- Turnaround: front, three-quarter, side and back views at the same scale, with a height marker.
+- Close-ups: helmet (front and side), gloves, boots, and one signature gear piece.
+- Material and colour callout panel: swatches with names (e.g. matte carbon, brushed steel) and hex codes.
+- A short description box: role, personality in three words, one design note.
+
+Style: monochrome industrial look with one accent colour, clean sans-serif labels, consistent lighting across every view.",
+p_434eade9d0,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Cyberpunk Hacker Character Sheet,"Design a character reference sheet for an original adult cyberpunk hacker.
+
+Inputs
+- Name: ""[NAME]""
+- Look: short silver bob with cyan and magenta streaks, a translucent visor over one eye, an oversized tech jacket, [extra detail]
+- Personality: [three words]
+
+Layout (16:9)
+- Front, side and back full-body views at the same scale.
+- A close-up portrait with two alternate expressions.
+- Labelled accessories: visor, deck or laptop, gloves, boots, with one-line notes.
+- Colour palette swatches.
+
+Style: clean anime cyberpunk linework, flat cel shading, neon accents on a dark grey background, readable labels.",
+p_9e5e570855,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Packaging Design Sheet From an Image,"Using my uploaded image as the design source, create a professional packaging design sheet.
+
+Inputs
+- Package type: [e.g. tuck-end box for a candle]
+- Dimensions: [W x H x D]
+- Materials and finishes: [e.g. uncoated kraft, gold foil, spot UV]
+
+Layout (landscape)
+- Centre: a photoreal 3D render of the finished package, soft studio light.
+- Around it: front, side, top, bottom and three-quarter views.
+- The flat dieline with fold and cut lines labelled.
+- Sketches of the inner structure or insert.
+- A notes panel listing materials, finishes and print colours.
+
+Keep the artwork from my image consistent on every view; labels in clean sans-serif.",
+p_6d9334bb40,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Beard Style Analysis Poster,"Create a grooming-guide poster for the man in my photo. Keep his face exactly as it is; change only the facial hair.
+
+Layout (portrait, dark blue background)
+1. Analysis: front and side views with short notes on face shape, jawline and how his beard grows (density, patchy areas).
+2. Six styles on the same face: stubble, short boxed, full beard, goatee, Van Dyke, clean-shaven.
+3. Under each: a suitability rating out of 5 and one sentence on why.
+4. A 'Best for you' box with the top pick and how to maintain it (trim length, tools, frequency).
+
+Tone: respectful and practical; no comments on attractiveness.",
+p_877c83177a,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Cosplay Photo as a Visual Novel Screen,"Create a vertical phone-screenshot style image that looks like a visual-novel game scene.
+
+Inputs
+- Character being cosplayed: [character]
+- Setting: [e.g. a café counter]
+- Dialogue: write 1-2 gentle, in-character lines yourself
+
+Composition (9:19.5)
+- A fictional adult cosplayer, realistic with a hint of anime, smiling gently at the camera.
+- Top: a phone status bar (time, battery, signal).
+- Bottom third: a translucent dialogue box with a chibi portrait on the left, the character's name, and the lines on the right.
+- Below it: a row of game menu buttons (Save, Load, Auto, Skip).
+
+Use a generic interface, no real game or app logos.",
+p_f9d38e5af6,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Thousand-Armed Guanyin as a Modern Worker,"Create a fine-line gongbi painting that reimagines the Thousand-Armed Guanyin as the ultimate multitasking worker.
+
+Inputs
+- Name for the seal: ""[your name]""
+- Extra objects to include (optional): [list]
+
+Composition (portrait)
+- A serene central figure in traditional robes, with a radiating fan of arms.
+- Instead of ritual objects, the hands hold modern tools: laptops, phones, stacks of files, coffee cups, rubber stamps, a calculator, a mop, a baby bottle.
+- The golden halo behind the head is made of turning clock gears.
+- A red vertical seal in the lower right reading the name.
+
+Style: precise ink outlines, soft mineral colours, aged silk texture; respectful, gentle humour.",
+p_09aed800b1,rewrite,Uploaded (site-authored),QUALITY_UPGRADE,Brand Identity Brief,"Act as a brand strategist and write a design brief for a new brand identity.
+
+Inputs
+- What the business does: [describe]
+- Audience: [who, and what they care about]
+- Values and mission: [values]
+- What makes it different: [selling point]
+- Brands we like / dislike, and why: [examples]
+- Budget and timeline: [details]
+
+Output
+1. Positioning statement (one sentence).
+2. Five name ideas, each with its rationale.
+3. Logo direction: concept, style and what to avoid.
+4. Colour palette: 5 colours with hex codes and roles.
+5. Two or three font pairings (heading / body).
+6. Photography and illustration style.
+7. Voice and tone: three adjectives, with a do/don't example of each.
+8. Deliverables checklist for the designer.
+
+Mark assumptions as ASSUMPTION.",
+p_0f05ca9eb7,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Flat Fantasy City Poster With Golden Light,"Create a flat-illustration fantasy poster for a city, 9:16.
+
+Inputs
+- City: [city]
+- 4-6 landmarks: [list]
+- Title: ""[title]""
+
+Composition
+- Background: black fading to deep red at the bottom, with faint stardust.
+- A ribbon of golden light flows in a diagonal S from bottom left to top right.
+- The landmarks appear inside the ribbon as fine line drawings lit in gold, stacked from near to far.
+- Bottom: a calm adult figure with long white hair holding flowers, facing the light.
+- Title at the top in refined type.
+
+Style: flat vector shapes with no gradients except the background, gold line accents, strong silhouettes, poster-ready contrast.",
+p_3d6b9476c5,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Facial Features Style Report Card,"Turn my uploaded portrait into a clean, kind style-advice report.
+
+Layout (portrait, black-and-white interface, thin lines, rounded cards)
+1. My photo with a few thin guide lines showing face shape and proportions.
+2. Analysis cards: face shape, key proportions, notable features, with a short neutral note on each.
+3. Recommendations: 3 hairstyles, 2 glasses frame shapes, and a 6-colour palette that suits my colouring, each with a one-line reason.
+4. A 'Try first' card with the single easiest change.
+
+Rules: practical and positive; no scores or ratings of attractiveness, and no comments on weight, age or ethnicity.",
+p_8c5c0f5aef,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Museum-Style Exhibit Infographic,"Create a museum exhibition-panel style explainer.
+
+Inputs
+- Subject: [e.g. a traditional costume or object]
+- Components to label: [list]
+- Language for captions: [language]
+
+Layout (portrait, off-white paper texture)
+- Top: title, subtitle and a short introductory paragraph.
+- Centre: a realistic image of the subject.
+- Left: callout lines labelling each component, with close-up details.
+- Top right: samples of materials and techniques.
+- Middle right: main colours and motifs, with their meanings.
+- Bottom: the order it's worn or assembled (numbered), plus three key characteristics.
+
+Style: restrained and professional; accurate content only (mark uncertain points [VERIFY]); not a poster or costume photo.",
+p_8eae80d82f,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Two Soda Flavors Splash Ad,"Create a bright 3:4 studio advertisement for two flavours of a soft drink.
+
+Inputs
+- Brand name: [name] (fictional)
+- Flavour 1: ""[e.g. TROPICAL RUSH]"" with [its fruits]
+- Flavour 2: ""[e.g. LEMON ICED]"" with [its fruits]
+- Headline: ""[max 5 words]""
+
+Composition
+- Left: can 1 bursting out of a splash of water and tropical fruit, lit with orange and pink light.
+- Right: can 2 hit by a cold water splash, lit with glowing green light.
+- Both cans covered in condensation and droplets, labels readable.
+- Headline across the top, brand name at the bottom.
+
+Style: crisp studio photography, 50 mm look, frozen motion. In Midjourney add --ar 3:4.",
+p_b8beb2b260,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,City Travel Poster in Watercolour Collage,"Create a vertical travel poster for a city.
+
+Inputs
+- City and region: [city, region]
+- Time of day: [e.g. sunset]
+- Foreground scene: [a local street or waterfront with one or two people]
+- 2-3 landmarks: [list]
+- Tagline: ""[tagline]""
+
+Composition (2:3)
+- Foreground scene in the lower third; landmarks layered in the background.
+- Technique: loose watercolour washes mixed with cut-paper collage edges and subtle paper grain.
+- Palette: warm and slightly faded, suited to the time of day.
+- Typography: the city name large in one corner, the tagline small beneath it, in clean text areas so the lettering stays legible.
+
+No logos; keep the landmarks recognisable but stylised.",
+p_0040a9d521,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Tiny Chibi Figure Napping on a Latte,"Create a cosy 3D miniature scene for a morning post.
+
+Inputs
+- Figure: a tiny chibi-style character in [outfit, e.g. a cream jumper and jeans]
+- Foam message: ""[e.g. Good Morning]""
+- Cup: [e.g. textured speckled ceramic]
+
+Scene
+- The figure naps peacefully, floating on the latte foam, with a small satin pillow behind its head.
+- The message is written in the foam in neat, cute handwriting.
+- Soft plain background, bright natural window light, shallow depth of field.
+
+Style: polished toy-like 3D render, soft materials, warm and calm, square 1:1 format.",
+p_1ce83729af,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,10x10 Grid of Pixel Art RPG Items,"Create a 10x10 sprite sheet of 100 fantasy RPG items in 16-bit pixel art.
+
+Grid rules
+- 100 equal square cells on a white background, each item centred with a short label underneath.
+- Spell every label correctly and keep it under 14 characters.
+- One theme per row, in this order: swords; shields and armour; bows; staffs and wands; potions; scrolls and books; rings and amulets; helmets and crowns; keys and quest items; gems and crafting materials.
+
+Style: a consistent 32x32 pixel scale, limited palette, a 1-pixel dark outline, no anti-aliasing, and a rarity hinted by colour (grey, green, blue, purple, gold) across each row from left to right.",
+p_634ed08723,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,One Person in Ten Countries' Traditional Dress,"Create a respectful 5x2 photo grid of the same adult woman from my reference photo, wearing traditional clothing from ten countries.
+
+Inputs
+- Countries: [list ten], or choose ten from different continents
+
+Rules for every frame
+- Keep her face, skin tone and features identical; change only clothing, hair styling and background.
+- Use authentic, everyday or festive traditional dress (not costumes or stereotypes), with a background suited to each place.
+- Consistent framing (three-quarter length), lighting and image quality.
+- Small, correctly spelled country label in each frame.
+
+Output: portrait-orientation grid with thin white gutters.",
+p_c89253060e,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Math Concept Visual Explainer Sheet,"Create a one-page infographic that builds real understanding of a maths concept.
+
+Inputs
+- Concept: [e.g. the Pythagorean theorem]
+- Level: [e.g. secondary school]
+
+Sections
+1. What it is: a plain-language definition and the formula.
+2. Why it works: a visual proof or intuition, step by step.
+3. The geometric picture: a large labelled diagram.
+4. How it behaves: 3 small examples covering normal, edge and counter-example cases.
+5. A common mistake, and how to avoid it.
+6. One practice question, with the answer upside down at the bottom.
+
+Style: a lecture handout crossed with a hand-drawn classroom poster; light paper, deep blue title, dark grey drawings, 2-3 colour highlights. All maths must be correct.",
+p_0c694882f7,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Mythical Beast Ink Landscape Card,"Create a minimalist neo-traditional art card.
+
+Inputs
+- Mythical creature: [e.g. a qilin]
+- Title: ""[title]""
+- Format: [e.g. 5x7 portrait]
+
+Composition
+- Thick white art paper with a torn, uneven edge, laid on a deep red ground.
+- A poetic mountain landscape, with the creature drawn whole in a commanding pose on a ridge.
+- Fluorescent blue linework with very fine gold outlines and broad strokes of white ink.
+- Plenty of empty space; the title in formal brush script at the bottom, with a small red seal.
+
+Style: elegant, sparse, high contrast between blue line and red ground.",
+p_a74f0fbeb1,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Four-Panel Satirical Comic Strip,"Draw a four-panel vertical satirical comic strip.
+
+Inputs
+- Character A: [e.g. a tech CEO in a sweater] (fictional)
+- Character B: [e.g. a journalist with a notepad] (fictional)
+- Topic: [topic]
+- Punchline idea: [optional]
+
+Structure
+- Panel 1: set-up, an ordinary question.
+- Panel 2: an evasive, jargon-filled answer.
+- Panel 3: the question pressed, with the answer getting more absurd.
+- Panel 4: the punchline, a visual or verbal reversal.
+
+Style: black-and-white pencil with cross-hatching, caricature exaggeration, short speech bubbles (max 15 words each), readable hand lettering. Satirise ideas, not real people.",
+p_c66d08253d,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Vintage Dragon Encyclopedia Page,"Create an A4 portrait page from an old fantasy bestiary about an original dragon species.
+
+Inputs
+- Species name: [name]
+- Habitat: [e.g. storm-wrapped mountains]
+- Key traits: [size, wingspan, diet, behaviour]
+
+Layout
+- Centre: a large, realistic dragon in a three-quarter pose, with stormy mountains behind.
+- Margins: labelled anatomy notes with fine leader lines, a wingspan diagram with a human silhouette for scale, a small habitat map, and a short descriptive paragraph.
+- Header: species name in decorative serif type, with a plate number.
+
+Style: aged paper texture, sepia ink with muted watercolour, hand-lettered annotations.",
+p_ab7ad96b20,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Mixed-Media Championship Poster From My Photo,"Create a mixed-media sports celebration poster of the adult woman in my reference photo, keeping her face exactly as it is.
+
+Inputs
+- Team: [team name and colours]
+- Trophy: [which trophy]
+- Headline: ""[e.g. CHAMPIONS 2026]""
+
+Composition (portrait)
+- She stands confident and happy in the team jersey, holding the trophy.
+- Techniques mixed together: realistic photo, pencil sketch outlines, watercolour splashes and ink scribbles.
+- Background: confetti, fireworks, a cheering crowd and team flags.
+- Palette: [team colours], plus gold and white.
+
+Headline in bold brushed type at the top. No official league logos.",
+p_7629bc6552,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Nine-Frame Fashion Expression Collage,"Edit my photo into a 9:16 model test-shoot collage, without changing my face.
+
+Inputs
+- Outfit: [e.g. sporty streetwear and a cap]
+- Mood: [e.g. playful and confident]
+
+Layout: a 3x3 grid of nine frames, thin white gutters.
+
+Each frame shows a different expression or small pose: laughing with eyes closed, a side glance, tugging the cap, a wink, a serious stare, looking over the shoulder, hands in pockets, a mid-step walk, and a candid smile.
+
+Rules: identical face, outfit and lighting in every frame; plain studio background with soft light; natural skin texture, no beautifying filters.",
+p_3c4664bf2d,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Starry Ice-Blue Hanfu Portrait,"Create a full-length fashion portrait of an adult model in traditional Hanfu.
+
+Inputs
+- Colour: [default: pale ice blue]
+- Setting: [e.g. plain studio / moonlit courtyard]
+
+Styling
+- A high-waisted Hanfu with layers of light chiffon and organza.
+- Wide sleeves embroidered with tiny silver and pale-blue sequins that shimmer like a galaxy.
+- Silver lace and woven texture at the bodice; the sash hangs naturally.
+
+Photography
+- Model standing centred, calm expression, full body in frame.
+- Soft side light through the fabric to show its lightness and movement.
+- 85 mm lens look, shallow depth of field, accurate fabric colour.
+
+Respectful, authentic styling; no costume clichés.",
+p_fc01de6695,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Streetwear Campaign With Giant Game Controller,"Create a streetwear campaign poster with a retro-gaming twist.
+
+Inputs
+- Brand: [fictional brand name]
+- Big background word: ""[WORD]""
+- Model: a confident, athletic adult in [outfit]
+
+Composition (4:5)
+- The model sits casually on a giant glossy retro game controller.
+- The huge word fills the background behind her in bold extended type.
+- Glossy reflective floor; studio lighting with soft rim light.
+- Palette: pastel neon (lavender, silver, soft cyan).
+- A small brand logo bottom right; clean advertising layout with breathing room.
+
+No real console or brand logos.",
+p_64292af0b0,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Brain and AI Hybrid Infographic,"Create a square scientific infographic about how a technology links the human brain and AI.
+
+Inputs
+- Topic: [e.g. brain-computer interfaces]
+- Audience: [e.g. general readers]
+
+Layout (1:1, dark background)
+- Centre: a detailed brain merging into circuit lines.
+- Four labelled panels around it: how signals are captured; how they're processed; current uses; risks and open questions.
+- Each panel: a heading, 2-3 short factual lines and a small icon.
+- Footer: one line distinguishing what's possible today from what's experimental.
+
+Style: blue, violet and silver; clean scientific typography. Keep claims accurate and mark anything uncertain [VERIFY].",
+p_01d5385b64,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Electric Bus Reference Infographic,"Create a square transport-handbook page about a fictional electric city bus (informative, not an advert).
+
+Inputs
+- Bus name: [name]
+- Key numbers: [range, capacity, charge time] (use mine; don't invent real-world claims)
+
+Layout (1:1)
+- Centre: a large, clean side view of the bus.
+- Callouts: battery, motors, charging port, seating layout, accessibility features.
+- A small route-map panel.
+- A key-numbers panel with units.
+- A short note on emissions compared with a diesel bus, phrased as an estimate.
+
+Style: calm colours, technical line art, careful labels, generous white space.",
+p_8701ce4d4b,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Mid-Century Reef Travel Poster,"Create a flat vector travel poster in mid-century style.
+
+Inputs
+- Destination: [e.g. the Great Barrier Reef, Australia]
+- Title text: ""[DESTINATION NAME]""
+- Format: [e.g. 2:3 portrait]
+
+Composition
+- Upper third: calm sea surface, with a small boat and the sun.
+- Lower two-thirds: an underwater cross-section of coral, schools of fish and a sea turtle.
+- Title in bold geometric sans-serif across the top; a small subtitle at the bottom.
+
+Style: clean colour blocks, no gradients, a limited palette of 5-6 colours (teal, coral, sand, navy, white), subtle print texture.",
+p_b2634b6b10,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Herbal Soup Mix Packaging Label,"Design a product label for a herbal soup mix, based on my reference image's style.
+
+Inputs
+- Product name: ""[name]""
+- Subtitle: ""[e.g. nourishing chicken soup blend]""
+- Six ingredients: [list]
+- Net weight and pack size: [details]
+
+Layout (keep the chicken illustration from my image)
+- Move the chicken to the right side.
+- Top: a large black brush-lettered product name, with the subtitle beneath.
+- Left: a woven basket holding six small piles of the dried ingredients, each with a tiny label.
+- Bottom strip: net weight, a short cooking instruction and a barcode placeholder.
+
+Style: warm paper texture, traditional apothecary feel, 2-3 ink colours.",
+p_bb5e288d30,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Metro System Reference Page Infographic,"Create a square engineering-handbook page about a fictional metro system.
+
+Inputs
+- System name: [name]
+- Key facts: [length, stations, top speed, daily riders] (use my figures)
+
+Layout (1:1)
+- Top left: a cutaway of a train car, showing bogies, motors and passenger space.
+- Top right: a station cutaway with platforms, escalators and ventilation.
+- Centre: a line map with interchange stations.
+- Bottom: track and tunnel cross-sections with dimensions, plus a key-facts panel.
+
+Style: clean technical drawings, muted colours, careful labels, a consistent line weight and scale bars.",
+p_ca7a2b879f,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE,Brand Identity System Board,"Create a brand identity presentation board.
+
+Inputs
+- Brand name: [name]
+- Industry: [e.g. pet supplies]
+- Logo idea: [e.g. a cat silhouette hidden in the negative space of the letters]
+- Slogan: ""[slogan]""
+
+Board layout (16:9)
+- Header: brand name and slogan.
+- Primary logo, large, plus 3 variations (icon, horizontal, mono).
+- Colour palette: 5 swatches with hex codes.
+- Typography: heading and body fonts, with sample text.
+- Applications: packaging, a shopping bag, a business card and a storefront sign.
+
+Style: clean grid, consistent mockup lighting, an original design that doesn't imitate real brands.",
