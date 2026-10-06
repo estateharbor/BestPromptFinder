@@ -19,6 +19,7 @@ Cost-savers baked in:
 """
 import os
 import json
+import re
 import time
 import logging
 from typing import List, Dict, Any
@@ -112,12 +113,22 @@ def _parse_array(text: str) -> List[Dict[str, Any]]:
     """Tolerantly extract the JSON array from a model response."""
     text = (text or "").strip()
     start, end = text.find("["), text.rfind("]")
-    if start < 0 or end < 0:
-        return []
-    try:
-        return json.loads(text[start:end + 1])
-    except Exception:
-        return []
+    if start >= 0 and end > start:
+        try:
+            out = json.loads(text[start:end + 1])
+            if isinstance(out, list):
+                return out
+        except Exception:
+            pass
+    # Single-prompt replies sometimes come back as one bare object instead of a 1-item array.
+    start, end = text.find("{"), text.rfind("}")
+    if start >= 0 and end > start:
+        try:
+            obj = json.loads(text[start:end + 1])
+            return [obj] if isinstance(obj, dict) and "id" in obj else []
+        except Exception:
+            return []
+    return []
 
 
 def _merge(results: Dict[str, Dict[str, Any]], parsed: List[Dict[str, Any]]):
@@ -167,11 +178,12 @@ def _emergent_chat(model: str, system: str, user: str, max_tokens: int = MAX_TOK
                 time.sleep(5 * 2 ** attempt)
                 continue
             raise RuntimeError(f"Emergent API {e.code}: {detail}") from None
-        except urllib.error.URLError as e:
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError) as e:
+            # URLError on connect; a bare timeout/reset can also surface while reading the body.
             if attempt < 3:
                 time.sleep(5 * 2 ** attempt)
                 continue
-            raise RuntimeError(f"Emergent API unreachable: {e.reason}") from None
+            raise RuntimeError(f"Emergent API unreachable: {getattr(e, 'reason', e)}") from None
     raise RuntimeError("Emergent API: retries exhausted")
 
 
@@ -222,19 +234,22 @@ def _evaluate_emergent_single(prompts: List[Dict[str, str]], model: str) -> Dict
             return None
         try:
             resp = _emergent_chat(model, system, json.dumps([p], ensure_ascii=False), max_tokens=1500)
-        except RuntimeError as e:
-            return e
-        parsed = _emergent_parse(resp, model, p["id"])
+            parsed = _emergent_parse(resp, model, p["id"])
+        except Exception as e:  # never let one prompt abort the batch and discard the others
+            return e if isinstance(e, RuntimeError) else RuntimeError(f"{type(e).__name__}: {e}")
         for obj in parsed:
             if isinstance(obj, dict):
                 obj["grade_version"] = GRADE_VERSION
         return parsed
 
-    if prompts:  # fail fast on a bad key / model / endpoint before fanning out
+    if prompts:  # fail fast on a bad key / model / endpoint (HTTP 4xx) before fanning out
         out = grade(prompts[0])
         if isinstance(out, RuntimeError):
-            raise out
-        _merge(results, out or [])
+            if re.match(r"Emergent API 4(00|01|03|04)\b", str(out)):
+                raise out
+            log.warning("[LLM emergent] %s failed (%s); continuing.", prompts[0]["id"], out)
+        else:
+            _merge(results, out or [])
         first = False
     done = 1
     with ThreadPoolExecutor(max_workers=workers) as ex:
