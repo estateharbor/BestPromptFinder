@@ -1,0 +1,24 @@
+{
+  "_note": "Applied at load time by matcher.apply_overrides. purpose: id -> category; remove: ids to unpublish. Ops review 2026-10-06.",
+  "purpose": {
+    "p_6559f4bf52": "Real Estate",
+    "p_d5e84cf0ce": "Real Estate",
+    "p_810f2d11f1": "Real Estate",
+    "p_2398375504": "Real Estate",
+    "p_926c5a4cb6": "Real Estate",
+    "p_ddffbf5957": "Real Estate",
+    "p_8f087e834f": "Real Estate",
+    "p_40856d2eb2": "Real Estate",
+    "p_06d0801081": "Ecommerce",
+    "p_95c62b74c1": "Ecommerce",
+    "p_5b07907c84": "Ecommerce",
+    "p_30dc2b1b78": "Documentation",
+    "p_045811e00e": "Documentation",
+    "p_0abcb12358": "Education",
+    "p_c5ac5fe57f": "Other",
+    "p_776b971a9e": "Translation"
+  },
+  "remove": [
+    "p_7a631951c8fb"
+  ]
+}

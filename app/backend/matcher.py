@@ -41,6 +41,31 @@ RETRIEVE_N = 6   # TF-IDF shortlist size sent to the LLM judge before final rank
 MATCH_FLOOR = 55   # below this match, a prompt is "related", never a recommendation
 RELATED_FLOOR = 25  # below this we don't surface it at all
 
+# Editorial corrections applied on every corpus load: category re-tags and unpublished ids.
+# Kept outside corpus.json so the incremental refresh / LLM re-grade can't undo them.
+OVERRIDES_PATH = os.getenv("CORPUS_OVERRIDES",
+                           os.path.join(os.path.dirname(__file__), "sources", "corpus_overrides.json"))
+
+
+def apply_overrides(corpus: List[Dict[str, Any]], path: str = OVERRIDES_PATH) -> List[Dict[str, Any]]:
+    """Drop ids listed under "remove" and set "purpose" from the id -> category map."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            ov = json.load(f)
+    except (OSError, ValueError):
+        return corpus
+    remove = set(ov.get("remove") or [])
+    purpose = ov.get("purpose") or {}
+    out = []
+    for c in corpus:
+        if c.get("id") in remove:
+            continue
+        if c.get("id") in purpose:
+            c["purpose"] = purpose[c["id"]]
+        out.append(c)
+    return out
+
+
 _WORD = re.compile(r"[A-Za-z0-9]+")
 _ROLE = re.compile(r"\b(you are|act as|your task|your job|as an? \w+ (analyst|expert|specialist))\b", re.I)
 _FORMAT = re.compile(r"\b(step[- ]by[- ]step|table|json|list|bullet|\d+\s*(ideas|options|variations|posts)|--ar|format|schema|section)\b", re.I)
@@ -50,7 +75,7 @@ _CONSTRAINT = re.compile(r"(--\w+|\{[^}]+\}|\bexactly \d+|\bunder \d+|\bdo not\b
 class Recommender:
     def __init__(self, corpus_path: str, store=None):
         with open(corpus_path, "r", encoding="utf-8") as f:
-            self.corpus: List[Dict[str, Any]] = json.load(f)
+            self.corpus: List[Dict[str, Any]] = apply_overrides(json.load(f))
         self._by_id = {c["id"]: c for c in self.corpus}
         self.store = store  # optional outcome-vote store (Reliability flywheel)
         self._build_index()

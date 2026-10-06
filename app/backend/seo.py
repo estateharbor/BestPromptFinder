@@ -16,6 +16,10 @@ SITE = "https://bestpromptfinder.com"
 # pages over thousands of thin ones — the rest are noindex,follow (usable in-app, not in
 # search) and excluded from the sitemap. Tune via SEO_INDEX_LIMIT.
 INDEX_LIMIT = int(os.getenv("SEO_INDEX_LIMIT", "150"))
+# Per-category floor: each category's best few strong prompts are indexable even when they
+# fall outside the global top INDEX_LIMIT, so thin categories aren't left with zero indexed pages.
+CATEGORY_FLOOR = int(os.getenv("SEO_CATEGORY_FLOOR", "3"))
+CATEGORY_FLOOR_MIN_Q = int(os.getenv("SEO_CATEGORY_FLOOR_MIN_Q", "80"))
 
 _CJK = re.compile(r"[　-〿぀-ヿ㐀-䶿一-鿿가-힯＀-￯]")
 
@@ -29,9 +33,10 @@ GUIDE_SLUGS = [
     "midjourney-v7-product-prompts",
     "seo-content-brief-prompts",
     "claude-xml-structured-prompts",
+    "gpt-6-astra-prompts",
 ]
 # Last substantive edit of the guides (sitemap <lastmod>) — bump when a guide changes.
-GUIDES_LASTMOD = "2026-10-02"
+GUIDES_LASTMOD = "2026-10-06"
 
 # Category slug -> (guide slug, link text): in-body "read the guide" link on category pages.
 CATEGORY_GUIDES = {
@@ -91,7 +96,14 @@ def tier_a_ids(corpus: List[Dict[str, Any]]) -> Set[str]:
         and c.get("quality")
     ]
     eligible.sort(key=lambda c: c.get("quality", 0), reverse=True)
-    return {c["id"] for c in eligible[:INDEX_LIMIT]}
+    ids = {c["id"] for c in eligible[:INDEX_LIMIT]}
+    per_cat: Dict[str, int] = {}
+    for c in eligible:  # already quality-sorted, so the first few per category are its best
+        cat = c.get("purpose") or "Other"
+        if per_cat.get(cat, 0) < CATEGORY_FLOOR and c.get("quality", 0) >= CATEGORY_FLOOR_MIN_Q:
+            ids.add(c["id"])
+            per_cat[cat] = per_cat.get(cat, 0) + 1
+    return ids
 
 
 def category_slug_map(corpus: List[Dict[str, Any]]) -> Dict[str, str]:
@@ -404,7 +416,7 @@ def browse_page(corpus: List[Dict[str, Any]], cat_map: Dict[str, str]) -> str:
 <p>Explore {len(corpus)} ranked, AI-graded prompts by category, or describe your goal to get a matched recommendation. Scores are AI evaluations out of 100, not user ratings &mdash; see <a href="/methodology">how scoring works</a>.</p>
 <div class="filters"><form action="/" method="get" role="search"><input type="search" name="q" placeholder="Describe your goal - e.g. facebook ad for a commercial property" aria-label="Search prompts"></form></div>
 <h2>Guides</h2>
-<a class="card" href="/guides/">Prompt playbooks &rarr; Cursor &amp; Claude Code, ChatGPT mirror, Midjourney v7, SEO briefs, Claude XML</a>
+<a class="card" href="/guides/">Prompt playbooks &rarr; Cursor &amp; Claude Code, ChatGPT mirror, Midjourney v7, SEO briefs, Claude XML, GPT-6 Astra agents</a>
 <h2>Categories</h2>
 {cat_cards}
 <h2>Top-rated prompts</h2>

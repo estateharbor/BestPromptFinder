@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPT-6 Astra Agent Prompts: Research, Coding, Long Docs | BestPromptFinder</title>
+  <meta name="description" content="7 paste-ready GPT-6 Astra agent prompts with a definition of done and stop rules: research, coding, long documents, CLAUDE.md briefs, and updating old prompts." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://bestpromptfinder.com/guides/gpt-6-astra-prompts" />
+  <meta name="author" content="BestPromptFinder" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="BestPromptFinder" />
+  <meta property="og:url" content="https://bestpromptfinder.com/guides/gpt-6-astra-prompts" />
+  <meta property="og:title" content="GPT-6 Astra Agent Prompts: Research, Coding, Long Docs | BestPromptFinder" />
+  <meta property="og:description" content="7 paste-ready GPT-6 Astra agent prompts with a definition of done and stop rules: research, coding, long documents, CLAUDE.md briefs, and updating old prompts." />
+  <meta property="og:image" content="https://bestpromptfinder.com/og-image.png" />
+  <meta property="article:published_time" content="2026-10-06" />
+  <meta property="article:modified_time" content="2026-10-06" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GPT-6 Astra Agent Prompts: Research, Coding, Long Docs | BestPromptFinder" />
+  <meta name="twitter:description" content="7 paste-ready GPT-6 Astra agent prompts with a definition of done and stop rules: research, coding, long documents, CLAUDE.md briefs, and updating old prompts." />
+  <meta name="twitter:image" content="https://bestpromptfinder.com/og-image.png" />
+
+  <meta name="theme-color" content="#0e131b" />
+  <link rel="icon" type="image/png" href="https://bestpromptfinder.com/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "GPT-6 Astra agent prompts that finish the job",
+      "description": "7 paste-ready GPT-6 Astra agent prompts with a definition of done and stop rules: research, coding, long documents, CLAUDE.md briefs, and updating old prompts.",
+      "datePublished": "2026-10-06",
+      "dateModified": "2026-10-06",
+      "author": {
+        "@type": "Organization",
+        "name": "BestPromptFinder"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "BestPromptFinder",
+        "url": "https://bestpromptfinder.com/"
+      },
+      "mainEntityOfPage": "https://bestpromptfinder.com/guides/gpt-6-astra-prompts",
+      "image": "https://bestpromptfinder.com/og-image.png"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Should GPT-6 Astra ask before every step?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. OpenAI’s GPT-6 guide recommends asking for approval only after the model has prepared a concrete, reviewable result. Let it finish safe, in-scope work, and reserve approval for destructive, external, paid or scope-expanding actions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is a GPT-6 Astra prompt different from an older-model prompt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "State the outcome, the boundary and what “done” looks like. Drop step-by-step recipes and repeated reminders. If the task is to ship a change, done includes running the relevant checks and fixing failures, not handing back a first draft."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will a long CLAUDE.md or AGENTS.md make the agent better?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only if each line is still true and needed. Requiring a stack of docs before every edit burns context; point to architecture, database or deployment docs only for the changes that need them, and name the few actions that still need a person."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://bestpromptfinder.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://bestpromptfinder.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "GPT-6 Astra agent prompts",
+          "item": "https://bestpromptfinder.com/guides/gpt-6-astra-prompts"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<style>
+:root {
+  --bg: #0e131b;
+  --surface: #151b26;
+  --border: #243044;
+  --text: #eaeef4;
+  --muted: #9aa8bc;
+  --accent: #aab8ff;
+  --accent-strong: #7c91ff;
+  --code-bg: #0a0e14;
+  --ok: #6ee7b7;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  font-size: 17px;
+}
+a { color: var(--accent-strong); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
+.site-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 16px; margin-bottom: 40px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.site-bar .brand { font-family: Archivo, sans-serif; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+.eyebrow { color: var(--accent); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 8px; }
+h1 {
+  font-family: Archivo, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 16px;
+}
+h2 {
+  font-family: Archivo, sans-serif;
+  font-size: 1.35rem; margin: 40px 0 12px; letter-spacing: -0.01em;
+}
+h3 { font-size: 1.05rem; margin: 28px 0 8px; }
+p { margin: 0 0 16px; color: var(--text); }
+.lede { font-size: 1.08rem; color: var(--muted); }
+.muted { color: var(--muted); }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin: 20px 0;
+}
+.card.cta {
+  border-color: #3a4a7a;
+  background: linear-gradient(135deg, #151b26 0%, #1a2240 100%);
+}
+.cta-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 12px 18px;
+  background: var(--accent-strong);
+  color: #0e131b !important;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none !important;
+}
+.cta-btn:hover { filter: brightness(1.08); }
+.prompt-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  margin: 10px 0 22px;
+}
+.prompt-block pre {
+  margin: 0;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #d7e0ef;
+}
+.prompt-label {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  margin: 28px 0 6px;
+}
+.prompt-label strong { font-size: 1rem; }
+.badge {
+  font-size: 0.72rem; font-weight: 600; color: var(--ok);
+  background: rgba(110,231,183,0.1); border: 1px solid rgba(110,231,183,0.25);
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+}
+.diff {
+  border-left: 3px solid var(--accent-strong);
+  padding-left: 16px; margin: 24px 0;
+}
+ul, ol { padding-left: 1.25rem; margin: 0 0 16px; }
+li { margin: 6px 0; }
+.faq details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 10px 0;
+}
+.faq summary { cursor: pointer; font-weight: 600; }
+.related a { display: block; margin: 6px 0; }
+footer {
+  margin-top: 56px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 0.9rem;
+}
+</style>
+</head>
+<body>
+  <article class="wrap">
+    <nav class="site-bar" aria-label="Site">
+      <a class="brand" href="https://bestpromptfinder.com/">BestPromptFinder</a>
+      <a href="https://bestpromptfinder.com/browse">Browse prompts</a>
+    </nav>
+
+    <p class="eyebrow">Guide &middot; 2026-10-06</p>
+    <h1>GPT-6 Astra agent prompts that finish the job</h1>
+    <p class="lede">Seven paste-ready prompts for GPT-6 Astra agents: research, coding, long documents, standing CLAUDE.md / AGENTS.md briefs, and migrating prompts written for older models. Each states the outcome, what &ldquo;done&rdquo; means and when to stop, instead of opening with &ldquo;ask before you do anything&rdquo;.</p>
+
+    <div class="card cta">
+      <p><strong>Next step:</strong> describe your goal and get ranked prompts with quality, match &amp; confidence scores.</p>
+      <a class="cta-btn" href="https://bestpromptfinder.com/?q=GPT-6%20Astra%20agent%20prompt">Rank GPT-6 Astra prompts for my goal &rarr;</a>
+      <p class="muted" style="margin:12px 0 0;font-size:0.9rem;">Opens the homepage goal box with a starter query you can edit.</p>
+    </div>
+
+    <h2>What GPT-6 Astra changes for a prompt</h2>
+    <p>OpenAI&rsquo;s <a href="https://developers.openai.com/api/docs/guides/latest-model" rel="nofollow noopener">GPT-6 prompting guide</a> says requests phrased as &ldquo;can you&hellip;&rdquo;, &ldquo;I want to&hellip;&rdquo; or &ldquo;help me&hellip;&rdquo; should be treated as instructions to do the work, and that the model should ask for approval only after preparing a concrete, reviewable result. It also recommends defining what level of action each request authorises, so the agent continues safe, in-scope work and stops before external, destructive, costly or scope-expanding actions.</p>
+    <p>Older scaffolding often does the opposite. OpenAI&rsquo;s <a href="https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra" rel="nofollow noopener">11 September 2026 post on skills and prompts for Astra</a> calls out rules like &ldquo;read architecture.md, database.md and deployment.md before every edit&rdquo; as a way to burn context and slow work down. Broad skill triggers and blanket &ldquo;always ask first&rdquo; lines make the agent pause early or load the wrong instructions.</p>
+    <p>So the prompts below follow three rules: <strong>state the outcome</strong>, <strong>define done</strong> (including running checks when something is built or changed), and <strong>draw a short autonomy boundary</strong> rather than a checklist of hypothetical risks.</p>
+
+    <h2>The seven prompts</h2>
+    <p class="muted">Replace bracketed fields. Prompt 5 is a standing file: save it as <code>CLAUDE.md</code> (Claude Code) or <code>AGENTS.md</code> (Codex). These are editorial templates written from OpenAI&rsquo;s published guidance; we have not benchmarked them, so check the output on your own task.</p>
+      <div class="prompt-label">
+        <strong>1. GPT-6 Astra Decision-Grade Research Agent</strong>
+        <span class="badge">Research</span>
+      </div>
+      <p class="muted">Recommendation first, a locator on every claim, conflicts left intact, and one cheapest next check. <a href="https://bestpromptfinder.com/prompt/gpt-6-astra-decision-grade-research-agent-p_aa1b57d362">Open in the library &rarr;</a></p>
+      <div class="prompt-block"><pre>You are the research agent for this decision. Infer the decision from the request and the materials. Treat “research”, “look into”, “can you find”, and “help me decide” as instructions to do the research, not to offer a plan and wait.
+
+Decision to support: [decision, with the audience and the date it is needed]
+Question: [one sentence]
+Materials I am providing: [paste, attach, or name URLs]. Use only these plus sources you can actually open. If you cannot open a source, say so. Do not invent citations, quotes, numbers, or publication dates.
+Scope fence: [in / out]. If the fence is missing, infer a narrow one and state it in one line. Do not expand the scope because a nearby topic looks useful.
+
+Work until this definition of done is met:
+1. A direct recommendation or answer in the first paragraph, including the condition under which you would reverse it.
+2. The evidence for it: each material claim tied to a source and a locator (title, section, page, URL, or quote under 25 words).
+3. The strongest contrary evidence and any place the sources conflict. Do not smooth conflicts into one story.
+4. What is missing that could change the recommendation. Separate “not in the materials” from “I am unsure”.
+5. The single cheapest next check, named as an action, not a research program.
+
+Do this without asking first: read the materials, search within the allowed sources, and draft the full brief.
+Ask only if one missing input would change the recommendation, and ask that one question after you have drafted the brief under an explicit assumption labeled ASSUMED.
+Do not: write a methodology essay, list search queries as the deliverable, or stop after an outline.
+
+Output, in this order:
+## Answer
+## Recommendation and reversal condition
+## Evidence (claim, locator, why it matters)
+## Conflicts and single-source claims
+## Gaps
+## Next check
+## Assumptions</pre></div>
+      <div class="prompt-label">
+        <strong>2. GPT-6 Astra Coding Agent That Ships the Change</strong>
+        <span class="badge">Coding</span>
+      </div>
+      <p class="muted">In-scope edits and local checks are pre-authorised; it asks before deletes, production, secrets, or outbound messages. <a href="https://bestpromptfinder.com/prompt/gpt-6-astra-coding-agent-that-ships-the-change-p_4f40882426">Open in the library &rarr;</a></p>
+      <div class="prompt-block"><pre>You are the coding agent for this repository. The user wants the change done, not a proposal. Treat “can you fix”, “implement”, “add”, and “help me ship” as authorization to edit in scope and to run non-destructive checks.
+
+Change: [what should be true when you are done]
+Repo constraints: [stack, branch, conventions, files that are off limits]
+Done means all of the following:
+- The requested behavior is implemented in the existing style.
+- You ran the checks that this change can actually break, read the results, and fixed failures caused by your change.
+- You did not start a broader refactor, a new framework, or tests that only mirror the lines you just wrote.
+- The final note lists files changed, commands run, results, and anything you could not verify.
+
+Proceed without asking for: reading the repo, editing in-scope files, creating a local branch or worktree, and running the local test or lint commands that do not touch production, billing, or external systems.
+Stop and ask before: deleting data, force-pushing, migrating production, sending messages, spending money, changing secrets, or widening the change beyond the request.
+Do not introduce an approval checklist for hypothetical risk. If a skill or AGENTS.md rule tells you to pause, quote the exact file and line and say whether it conflicts with this task. This task wins on conflicts unless it asks for something destructive or external.
+
+If the request is small, run the narrowest meaningful check and then stop. Broaden testing only after a failure, a new risky change, or an unresolved concern.
+If something in the request is ambiguous but a reasonable reading is obvious from the code, take that reading, label it ASSUMED, and continue.
+Do not stop after the first compiling version if checks fail or the behavior is unfinished.
+
+End with:
+## Done
+## Files
+## Commands and results
+## Assumptions
+## Needs you (only destructive, external, or genuinely blocking items)</pre></div>
+      <div class="prompt-label">
+        <strong>3. GPT-6 Astra Long-Document Cross-Check</strong>
+        <span class="badge">Long docs</span>
+      </div>
+      <p class="muted">Reads many files as one corpus. Single-source claims and missing facts stay labelled. <a href="https://bestpromptfinder.com/prompt/gpt-6-astra-long-document-cross-check-p_4189083432">Open in the library &rarr;</a></p>
+      <div class="prompt-block"><pre>Read the documents below as one corpus. The job is a cross-check I can verify, not a summary of each file and not a shorter essay that drops the awkward parts.
+
+Documents: [paste or attach, in order]
+I need: [the decision, question, or reader this is for]
+Keep: [facts, numbers, dates, obligations, or names that must survive]
+Cut: [boilerplate, repeated background, exhibits that are out of scope]
+
+Done means:
+- You have used every document, including appendices and tables that change a number or an obligation.
+- Every kept claim has a locator: document name plus section, heading, page, or paragraph.
+- Claims that appear in only one document are marked SINGLE-SOURCE.
+- Disagreements between documents are listed as conflicts, not averaged.
+- Anything you cannot find is listed under Missing. You do not fill gaps from memory and present them as document facts.
+
+Do the reading and the brief without asking how I would like it organized. If the corpus is too incomplete to answer, still deliver the brief and put the hole under Missing.
+Do not stop at an outline or a description of how you will read the files.
+
+Output:
+## What the corpus supports (answer first)
+## Obligations, numbers, and dates (with locators)
+## Conflicts
+## Single-source claims
+## Missing
+## What I would cut if this has to be under [N] words</pre></div>
+      <div class="prompt-label">
+        <strong>4. Old Prompt Updater for GPT-6 and Claude Opus 5.5</strong>
+        <span class="badge">Migration</span>
+      </div>
+      <p class="muted">Rewrites a prompt written for an older model: keeps real constraints, cuts recipes and blanket “ask first” lines. <a href="https://bestpromptfinder.com/prompt/old-prompt-updater-for-gpt-6-and-claude-opus-5-5-p_b538cbdfa5">Open in the library &rarr;</a></p>
+      <div class="prompt-block"><pre>Update the prompt below so it works for [target model: GPT-6 Astra, or name another]. The old prompt was written for [old model or “unknown”]. Rewrite the prompt. Do not answer the old prompt’s task.
+
+Old prompt:
+[paste the full prompt, plus any SKILL.md or AGENTS.md excerpt it depends on]
+
+Keep every constraint that is specific to the project: exact commands, file paths, schemas, compliance rules, brand facts, and definitions of done.
+Remove or rewrite instructions that exist only because older models needed handholding:
+- “Always ask before you act”, “wait for approval”, or “do not do anything until I confirm”, unless the next step is destructive, external, paid, or a real scope change. Replace those with a short boundary: do the safe in-scope work, ask only for the named risky actions.
+- Mandatory pre-reads of a whole doc set before every edit. Point to a doc only when the change is the kind that needs it.
+- Step-by-step recipes the model can plan itself. Keep the outcome, the inputs, and the done criteria.
+- Repeated style nagging and generic “be careful” lines. State a writing or code rule once.
+- Skill descriptions that fire on a whole topic (“anything with a database”). Narrow them to the operation that should load the skill.
+
+The rewritten prompt must contain:
+1. The user’s intent, phrased as work to finish.
+2. A definition of done that includes checking the result when the task is to build or change something.
+3. A short autonomy boundary, not a checklist of hypothetical risks.
+4. Output shape.
+5. A note naming what you deleted and why, so I can reject a bad cut.
+
+If two old instructions conflict, prefer the one that matches the user’s latest request and say which line you dropped.
+Do not claim the new prompt was tested. Mark any line you are unsure about with CHECK.</pre></div>
+      <div class="prompt-label">
+        <strong>5. CLAUDE.md / AGENTS.md Task Brief with Stop Rules</strong>
+        <span class="badge">CLAUDE.md</span>
+      </div>
+      <p class="muted">A standing CLAUDE.md / AGENTS.md with conditional doc reads and concrete stop rules. <a href="https://bestpromptfinder.com/prompt/claude-md-agents-md-task-brief-with-stop-rules-p_a310607a6f">Open in the library &rarr;</a></p>
+      <div class="prompt-block"><pre># Task brief
+
+You are working in this repo as the implementation agent. The latest user message is the task. This file is standing context. If they conflict, follow the user, unless the user asks for a destructive or external action this file forbids.
+
+## What this repo is
+[one paragraph: product, stack, how to run it]
+
+## Read when the task needs it
+- [architecture.md] for service boundaries and ownership.
+- [database.md] only when the change touches schema, queries, or migrations.
+- [deployment.md] only when preparing a release or a pipeline change.
+Do not read these before a typo, a copy change, or a local fix that does not touch those areas.
+
+## Done
+A task is done when the requested behavior is in the code, the relevant local checks have been run, failures caused by the change are fixed, and you have reported files, commands, and results.
+“Implemented, please review” is not done if checks are failing or the behavior is unfinished.
+Do not add a review stop after the first draft unless the user asked to approve the plan before edits.
+
+## Do without asking
+- Read and search the repo.
+- Edit files the task requires.
+- Run the local test, lint, and typecheck commands. They use disposable fixtures and have no production access. Rerun the checks your change can break. Do not ask between each run.
+- For a small, reversible change, skip new tests that only restate the implementation. Run the existing check that covers it.
+
+## Stop and ask
+- Deleting data, dropping or rewriting history, or force-pushing.
+- Production deploys, paid API calls, secrets, and messages to anyone outside this session.
+- A change that expands into a new product behavior the user did not request.
+When you stop, show the concrete diff or command you want approved. Do not stop earlier with a vague “shall I continue?”
+
+## Leave alone
+- Unrelated refactors, drive-by formatting, and new dependencies for a problem the standard library or an existing dependency already solves.
+- Instructions in skills that tell you to load a workflow the task does not need. If a skill pushes you off the user’s request, name the file and quote the line.</pre></div>
+      <div class="prompt-label">
+        <strong>6. Agent Scaffolding Audit for GPT-6 Astra</strong>
+        <span class="badge">Audit</span>
+      </div>
+      <p class="muted">Marks each existing agent instruction keep / cut / rewrite and returns a shorter file. Edits nothing until you say “apply”. <a href="https://bestpromptfinder.com/prompt/agent-scaffolding-audit-for-gpt-6-astra-p_e8428ed34e">Open in the library &rarr;</a></p>
+      <div class="prompt-block"><pre>Audit the agent instructions in this repo for GPT-6 Astra. Older models needed long recipes and frequent “ask first” lines. Astra follows those lines literally and also wastes context on them.
+
+Inputs: [paste AGENTS.md, CLAUDE.md, and each skill’s name, description, and body, or point at the files]
+
+Review every instruction and mark it KEEP, CUT, or REWRITE.
+Cut or rewrite when it:
+- Tells the agent to read a stack of docs before every edit.
+- Tells the agent to ask before reversible local edits, reads, or local tests.
+- Repeats “run tests” or “be thorough” without naming a command or a stop.
+- Uses a skill description so broad that unrelated tasks will load it.
+- Is a step-by-step recipe for work the model can plan.
+- Conflicts with another file. Prefer the user’s task over a skill, and say which file loses.
+
+Keep command lines, path rules, security boundaries, compliance lines, and anything that names a real external or destructive action.
+
+Definition of done:
+- A table: file, original line or section, verdict, replacement or “cut”.
+- A revised AGENTS.md (or CLAUDE.md) that is shorter and still contains the project constraints.
+- Revised skill descriptions, one or two sentences each, stating the operation that should load them.
+- Do not edit the repo unless I say “apply”. The deliverable is the audit and the replacement text.
+- Do not invent new project rules that were not in the files or in my message.
+
+If you are unsure whether a line is a real constraint or leftover nagging, mark it CHECK and leave it in the revised file.</pre></div>
+      <div class="prompt-label">
+        <strong>7. Long-Run Agent Handoff Note</strong>
+        <span class="badge">Handoff</span>
+      </div>
+      <p class="muted">Decisions, dead ends and the next action, so a fresh context window does not retry a failed fix. <a href="https://bestpromptfinder.com/prompt/long-run-agent-handoff-note-p_0b58e4a2be">Open in the library &rarr;</a></p>
+      <div class="prompt-block"><pre>Write a handoff so a fresh session can continue this task without redoing finished work or retrying failed approaches.
+
+Task that is still open: [goal]
+What you have in front of you: [the thread, notes, diff, or files]
+
+The handoff is done when a new agent can act from it alone and can tell:
+- The outcome we still owe, in one paragraph.
+- Decisions already made, each with the reason.
+- Approaches that failed, the symptom, and why not to retry them.
+- Files, commands, and test results that are still true.
+- The next action, and the stop rules: what the next agent may do without asking, and what still needs a person (destructive, external, paid, or a scope change).
+- Open questions, split into “blocking” and “proceed with this assumption”.
+
+Do not resume the original task in this turn. Do not soften a failed attempt into a vague “explored options”.
+If a fact is only in a tool output I did not paste, write UNKNOWN rather than reconstructing it.
+Keep it under [800] words. Prefer bullets. No status-theater intro.</pre></div>
+
+    <h2>Updating prompts written for older models</h2>
+    <p>Run prompt 4 on the old prompt together with any <code>SKILL.md</code> or <code>AGENTS.md</code> it relies on. Keep exact commands, paths, schemas and compliance lines. Cut mandatory pre-reads, step recipes the model can plan itself, and repeated &ldquo;be careful&rdquo; lines. Narrow skill descriptions to the operation that should load them, not a whole topic. The same clean-up generally helps Claude Code briefs too: a short file with clear stop rules beats a long one.</p>
+
+    <h2>Why BestPromptFinder (not just another template list)</h2>
+    <div class="diff">
+      <p>Most prompt sites are plain template catalogs. BestPromptFinder is a free decision engine: describe what you need the agent to do, and it ranks prompts with quality, match, and confidence scores before you paste one into GPT-6 Astra or Claude Code.</p>
+      <p><a href="https://bestpromptfinder.com/?q=GPT-6%20Astra%20agent%20prompt">Describe your goal &rarr; get ranked prompts &rarr;</a></p>
+    </div>
+
+    <h2>Related guides &amp; categories</h2>
+    <div class="related card">
+      <a href="https://bestpromptfinder.com/guides/best-cursor-claude-code-prompts">Cursor &amp; Claude Code prompts</a>
+<a href="https://bestpromptfinder.com/guides/claude-xml-structured-prompts">Claude XML structured prompts</a>
+<a href="https://bestpromptfinder.com/guides/">All prompt guides</a>
+<a href="https://bestpromptfinder.com/category/prompt-engineering">Browse prompt-engineering prompts</a>
+<a href="https://bestpromptfinder.com/category/coding">Browse coding prompts</a>
+<a href="https://bestpromptfinder.com/category/research">Browse research prompts</a>
+    </div>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Should GPT-6 Astra ask before every step?</summary>
+        <p>No. OpenAI’s GPT-6 guide recommends asking for approval only after the model has prepared a concrete, reviewable result. Let it finish safe, in-scope work, and reserve approval for destructive, external, paid or scope-expanding actions.</p>
+      </details>
+      <details>
+        <summary>How is a GPT-6 Astra prompt different from an older-model prompt?</summary>
+        <p>State the outcome, the boundary and what “done” looks like. Drop step-by-step recipes and repeated reminders. If the task is to ship a change, done includes running the relevant checks and fixing failures, not handing back a first draft.</p>
+      </details>
+      <details>
+        <summary>Will a long CLAUDE.md or AGENTS.md make the agent better?</summary>
+        <p>Only if each line is still true and needed. Requiring a stack of docs before every edit burns context; point to architecture, database or deployment docs only for the changes that need them, and name the few actions that still need a person.</p>
+      </details>
+    </div>
+
+    <div class="card cta" style="margin-top:36px;">
+      <p><strong>Ready to go beyond templates?</strong> Tell BestPromptFinder what you need.</p>
+      <a class="cta-btn" href="https://bestpromptfinder.com/?q=GPT-6%20Astra%20agent%20prompt">Rank GPT-6 Astra prompts for my goal &rarr;</a>
+    </div>
+
+    <footer>
+      <p>&copy; BestPromptFinder &middot; <a href="https://bestpromptfinder.com/">Home</a> &middot; <a href="https://bestpromptfinder.com/methodology">Methodology</a> &middot; <a href="https://bestpromptfinder.com/about">About</a></p>
+      <p>Sources: OpenAI, <a href="https://developers.openai.com/api/docs/guides/latest-model" rel="nofollow noopener">Using GPT-6</a>; OpenAI Developers, <a href="https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra" rel="nofollow noopener">Rethinking skills and prompts for GPT-6 Astra</a> (11 Sep 2026).</p>
+    </footer>
+  </article>
+</body>
+</html>
