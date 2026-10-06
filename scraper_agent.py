@@ -95,6 +95,7 @@ class PromptData:
         self.category = category
         self.url = url
         self.engagement = engagement          # raw review signal (stars/points/votes/likes)
+        self.license = ""                     # set from the target in run_target()
         self.quality_score = 0                # 0-100, filled by the quality gate
         self.purpose = ""                     # use-case tag, filled by the quality gate
 
@@ -804,6 +805,8 @@ def run_target(target: Dict[str, Any], zenrows_manager: ZenRowsManager) -> List[
     scraper = ScraperFactory.get_scraper(target_type, zenrows_manager)
     log.info("--- Routing to %s scraper for %s ---", target_type, target["platform_name"])
     items = scraper.extract(target)
+    for it in items:
+        it.license = target.get("license") or ""
     log.info("Extracted %d items from %s", len(items), target["platform_name"])
     return items
 
@@ -817,30 +820,35 @@ def build_targets() -> List[Dict[str, Any]]:
             "target_type": "HUGGINGFACE",
             "platform_name": "HF: prompts.chat",
             "dataset": "fka/prompts.chat",
+            "license": "CC0-1.0",  # prompt text dedicated to the public domain
             "category": "ChatGPT/Utility", "model_target": "ChatGPT",
         },
         {
             "target_type": "HUGGINGFACE",
             "platform_name": "HF: Stable-Diffusion-Prompts",
             "dataset": "Gustavosta/Stable-Diffusion-Prompts", "max_rows": 400,
+            "license": None,  # HF card says "unknown"
             "category": "Image Generation", "model_target": "Stable Diffusion",
         },
         {
             "target_type": "HUGGINGFACE",
             "platform_name": "HF: Midjourney-Prompts",
             "dataset": "succinctly/midjourney-prompts", "max_rows": 400,
+            "license": None,  # Apache-2.0, but rows are keyword lists naming living artists
             "category": "Image Generation", "model_target": "Midjourney",
         },
         {
             "target_type": "HUGGINGFACE",
             "platform_name": "HF: Midjourney-Detailed",
             "dataset": "MohamedRashad/midjourney-detailed-prompts", "max_rows": 200,
+            "license": None,  # no licence stated
             "category": "Image Generation", "model_target": "Midjourney",
         },
         {
             "target_type": "HUGGINGFACE",
             "platform_name": "HF: SDXL Prompts",
             "dataset": "Falah/image_generation_prompts_SDXL", "max_rows": 200,
+            "license": None,  # no licence stated
             "category": "Image Generation", "model_target": "SDXL",
         },
         # --- NEW: professional / instruction prompts (free, permissive licenses) ---
@@ -848,45 +856,53 @@ def build_targets() -> List[Dict[str, Any]]:
             "target_type": "HUGGINGFACE",
             "platform_name": "HF: Dolly-15k (human instructions)",
             "dataset": "databricks/databricks-dolly-15k", "max_rows": 400,
+            "license": None,  # CC BY-SA 3.0 (share-alike); generic rows
             "category": "General/Instruction", "model_target": "General",
         },
         {
             "target_type": "HUGGINGFACE",
             "platform_name": "HF: No-Robots (human-written)",
             "dataset": "HuggingFaceH4/no_robots", "max_rows": 400,
+            "license": None,  # CC BY-NC 4.0: non-commercial only
             "category": "General/Instruction", "model_target": "General",
         },
         {
             "target_type": "HUGGINGFACE",
             "platform_name": "HF: Python Code Instructions",
             "dataset": "iamtarun/python_code_instructions_18k_alpaca", "max_rows": 300,
+            "license": None,  # no licence; training-data rows, not prompts
             "category": "Coding", "model_target": "General",
         },
         {
             "target_type": "HUGGINGFACE",
             "platform_name": "HF: HelpSteer (quality-rated)",
             "dataset": "nvidia/HelpSteer", "max_rows": 300,
+            "license": None,  # CC BY 4.0, but rows are context dumps
             "category": "General/Instruction", "model_target": "General",
         },
         {
             "target_type": "HUGGINGFACE",
             "platform_name": "HF: SD-Prompts (daspartho)",
             "dataset": "daspartho/stable-diffusion-prompts", "max_rows": 300,
+            "license": None,  # no licence stated
             "category": "Image Generation", "model_target": "Stable Diffusion",
         },
         {
             "target_type": "CANGHE",
             "platform_name": "GPT-Image2 Gallery (canghe.ai)",
+            "license": None,  # reposted X/Twitter posts: no licence for the prompt text
         },
         # --- LLM-CURATED (prompts you sourced via Claude/ChatGPT/Gemini) ---
         {
             "target_type": "LLM_CURATED",
             "platform_name": "LLM-Curated (Claude/ChatGPT/Gemini)",
+            "license": "first-party",
         },
         # --- UPLOADED (Excel/CSV you uploaded through the app; re-graded by the LLM here) ---
         {
             "target_type": "LLM_CURATED",
             "platform_name": "Uploaded (manual Excel/CSV)",
+            "license": "first-party",  # uploads are licence-checked in ingest.py
             "platform": "Uploaded",
             "path": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                  "app", "backend", "sources", "uploaded.json"),
@@ -895,12 +911,14 @@ def build_targets() -> List[Dict[str, Any]]:
         {
             "target_type": "GITHUB",
             "platform_name": "GitHub: MIT prompt repos",
+            "license": None,  # repo descriptions, not prompts
             "github_token": github_token,
             "query": "chatgpt+prompt+license:mit",
         },
         {
             "target_type": "GITHUB",
             "platform_name": "GitHub: prompt-engineering guides",
+            "license": None,  # no licence check per repo
             "github_token": github_token,
             "query": "prompt-engineering+awesome+stars:>500",
         },
@@ -908,12 +926,14 @@ def build_targets() -> List[Dict[str, Any]]:
         {
             "target_type": "PROMPTHERO",
             "platform_name": "PromptHero (ChatGPT)",
+            "license": None,  # marketplace content, all rights reserved
             "listing": "chatgpt-prompts", "category": "ChatGPT",
             "model_target": "ChatGPT",
         },
         {
             "target_type": "PROMPTHERO",
             "platform_name": "PromptHero (Midjourney)",
+            "license": None,  # marketplace content, all rights reserved
             "listing": "midjourney-prompts", "category": "Image Generation",
             "model_target": "Midjourney",
         },
@@ -921,6 +941,7 @@ def build_targets() -> List[Dict[str, Any]]:
         {
             "target_type": "REDDIT",
             "platform_name": "Reddit (prompt subreddits)",
+            "license": None,  # user posts, no licence
             "reddit_client_id": os.getenv("REDDIT_CLIENT_ID", ""),
             "reddit_client_secret": os.getenv("REDDIT_CLIENT_SECRET", ""),
             "subreddits": ["PromptEngineering", "ChatGPTPromptGenius", "StableDiffusion"],
@@ -929,20 +950,24 @@ def build_targets() -> List[Dict[str, Any]]:
         {
             "target_type": "MCP",
             "platform_name": "Model Context Protocol Registry",
+            "license": None,  # server descriptions, not prompts
         },
         {
             "target_type": "HACKERNEWS",
             "platform_name": "Hacker News Algolia Search",
+            "license": None,  # comments, no licence
         },
         {
             "target_type": "KAGGLE",
             "platform_name": "Kaggle CC Datasets",
+            "license": None,  # licence varies per dataset
             "kaggle_username": os.getenv("KAGGLE_USERNAME", "YOUR_KAGGLE_USERNAME"),
             "kaggle_key": os.getenv("KAGGLE_KEY", "YOUR_KAGGLE_KEY"),
         },
         {
             "target_type": "STATIC",
             "platform_name": "The Prompt Index",
+            "license": None,  # site content, all rights reserved
             "url": "https://thepromptindex.com",
         },
     ]
@@ -951,7 +976,9 @@ def build_targets() -> List[Dict[str, Any]]:
 def scrape_all() -> List[PromptData]:
     """Run every source in parallel and return the raw scraped prompts (no grading/export)."""
     zenrows_manager = ZenRowsManager(api_key=os.getenv("ZENROWS_API_KEY", ""))
-    targets = build_targets()
+    # Library licence rule: only scrape sources whose licence explicitly covers the prompt text
+    # (or our own first-party sources). "license": None in build_targets() disables a source.
+    targets = [t for t in build_targets() if t.get("license")]
     data: List[PromptData] = []
     log.info("Scraping %d sources in parallel...", len(targets))
     with ThreadPoolExecutor(max_workers=len(targets)) as executor:

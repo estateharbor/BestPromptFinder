@@ -76,6 +76,14 @@ def save_corpus(corpus: List[Dict[str, Any]]) -> None:
     os.replace(tmp, CORPUS)  # atomic — the API's mtime watcher reloads cleanly
 
 
+def _url_with_licence(it) -> str:
+    """Source URL with its licence appended ("https://… (CC0-1.0)"), the format prompt pages
+    parse to show the licence. First-party sources keep the bare URL."""
+    url = getattr(it, "url", "") or ""
+    lic = getattr(it, "license", "") or ""
+    return f"{url} ({lic})" if url and lic and lic != "first-party" else url
+
+
 def collect_new(corpus: List[Dict[str, Any]]) -> int:
     """Scrape all sources; append NEW (deduped) prompts with heuristic grades. No downgrades."""
     existing = {pipeline._dedup_key(c.get("prompt", "")) for c in corpus}
@@ -123,7 +131,7 @@ def collect_new(corpus: List[Dict[str, Any]]) -> int:
             "quality": quality, "library_value": pipeline.library_value(cleaned, feats, purpose),
             "platform": platform, "models": [model] if model and model != "Any" else rel["tested"],
             "reliability": rel,
-            "provenance": {"source": platform, "url": getattr(it, "url", "") or "",
+            "provenance": {"source": platform, "url": _url_with_licence(it),
                            "collected": date.today().strftime("%Y-%m"), "version": "1.0",
                            "eval_source": "heuristic"},
             "engagement": eng,

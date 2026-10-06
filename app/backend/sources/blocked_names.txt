@@ -1,0 +1,78 @@
+# Real people the library must not depict (likeness / deepfake risk). Checked by
+# pipeline.content_violation at scrape, upload and corpus load. Lower-case, one per line.
+# A list is never complete: the prompt-audit skill also reviews new prompts for real people.
+# --- from the 2026-10-06 audit ---
+lou gossett
+aubrey plaza
+aaron taylor johnson
+aaron taylor-johnson
+danny trejo
+jennifer lawrence
+rami malek
+tommy lee jones
+tmmy lee jones
+刘亦菲
+特朗普
+哈梅内伊
+户晨风
+# --- heads of state / politicians commonly used in likeness prompts ---
+donald trump
+joe biden
+biden
+kamala harris
+barack obama
+obama
+vladimir putin
+putin
+xi jinping
+习近平
+narendra modi
+modi
+volodymyr zelensky
+zelensky
+kim jong un
+kim jong-un
+emmanuel macron
+rishi sunak
+keir starmer
+justin trudeau
+benjamin netanyahu
+netanyahu
+khamenei
+# --- business / celebrities commonly used in likeness prompts ---
+elon musk
+mark zuckerberg
+zuckerberg
+jeff bezos
+bill gates
+sam altman
+taylor swift
+beyonce
+rihanna
+kim kardashian
+scarlett johansson
+emma watson
+margot robbie
+zendaya
+billie eilish
+ariana grande
+selena gomez
+dwayne johnson
+keanu reeves
+tom cruise
+leonardo dicaprio
+brad pitt
+angelina jolie
+shah rukh khan
+salman khan
+deepika padukone
+priyanka chopra
+alia bhatt
+virat kohli
+ms dhoni
+sachin tendulkar
+cristiano ronaldo
+lionel messi
+pope francis
+g7 leaders
+world leaders

@@ -122,9 +122,114 @@ def is_unsafe_content(text: str) -> bool:
     return bool(_UNSAFE_TESTIMONIAL.search(t) and _UNSAFE_INVENT.search(t) and not _EVIDENCE_GUARD.search(t))
 
 
-def prefilter(text: str, features: Dict[str, Any], ptype: str) -> Tuple[bool, str]:
+# Library content policy (2026-10-06 audit). Checked at scrape time, at upload (curated rows
+# too) and again whenever the corpus loads, so a prompt that matches never reaches the site.
+# English + Chinese + Japanese terms, because the image galleries we scraped were multilingual.
+_SEX_EXPLICIT = re.compile(
+    r"\b(nsfw|nude|nudity|naked|topless|nipples?|porn\w*|hentai|erotic\w*|fetish\w*|lewd|explicit sex)\b"
+    r"|色情|裸体|裸露|全裸|半裸|露点|成人向|18禁|エロ|ヌード", re.I)
+_SEX_SUGGESTIVE = re.compile(
+    r"\b(sexy|seductive|sensual|lingerie|underwear|bikini|cleavage|boudoir|busty|provocative|thong|"
+    r"plunging neckline|deep v[- ]?neck|low[- ]cut|see-through (top|dress|shirt|blouse|clothing))\b"
+    r"|性感|诱惑|撩人|内衣|比基尼|黑丝|美腿|吊带|透视装|深V|低胸|领口非常深|露出[^。]{0,8}胸|上胸|セクシー|下着", re.I)
+# Words that can imply a minor. Any of these next to suggestive/explicit or intimate framing = blocked.
+_MINOR = re.compile(
+    r"\b(teen\w*|schoolgirls?|schoolboys?|school uniform|loli\w*|underage|child|children|kids?|"
+    r"young girls?|little girls?|minors?|high[- ]school girl)\b"
+    r"|少女|萝莉|女高中生|女学生|学生妹|小女孩|女孩|校服|制服|ロリ|女子高生|JK", re.I)
+_INTIMATE = re.compile(
+    r"\b(selfie|bedroom|in bed|on the bed|beach|pool|shower|bath|sleepwear|pajamas|camisole)\b"
+    r"|自拍|卧室|床上|海滩|泳池|浴室|睡衣|ベッド|自撮り", re.I)
+_PERSON = re.compile(
+    r"\b(woman|women|girl|girls|man|men|model|lady|person|portrait|selfie|she|her)\b"
+    r"|美女|女人|女子|模特|写真|人像|男人|彼女", re.I)
+_JAILBREAK = re.compile(
+    r"\bDAN\b|do anything now|jailbr[eo]ak|developer mode|ignore (all |any )?(of )?(your |the )?"
+    r"(previous|prior|above|earlier) (instructions|rules)|without (any )?(restrictions|filters|censorship|"
+    r"guidelines)|\buncensored\b|\bunfiltered\b|bypass (the |any )?(filter|safety|guardrail|content polic)\w*|"
+    r"\bgaslight\w*|evade (detection|filters?|moderation)|obfuscat\w+[^.]{0,60}(detect|filter|moderat)|"
+    r"difficult to trace|avoid (plagiarism|ai) detection|undetectable (by|as)", re.I)
+# Defensive security work (red-teaming, hardening) may name jailbreaks without being one.
+_DEFENSIVE = re.compile(r"red[- ]team\w*|attack surface|vulnerabilit\w+|mitigat\w+|harden\w*|threat (model|vector)", re.I)
+# Prompts that depict something (image/video), where likeness and intimate framing matter most.
+_VISUAL = re.compile(
+    r"\b(photo\w*|portrait|picture|image|render\w*|illustration|painting|poster|wallpaper|selfie|shot|"
+    r"cinematic|camera|lens|8k|4k)\b|--ar\b|--v\b|照片|写真|人像|海报|插画|自拍|画面|镜头", re.I)
+# Fake screenshots of real platforms (impersonation): e.g. a "Douyin livestream screenshot".
+_PLATFORM_FAKE = re.compile(
+    r"(抖音|快手|视频号|小红书|微博|微信|douyin|kuaishou|tiktok|instagram|twitter|x\.com|wechat|weibo|"
+    r"youtube|facebook)[^.。\n]{0,40}(截图|screenshot|screen shot|直播间|live ?stream)", re.I)
+
+
+def _blocked_names() -> List[str]:
+    """Real people the library must not depict (likeness/deepfake risk). One name per line,
+    lower-case, in sources/blocked_names.txt; '#' starts a comment."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "app", "backend", "sources", "blocked_names.txt")
+    try:
+        with open(path, encoding="utf-8") as f:
+            return [ln.split("#")[0].strip().lower() for ln in f if ln.split("#")[0].strip()]
+    except OSError:
+        return []
+
+
+_NAMES = _blocked_names()
+
+
+def content_violation(text: str, title: str = "") -> str:
+    """Return a reason string if the prompt breaks the library content policy, else ''."""
+    t = f"{title or ''}\n{text or ''}"
+    low = t.lower()
+    if _SEX_EXPLICIT.search(t):
+        return "sexual content"
+    visual = bool(_VISUAL.search(t))
+    if _MINOR.search(t) and (_SEX_SUGGESTIVE.search(t) or (visual and _INTIMATE.search(t))):
+        return "possible sexualisation of a minor"
+    if _SEX_SUGGESTIVE.search(t) and _PERSON.search(t):
+        return "sexualised depiction of a person"
+    if _JAILBREAK.search(t) and not _DEFENSIVE.search(t):
+        return "jailbreak / manipulation"
+    if _PLATFORM_FAKE.search(t):
+        return "fake screenshot of a real platform"
+    # Latin-script names only count when the prompt depicts someone ("write like X" is fine);
+    # names in other scripts (e.g. 特朗普) are checked everywhere.
+    for name in (n for n in _NAMES if visual or not n.isascii()):
+        if name and (name in low if not name.isascii() else re.search(r"\b" + re.escape(name) + r"\b", low)):
+            return f"real person likeness ({name})"
     if is_unsafe_content(text):
-        return False, "solicits fabricated testimonials/results"
+        return "solicits fabricated testimonials/results"
+    return ""
+
+
+_BLOCKED_KEYS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                  "app", "backend", "sources", "blocked_keys.txt")
+_blocked_keys_cache: Dict[str, Any] = {}
+
+
+def blocked_key(text: str) -> str:
+    """Fingerprint of a prompt (md5 of its dedup key) — stored instead of the text itself."""
+    return hashlib.md5(_dedup_key(text or "").encode("utf-8")).hexdigest()
+
+
+def is_blocked(text: str) -> bool:
+    """True for prompts the audit removed or rewrote, so scrapers/uploads can't bring the
+    original back. Reloads the list when the file changes."""
+    try:
+        mtime = os.path.getmtime(_BLOCKED_KEYS_PATH)
+    except OSError:
+        return False
+    if _blocked_keys_cache.get("mtime") != mtime:
+        with open(_BLOCKED_KEYS_PATH, encoding="utf-8") as f:
+            _blocked_keys_cache["keys"] = {ln.strip() for ln in f if ln.strip() and not ln.startswith("#")}
+        _blocked_keys_cache["mtime"] = mtime
+    return blocked_key(text) in _blocked_keys_cache["keys"]
+
+
+def prefilter(text: str, features: Dict[str, Any], ptype: str) -> Tuple[bool, str]:
+    if is_blocked(text):
+        return False, "removed or rewritten by a library audit"
+    why = content_violation(text)
+    if why:
+        return False, why
     n = features["word_count"]
     min_words = 8 if ptype == "image" else 15
     dense_ok = features["unique_ratio"] >= 0.6 and n >= 6   # short-but-dense escape hatch

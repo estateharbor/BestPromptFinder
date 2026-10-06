@@ -1,0 +1,457 @@
+{
+ "_note": "Second-pass rewrites (written from the idea) for audit rows whose first rewrite was still close to the original, or still contained Chinese/Japanese text. Overrides new_title/new_prompt in audit_2026-10-06.csv.",
+ "p_582ebf122b": {
+  "title": "Masked Stranger in a Yellow Collar",
+  "prompt": "Character illustration, digital painting. Subject: a bearded stranger whose lower face is covered by a mask, wearing a dark coat with a loud [accent colour, e.g. yellow] collar. Backdrop: flat grey-to-[accent colour] wash with faint vertical lettering in [script, e.g. Japanese]. Mood: quiet menace, more film poster than comic. Keep the palette to three colours and leave negative space above the head for a title."
+ },
+ "p_f4c2fbc71c": {
+  "title": "Pensive Woman, Blue Collage Portrait",
+  "prompt": "Mixed-media portrait: a woman lost in thought, dressed in [colour, e.g. deep blue], with a single [flower, e.g. red poppy] as the only warm accent. Build the background from torn paper, paint scrapes and layered textures in blues and blacks. She is still, eyes lowered; nothing else happens in the frame. Square format, soft edges, matte finish."
+ },
+ "p_542d5b0764": {
+  "title": "Little Witch and Two Cats, Picture-Book Style",
+  "prompt": "Children's picture-book illustration. A small witch apprentice with [hair colour] hair and an oversized [hat colour] hat practises a spell; two cats watch her with huge glowing eyes. Tiny props float around them: [e.g. a teacup, stars, a spell book]. Plain white background so it works as a sticker or spot illustration. Bright, friendly colours, rounded shapes, no scary details."
+ },
+ "p_354d718b6546": {
+  "title": "Three Quick Fixes for an Everyday Problem",
+  "prompt": "Here's a small everyday problem I'd like to sort out: [describe it in a sentence or two]. Give me three practical options I could try this week, cheapest or easiest first. For each one: what to do, roughly how long it takes, and one thing to watch out for. Number the options and skip any preamble."
+ },
+ "p_b8beb2b260": {
+  "title": "City Travel Poster in Watercolour Collage",
+  "prompt": "Vertical travel poster for [city, region]. Technique: loose watercolour washes mixed with cut-paper collage. Time of day: [e.g. sunset], with a warm, slightly faded palette. Foreground: [a local street or waterfront scene with one or two people]. Background: [two or three landmarks the city is known for]. Typography: the city name large in one corner and a short tagline: \"[tagline]\". Keep text areas clean so the lettering stays legible."
+ },
+ "p_54769d5328": {
+  "title": "Art Nouveau Tea Advert with a Cyborg",
+  "prompt": "Vintage-style product advertisement in the Art Nouveau tradition: flowing botanical borders, gold linework and a hand-lettered brand name, \"[brand name]\". The figure is an elegant android woman enjoying a cup of [tea blend]; her mechanical joints are drawn as decorative metalwork. Muted cream, sage and gold. Portrait poster format, with a panel at the bottom for the slogan: \"[slogan]\"."
+ },
+ "p_b7a8b3f126": {
+  "title": "Retro 1970s Rock-and-Wrestling Illustration",
+  "prompt": "Retro magazine illustration with a 1970s look (halftone dots, slightly off-register colour, thick ink outlines). Scene: a glam-rock wrestler mid-match, swinging a [instrument, e.g. electric guitar] over her head as it splinters. Ring ropes, a flash-lit crowd and a ring bell in the background. Palette of [e.g. orange, teal and cream]. Feel: loud, funny, record-sleeve energy."
+ },
+ "p_8038235057": {
+  "title": "Friendly 3D Cartoon Avatar",
+  "prompt": "3D cartoon avatar for a profile picture or app mascot. Character: [age and look, e.g. a young man with short brown hair and green eyes], warm open smile, dressed in [outfit, e.g. a dark blazer over a plain white tee]. Style: polished animated-feature look, smooth skin, big expressive eyes, gently exaggerated proportions. Head-and-shoulders crop, soft studio light, background gradient in [two colours]. Clean edges so it can be cut out."
+ },
+ "p_a4f007d9ab": {
+  "title": "Food Characters in Therapy, 3D Cartoon",
+  "prompt": "Funny 3D cartoon scene set in a therapist's office. Patient: [object or food as a character, e.g. an avocado missing its pit] slumped on a couch, saying in a speech bubble: \"[line]\". Therapist: [second character, e.g. a calm teaspoon] with a notepad. Props that sell the joke: [e.g. a tissue box, a plant, a framed diploma]. Warm lamp light, wide shot, toy-like materials."
+ },
+ "p_f6d3e0b761": {
+  "title": "Graffiti-Overlay Street Portrait",
+  "prompt": "Black-and-white street portrait of [subject, e.g. a man with curly hair and a beard in a leather jacket], making [gesture] toward the camera. The only colour is [accent, e.g. neon green] in his eyes. Over the photo, layer hand-drawn graffiti marks: [e.g. arrows, crowns, scribbles, paint drips] in bright spray colours. Gritty concrete texture, hard contrast, portrait poster format."
+ },
+ "p_83144340f2": {
+  "title": "Symmetrical Station Platform with Glitch Effects",
+  "prompt": "Cinematic still of an empty train platform framed in one-point perspective: perfectly centred tracks, repeating pillars, cold overhead lights. Add digital glitch artefacts (scan-line tears, RGB split) as if the footage is corrupting. A station sign carries a line of text: \"[short quote or phrase]\". Widescreen 16:9, desaturated colour, eerie calm."
+ },
+ "p_3560528a82": {
+  "title": "Medical Cause-and-Effect Poster",
+  "prompt": "Bilingual medical explainer poster titled \"[title, e.g. The Causal Chain of Diabetes]\" with the subtitle \"[subtitle]\" (add a second-language line if you need one: [language]). Centre: an anatomical illustration. Around it, the chain of causes step by step, from the first change in the body to the damage it leads to, each step with a small diagram and a one-sentence explanation. Palette of clinical reds, blues and beige; clean, textbook-quality layout."
+ },
+ "p_0797601ac3": {
+  "title": "How a Garment Gets Made: Cause-and-Effect Infographic",
+  "prompt": "Editorial infographic titled \"[title, e.g. How a Dress Comes to Be]\". Show the chain fibre, fabric, pattern, sewing, fit on the body, each stage with a fashion-sketch drawing and a short note on how it shapes the next stage. Beige, cream and neutral tones, magazine-style layout with generous margins."
+ },
+ "p_1fa16ba6ef": {
+  "title": "3D Medical Infographic on a Condition",
+  "prompt": "Medical infographic on a white background titled \"[title, e.g. How Gout Develops]\" with the line \"[subtitle]\". Centre: a translucent 3D human figure showing where the condition starts and how it spreads. Across the top, a six-step sequence ([steps, e.g. metabolism, transport, crystals, immune response, inflammation, damage]), each with a small 3D illustration and one or two sentences. Accurate, calm, clinic-ready."
+ },
+ "p_b2634b6b10": {
+  "title": "Herbal Soup Mix Packaging Label",
+  "prompt": "Using the style of my reference image, and keeping its chicken illustration, design a label for a herbal soup mix. Move the chicken to the right. Top: a large black brush-lettered product name \"[product name]\" and a smaller line \"[subtitle]\". Left: a woven basket holding six small piles of dried ingredients ([ingredients]), each with a tiny label. Warm paper texture, traditional apothecary feel."
+ },
+ "p_b921d4e43e": {
+  "title": "Satirical Product Ad Grid, Japanese Style",
+  "prompt": "A 2x2 grid of deadpan Japanese-style print ads for useless products, played completely straight. Example: \"[product, e.g. a sitting stone]\": a man in a white shirt sits on a big round stone in a park, with a calm catchphrase in [Japanese or English] and a \"[number] sold\" badge. Invent three more in the same format, each with a photo, catchphrase, sales badge and a vertical text column."
+ },
+ "p_46c6afa6d5": {
+  "title": "Summer Highball Can Product Shot",
+  "prompt": "Bright summer product photo on a weathered wooden table: a tall glass of fizzy golden iced drink with a lemon slice and a rosemary sprig, next to a silver can beaded with condensation. Can label: \"[product name]\" under a small gold star logo, a picture of the drink and \"[ABV, e.g. 7%]\" near the bottom. Two lemon wedges beside it. Crisp daylight, shallow depth of field."
+ },
+ "p_645268383e": {
+  "title": "Explainer Diagram on a Craft Tradition",
+  "prompt": "Detailed explainer diagram about [craft tradition, e.g. blue-and-white porcelain]. Centre: a large image of one representative piece. Around it, panels on its history, the making process step by step, what the patterns mean, and how to tell a genuine piece from a fake. Captions in [language]. Museum-catalogue style, clean and factual."
+ },
+ "p_377d41c2ca0a": {
+  "title": "Minimal Keynote-Style Animal Poster",
+  "prompt": "9:16 vertical science poster about [animal], styled like a product-launch keynote slide. Pure white or very light grey background with lots of empty space. The animal is large, photoreal, softly studio-lit. A big headline and one-line subtitle at the top. At the bottom, four columns of simple icons with short labels ([e.g. habitat, size, diet, conservation status]) separated by thin vertical rules. No cards, patterns or borders."
+ },
+ "p_0c694882f7": {
+  "title": "Mythical Beast Ink Landscape Card",
+  "prompt": "Minimalist neo-traditional artwork on thick white art paper with a torn, uneven edge. A poetic mountain landscape with a [mythical creature, e.g. a qilin] drawn whole, with graceful lines and a commanding pose. Fluorescent blue linework with very fine gold outlines, broad strokes of white ink, set on a red ground with plenty of empty space. At the bottom, the title \"[title]\" in formal brush script."
+ },
+ "p_0c6b6a5e92": {
+  "title": "Minimal Gold-Leaf City Poster",
+  "prompt": "9:16 minimalist city poster for [city]. Centre: the city's best-known tower simplified into geometric shapes. The river is drawn as wave and cloud motifs that curve through the frame in an S from bottom to top. Other landmarks appear as line drawings with small blocks of colour. Palette: deep red, teal and gilded gold, on a mostly blank background or faint rice-paper texture, with a light foil-stamped sheen on the clouds and waves."
+ },
+ "p_179bda59c1": {
+  "title": "Co-Branded Campaign Materials",
+  "prompt": "Design a set of launch materials for a collaboration between [Brand A] and [Brand B]: one main poster, the packaging, a cup sleeve or tote bag, and one social media graphic. Blend the two brands' visual styles so neither dominates, and write one memorable co-branded slogan that appears on every piece."
+ },
+ "p_448dc37edbed": {
+  "title": "Car Dashboard Screen UI",
+  "prompt": "Design the centre-console screen UI for a [car model or segment], 21:9, dark theme. Include navigation map, media player, climate controls and vehicle status. Large, high-contrast icons and text that a driver can read at a glance; group controls so the most-used ones sit closest to the driver."
+ },
+ "p_48c0a7f1facd": {
+  "title": "Dark Minimal Visual Identity for a Website",
+  "prompt": "Create a visual identity system for [site name], a [type of site, e.g. avatar-sharing community], in a stark black-minimalist style (think all-black album-cover design). Deliver: logo, colour palette, typography, button styles and two example pages showing it all in use."
+ },
+ "p_4b044359c2": {
+  "title": "Historical Poets Trading Card Set",
+  "prompt": "Design a game card set featuring [group, e.g. classical Chinese poets], in three rarity tiers (SSR, SR, R). Each card has a portrait, name, a signature line of their work, and one skill tied to the poet's style or life story. Show one card enlarged with a holographic foil effect, plus an overview of the full set and short skill descriptions."
+ },
+ "p_4e44a1f67b": {
+  "title": "Encyclopedia Infographic on One Subject",
+  "prompt": "Science-encyclopedia infographic about [subject, e.g. the giant squid, Leonardo da Vinci, or the redwood]. Aged cream paper background; a realistic rendering of the subject in the centre that seems to lift off the page. Around it, six to eight framed fact panels with headings ([e.g. anatomy, habitat, history, surprising facts]) linked to the subject by fine lines and arrows. Elegant title lettering, all captions legible, no brand logos."
+ },
+ "p_4e74a3a6c8": {
+  "title": "Gongbi Group Portrait Scroll",
+  "prompt": "Traditional fine-line (gongbi) handscroll poster of [group of figures, e.g. the Eight Immortals]. Horizontal scroll with the figures in a procession from left to right, each with distinct clothing, signature object and expression, and a vertical name tag beneath. A calligraphy title at the start of the scroll; background of auspicious clouds, waves or mountains to suit the theme. Fine outlines, soft colour, cream rice-paper ground."
+ },
+ "p_4f0c76a06409": {
+  "title": "Holiday Hand-Held Photo Signs",
+  "prompt": "Design a set of six hand-held photo-prop signs for [holiday or event]. Each has a short, funny phrase and a simple illustration, in bright colours that pop in photos. Keep text big enough to read from a few metres away."
+ },
+ "p_52bd7f3c26": {
+  "title": "Football League Invitation Poster",
+  "prompt": "9:16 invitation poster for [league or tournament name]. S-shaped composition: a glowing football with a light trail travels from bottom to top, and along its path, line drawings with touches of colour show [city]'s landmarks and cultural symbols, with a few blurred player silhouettes. Deep red as the main colour, teal as support, gold accents. Main title at the top; date and venue at the bottom."
+ },
+ "p_558d6cae3899": {
+  "title": "Premium Meat and Seafood Brand Hero Image",
+  "prompt": "Hero image for [brand name], a premium meat or seafood brand. Tagline: \"[tagline]\". Colour scheme: [e.g. black and gold]. Product: [e.g. a marbled wagyu steak] on [marble or dark slate], [side or overhead] lighting, dark background. Headline in large gold serif capitals with one small line of supporting text below."
+ },
+ "p_596ce358a1": {
+  "title": "Ink Landscape Revealed Through a Paper Tear",
+  "prompt": "Minimalist neo-traditional composition: a pale grey-white ground split by an S-shaped paper tear. Inside the tear, a colourful landscape: a river running top to bottom, green hills and terraced fields on both banks, whitewashed houses with dark tiled roofs, and a small boat in midstream. Raised, three-dimensional torn edges. At the bottom, the title \"[title]\" in black brush script with a date, a red seal and a signature."
+ },
+ "p_8c5c0f5aef": {
+  "title": "Museum-Style Exhibit Infographic",
+  "prompt": "Create a museum-panel style explainer about [subject, e.g. a traditional costume or object]. Centre: a realistic image of it. Left: callout lines labelling each component, with close-up details. Top right: samples of materials and techniques. Middle right: main colours and motifs with their meanings. Bottom: the order in which it is worn or assembled, plus three key characteristics. Title, subtitle and a short intro at the top. Off-white paper texture; restrained and professional. Captions in [language]."
+ },
+ "p_8efbf876f2": {
+  "title": "Historical Figures on a Social Feed",
+  "prompt": "Create a parody phone screenshot of a social feed from [historical era, e.g. the Song dynasty]. Profile pictures are period portraits. Example post: [poet, e.g. Su Dongpo] announces he has just been exiled to a remote town and invented a new pork dish, with a fine-line painting of the dish. Below, likes from his friends and one reply each from his two political rivals. The status bar shows an era-appropriate carrier name and reign year. Dark mode with refined period colours. Generic interface, no real app branding."
+ },
+ "p_a4956bccda": {
+  "title": "Steampunk Zodiac Anatomy Chart",
+  "prompt": "Vintage steampunk anatomy-chart poster for [zodiac sign]. Ribbon banner with the title at the top; aged parchment background. Centre: the sign's mythical figure with its insides replaced by gears, pipes and a metal skeleton, drawn as hand-inked linework with labelled arrows. Side columns with small panels ([e.g. personality, element, ruling planet]) and a short summary table at the bottom. Warm browns, cream and bronze."
+ },
+ "p_a7c65f9e18": {
+  "title": "Visual Novel Character Profile Page",
+  "prompt": "Using this chibi illustration and full-body character art, design a character profile page like an official visual-novel website. Include the full-body art, a row of expression variants, the chibi version and one event-scene illustration. Add a profile box with fields for Name, Theme colour, Height and Tagline (leave the values as placeholders). Clean, game-site layout."
+ },
+ "p_b02d55c10f": {
+  "title": "Paper-Cut City Skyline at Night",
+  "prompt": "A single-sheet paper-cut artwork of [city district]. Landmarks and street scenes connect through flowing lines with no floating pieces, so it could be cut from one sheet. The paper has a metallic-foil sheen as if lit by city lights. Behind it, a blurred skyline dotted with soft, dandelion-seed specks of light."
+ },
+ "p_b35870019e": {
+  "title": "Modular Encyclopedia Infographic",
+  "prompt": "Vertical illustrated guide about [subject]. Top: one clear, attractive main image with two or three zoomed-in detail views beside it. Below: rounded cards for the sections that suit the subject ([e.g. key facts, appearance, how it works or behaves, cautions, pros and cons, top 5 or a score card]). Light background, soft palette, small icons, clear heading hierarchy; dense but uncluttered. Keep every statement accurate and short."
+ },
+ "p_bbeb11a4129a": {
+  "title": "Film-Look Travel Poster: Off to the Mountains and Sea",
+  "prompt": "Poster with the theme \"[short title, e.g. Off to the Mountains and Sea]\", shot in a film-photography look: a lone traveller with a backpack walking toward distant mountains and the sea. Visible grain and slight fading. Place the title in large type in the open sky or empty space."
+ },
+ "p_be6f2f471b0d": {
+  "title": "UI Design System in a Chosen Style",
+  "prompt": "Build a UI design system in [style, e.g. soft neumorphism or brutalist]: example web and mobile screens, cards, buttons, text inputs, toggles and other common components, plus colour palette and typography specs. Show component states (default, hover, disabled) where relevant."
+ },
+ "p_e6a973c975": {
+  "title": "Official-Style Character Reference Sheet",
+  "prompt": "Using this character and backstory, create a reference sheet like official concept-art material: front, side and back turnaround views, several facial expressions, a breakdown of costume and gear details, a colour palette, and a short world-building note. White background, tidy layout, 16:9."
+ },
+ "p_f0a3b42287": {
+  "title": "Nine-Grid Tips Poster for Social Media",
+  "prompt": "3:4 vertical nine-grid poster that can be sliced into 9 images for a social carousel, on the theme [e.g. better sleep tips]. Palette of cream white, beige and light caramel with dark brown text. Tile 1 is a big cover title; the other eight each hold one tip: a short heading, one or two sentences, and a small illustration ([e.g. pillow, moon, warm milk, eye mask]). Centre each tile's content and leave gutters so every tile works on its own."
+ },
+ "p_ff899834fe": {
+  "title": "Brush Calligraphy Promo Lettering",
+  "prompt": "Design promotional hand-lettering of the phrase \"[phrase]\". Horizontal, brush-written feel with strong thick-thin contrast, dry-brush streaks at the start and end of strokes, and letterforms tilting slightly upward so the word feels like it is charging forward. Pure black background."
+ },
+ "p_05dac7a501": {
+  "title": "Graffiti Sketch Style Drawing",
+  "prompt": "Draw [subject] in a loose graffiti-sketch style: quick, exaggerated lines of uneven weight, rough dry-brush blocks of colour, a mostly blank background, and a few arrows, circles and scribbled notes around it. Playful and casual, like a draft; no watercolour bleeds or fine detail."
+ },
+ "p_30dd2b1d291e": {
+  "title": "Calligraphy Copybook of a Classic Text",
+  "prompt": "Create a calligraphy practice sheet of [classic text, e.g. Wang Xizhi's Preface to the Orchid Pavilion] in [script, e.g. running script]. Foreground: the full text, crisp and legible. Background: a very faint painted scene evoking the text's imagery ([e.g. high mountains, bamboo groves, a winding stream]). Keep the background light so the characters stay clear."
+ },
+ "p_3c4664bf2d": {
+  "title": "Starry Ice-Blue Hanfu Portrait",
+  "prompt": "Full-length fashion portrait of an adult model, standing centred, in a pale ice-blue high-waisted Hanfu with layers of light chiffon and organza. Wide sleeves are embroidered with tiny silver and pale-blue sequins that shimmer like a galaxy; silver lace and woven texture at the bodice, sash hanging naturally. Soft side light through the fabric to show its lightness and movement. 85mm lens look."
+ },
+ "p_4d44e1b4fd": {
+  "title": "Giant Koi in a Nebula",
+  "prompt": "Surreal digital illustration from a low angle: a giant multicoloured koi swims through dreamy nebula clouds and bubbles, looking down. In the centre of the frame, a tiny person stands with their back to us, calmly looking up at it. Strong sense of scale; ethereal, quiet mood. 9:16."
+ },
+ "p_52382f89e3": {
+  "title": "Four Fashion Pieces From One Pattern",
+  "prompt": "Using the pattern in the attached image, design four fashion items, each with a different colourway and placement of the pattern, and show each one styled in an outfit. Simple compositions that keep the focus on the pattern. 2:3."
+ },
+ "p_58ee778322": {
+  "title": "Anime Phone Wallpaper Under Cherry Blossoms",
+  "prompt": "Anime-style phone wallpaper: an adult character with pink twin-tails fading to purple at the tips and big purple eyes, wearing [a light spring outfit], standing under a cherry tree with hands behind her back, smiling. Petals drifting, a soft-focus building in the distance. Clean lines, bright colours, gentle lighting. 9:19.5."
+ },
+ "p_598fdedc80": {
+  "title": "Tang Lady Walking a Monster in a Pink Vest",
+  "prompt": "Fine-line gongbi painting: an aristocratic Tang dynasty lady strolls through the imperial garden, serene and elegant, holding a golden leash. At the other end is a fearsome-looking alien monster wearing a cute pink silk vest, behaving like a perfectly trained dog. Peonies and butterflies in the background; a red vertical seal in the lower right reading \"[your name]\"."
+ },
+ "p_5c7e400056": {
+  "title": "Giant Scribble Creature on a Textbook Page",
+  "prompt": "A gigantic [creature, e.g. dragon] drawn in extremely dense, chaotic ballpoint-pen scribbles over a real textbook or exam page, with the printed text and layout showing through. Mostly black, deep indigo and dark purple, with faint cyan and violet glows only in the eyes and cracks. Lines densest at the centre, loosening into stray scribbles at the edges. A tiny human figure nearby for scale."
+ },
+ "p_60ba8d513f": {
+  "title": "Hand-Drawn City Food Map",
+  "prompt": "Hand-drawn food map of [city] over a simplified bird's-eye street plan. Twelve small illustrations of food spots, each with a hand-lettered name and a one-line recommendation. Border of vines and chilli peppers; a compass and legend at bottom right; the title \"[city] Food Map\" at top left. Watercolour and coloured-pencil texture, warm palette, 1:1."
+ },
+ "p_629d2e56e8": {
+  "title": "Spring Ink-Wash Mountain Poster",
+  "prompt": "9:16 neo-traditional ink-wash landscape poster: mountains wrapped in morning mist on both sides, a still lake in the middle reflecting them, and a tiny covered boat with a fisherwoman in vermilion. Palette of blue-green, mist blue and pale ink; lots of empty space; a short vertical title in small type at top right."
+ },
+ "p_669e8b5cd4": {
+  "title": "Character Photo Book Spread",
+  "prompt": "Using this character, design a photo-book spread laid out like a professional designer's work, with all text in [language, e.g. Japanese]. Several scenes ([e.g. street, cafe, seaside, living room]) and rich detail: titles, short captions, dates and small annotations."
+ },
+ "p_7ba1f89fc0": {
+  "title": "Rainy Anime Garden Day Calendar",
+  "prompt": "Single-day calendar page for [date]. Artwork: a Japanese garden in spring rain (a pavilion in the rain, wet stone steps, fresh green everywhere) like a frame from an animated film. The date is large and clear, with the weekday and one short line of rainy-day reflection beside it."
+ },
+ "p_7d3feb5fca2a": {
+  "title": "Exploded View of a Historic Building",
+  "prompt": "Exploded architectural diagram of [building, e.g. the Hall of Prayer for Good Harvests]: roof, bracket sets, columns and platform separated layer by layer, each part labelled with its name and function in [language]. Colour scheme drawn from the building's traditional palette."
+ },
+ "p_877c83177a": {
+  "title": "Cosplay Photo as a Visual Novel Screen",
+  "prompt": "Vertical phone-screenshot style image: a fictional adult cosplayer dressed as [character], realistic with a hint of anime, smiling gently at the camera from a cafe or bar counter. Phone status bar at the top (time, battery, signal). At the bottom, a translucent visual-novel dialogue box with a chibi portrait on the left and the character's name plus one or two gentle, in-character lines on the right (you write them). A row of game menu buttons below the box."
+ },
+ "p_9a1b723b5a": {
+  "title": "Gold-Lit Eastern Fantasy City Poster",
+  "prompt": "9:16 Eastern-fantasy city poster for [city]. Black background fading to deep red toward the bottom, with a little stardust. A ribbon of golden light winds from bottom left to top right, and the city's landmarks emerge layer by layer inside it as fine line drawings with glowing gold volumes. At the bottom, a woman with long white hair, eyes closed, holding flowers, her hair flowing into the golden light."
+ },
+ "p_a85dc9a6a9b1": {
+  "title": "Page From a Primary-School Chinese Textbook",
+  "prompt": "Create an inside page in the style of a third-grade Chinese-language textbook: a short lesson text with an illustration, a new-characters table with pinyin, two or three exercises at the end, and a page number at the bottom. Layout and colours like a real published textbook. All page text in Simplified Chinese."
+ },
+ "p_ce14c5ffc0": {
+  "title": "Glass Bird Over a City in Ink",
+  "prompt": "Painting on a black background: a bold ink-calligraphy curve sweeps across the frame. Above it flies a transparent glass songbird with the silhouettes of old buildings reflected inside its body, outlined in gold. Below the curve, [city]'s landmarks in a row in blue-green and pale gold, with [local flower, e.g. kapok blossoms] and ink clouds around them. A few white cranes stand by a lake in the foreground."
+ },
+ "p_f9d38e5af6": {
+  "title": "Thousand-Armed Guanyin as a Modern Worker",
+  "prompt": "Fine-line gongbi painting of the Thousand-Armed Guanyin, but instead of ritual objects the hands hold laptops, phones, stacks of files, coffee cups, rubber stamps, a calculator, a mop and a baby bottle: the ultimate multitasking worker. The golden halo behind the head is made of turning clock gears. A red vertical seal in the lower right reading \"[your name]\"."
+ },
+ "p_68e46f99c4": {
+  "title": "Wide-Angle Beauty Campaign in Deep Red",
+  "prompt": "Bold beauty-ad photo using my uploaded adult model as the reference: keep her face exactly as is, with no skin smoothing. Deep red studio with a glossy or high-contrast patterned floor. She pushes [product] toward the lens, so it looks huge through the ultra-wide angle, smiling confidently or playfully. 20 to 28mm ultra-wide, commercial lighting, crisp packaging edges."
+ },
+ "_remove": [
+  "p_90e36a718d88",
+  "p_939e1c5902b5",
+  "p_ab27524a22",
+  "p_c776475950bf",
+  "p_cbad695b5d95",
+  "p_0759fb900800",
+  "p_3357a40fca",
+  "p_0ce7db9cab59"
+ ],
+ "p_034bac7784": {
+  "title": "Turn Facts Into a Dramatic Monologue",
+  "prompt": "Take the passage below and recast it as a stage monologue. Speaker: [who is talking, e.g. a museum curator on the last night before an exhibit closes]. Audience: [who they're addressing]. Every fact in the passage must survive; add emotion, rhythm and a strong closing line, not new facts. Passage: [paste]"
+ },
+ "p_8e825c707abe": {
+  "title": "Techniques to Remember What I Read",
+  "prompt": "I keep forgetting most of what I read in [kind of material, e.g. business books]. Suggest four or five memory techniques I could start tonight, each with one sentence on how to do it. Keep the whole answer short, under 175 words."
+ },
+ "p_4a4e3e5274": {
+  "title": "Gothic Pen-and-Ink Night Scene",
+  "prompt": "Pen-and-ink illustration with Victorian gothic humour: a lone traveller in a long coat and stovepipe hat waits at a bend in a mountain pass, luggage at his feet, as a horse-drawn carriage looms out of the storm. Dense cross-hatching, black and white only, lots of dark sky, a slightly absurd, melancholy mood."
+ },
+ "p_581a3ff8a0": {
+  "title": "Botanical Crown Portrait",
+  "prompt": "Portrait illustration: a woman with an unsmiling, direct expression wears a headdress woven from [plants, e.g. ivy, olive leaves and white blossoms]; her earrings and necklace repeat the same botanical shapes. Deep black backdrop with faint ornamental linework. Her skin is the only warm tone in the image."
+ },
+ "p_6c999487eb": {
+  "title": "Melancholy Portrait in Pale Blue",
+  "prompt": "Painterly head-and-shoulders portrait of a young adult woman, quietly sorrowful, eyes slightly downcast, dark hair falling past her shoulders. Pale sky-blue backdrop, soft diffused light, realistic detail in the face with looser brushwork elsewhere. Leave the reason for her mood unexplained."
+ },
+ "p_349ee07097": {
+  "title": "Woman With a Circuit-Board Crown",
+  "prompt": "Monochrome ink portrait, front-facing and still: a woman whose crown is built from [tech parts, e.g. circuit traces, tiny chips and copper wire] that grow into her hair like vines. Solid black background so the fine metallic detail stands out. Balance organic curves and hard-edged electronics."
+ },
+ "p_089d1df9d4": {
+  "title": "Winged Figure in Ink",
+  "prompt": "Black-and-white illustration of a winged woman in a strong, grounded stance, wings half open. Heavy contrast: deep blacks, crisp highlights, careful shading on the feathers. The background is a soft, smudged texture so she reads instantly. Mood: protective, a little mysterious."
+ },
+ "p_2c723ef185": {
+  "title": "Portrait With Pink Locs on Violet",
+  "prompt": "Minimal digital portrait: a young adult woman with [hairstyle, e.g. long pink locs] and a calm expression, meeting the viewer's eyes, with a few simple accessories. Flat deep violet background, clean shapes, limited palette. The stillness of her expression is the point."
+ },
+ "p_53fe48335e": {
+  "title": "Moody Studio Portrait, Braids and Gold Trim",
+  "prompt": "Studio portrait, waist up: a young adult woman with [hairstyle, e.g. sculpted braids] in a [jacket, e.g. tailored jacket with gold trim], chin slightly raised. Chocolate-brown backdrop, single soft light from the side, everything else falling into shadow. She should look completely in charge."
+ },
+ "p_97338d9ccb": {
+  "title": "Lantern-Lit Portrait Beneath a Green Orb",
+  "prompt": "Rich fantasy illustration: a young adult woman with [hairstyle] in an emerald gown trimmed with gold, holding up a small lantern that lights her face from below. Above her floats a large emerald sphere etched with gold patterns. Gilded backdrop, warm and luxurious, a hint of mystery."
+ },
+ "p_ae40e61629de": {
+  "title": "Oil Portrait With Pastel Curls",
+  "prompt": "Oil painting, head and shoulders: a young adult woman with [hair, e.g. pastel pink and white curls] and green eyes, in a [garment, e.g. cobalt jacket with brass buttons]. Flat teal backdrop, light from the left, visible brushwork. Keep it spare: one figure, three main colours."
+ },
+ "p_e835529d4c02": {
+  "title": "Veiled Gothic Queen",
+  "prompt": "Dark fantasy character art: a queen whose face is hidden behind a lace veil, in a floor-length lace gown, heavy jewels and a sceptre, standing in a candlelit cathedral nave. Victorian-horror atmosphere, cold stone, warm flame light, dust in the air. Portrait format."
+ },
+ "p_e65f32cf1271": {
+  "title": "Bullet Summary of a Big Idea",
+  "prompt": "Explain [philosophy, movement or theory, e.g. Stoicism] to someone meeting it for the first time. Use at most 10 bullets, plain words, one idea per bullet, starting with the core belief and ending with how people practise it today."
+ },
+ "p_f21c1d777bdd": {
+  "title": "Extract Items From a Passage as a List",
+  "prompt": "Read the passage below and pull out every [item type, e.g. sector the city leads in]. Return them on one line, comma-separated, in the order they appear. Use only what the passage says; if there are none, reply 'none found'. Passage: [paste]"
+ },
+ "p_a81ef43f685a": {
+  "title": "Fish-Out-of-Water Short Story",
+  "prompt": "Write a short story, under 300 words, about [character] who is great at [their world, e.g. alpine skiing] and completely lost in [an unfamiliar situation, e.g. a night shift at a busy diner]. Give it a clear turning point and a funny or warm ending."
+ },
+ "p_ae4a1542a815": {
+  "title": "Light Limerick",
+  "prompt": "Write a playful limerick (five lines, AABBA) about [subject, e.g. a cat who believes it owns the neighbourhood]. Keep it clean, end on a twist, and make the rhythm bouncy enough to read aloud."
+ },
+ "p_d8b606d3f37e": {
+  "title": "Short History Article",
+  "prompt": "Write a brief history article (under 250 words) on [topic, e.g. public libraries] that includes [one specific angle, e.g. how the printing press changed who could borrow books]. Only use well-established facts, give rough dates, and mark anything uncertain with [VERIFY]."
+ },
+ "p_b4984816f3": {
+  "title": "Disco-Ball 3D App Icon",
+  "prompt": "Design a luxury app icon for [product name]: a rounded-square tile clad in tiny mirror facets that throw sparkles, framed by a polished chrome bevel with a glassy top layer. Soft studio lighting, subtle reflection underneath, plain light background. Should read clearly at small sizes."
+ },
+ "p_2e85f62aa2": {
+  "title": "Overthinking: Sitting on a Giant Version of Your Own Head",
+  "prompt": "Conceptual campaign photo about [theme, e.g. overthinking]: [subject, e.g. a young adult woman in casual streetwear and tinted sunglasses] lounges, totally relaxed, on top of an enormous, lifelike sculpture of her own head. Clean urban backdrop, bright daylight, and a short tagline in small type: \"[tagline]\"."
+ },
+ "p_7a19e01ccc": {
+  "title": "Sitting on a Giant Version of His Own Head",
+  "prompt": "Surreal studio photo: [subject, e.g. a young man with curly hair, stubble and tinted sunglasses] sits casually on an oversized replica of his own head, which lies on its side on the floor and wears the same sunglasses. Full-body, centred, warm beige seamless backdrop, crisp commercial lighting."
+ },
+ "p_1a54704f16": {
+  "title": "VTuber Stream Thumbnail",
+  "prompt": "Livestream thumbnail for a virtual streamer's character: [character, e.g. an adult anime character with blonde twin tails and pink tips], grinning and throwing a peace sign beside one eye. Punchy colours, glowing outline around the character, a bold title \"[stream title]\" and a red \"LIVE\" tag in the corner. 16:9."
+ },
+ "p_539398136f": {
+  "title": "French New Wave Collage Poster",
+  "prompt": "Vertical poster in a handmade, cut-and-paste look: a black-and-white portrait of [subject] anchors the centre, with torn paper, film-strip fragments, an old city street in the rain and newsprint scraps layered around it. Accent blocks of [three colours, e.g. red, cobalt and mustard]; photocopy grain and slightly misaligned print colours."
+ },
+ "p_58de2b5217": {
+  "title": "Flashy Gold and Black Thumbnail",
+  "prompt": "High-energy video thumbnail in [two colours, e.g. gold and black]: [subject, e.g. a presenter in a sharp suit, arms folded] gazing upward as light beams and glitter burst behind them. One huge headline in metallic letters, \"[headline]\". Maximum contrast, readable at phone size."
+ },
+ "p_8ddf469f66": {
+  "title": "Pink Kimono Maid VTuber Thumbnail",
+  "prompt": "Ultra-pink stream thumbnail: an adult anime character with [hair, e.g. brown hair in two buns] in a kimono-and-apron outfit with cherry-blossom pins, holding a flower-decorated microphone and smiling. Sparkles, petals and soft glow everywhere; big rounded title text \"[title]\". 16:9."
+ },
+ "p_deb4219e69": {
+  "title": "Cutaway Infographic: How a City Works",
+  "prompt": "Tall isometric cross-section of a modern city, from rooftops down to the bedrock, titled \"[title, e.g. How a City Breathes]\". Show buildings, streets, metro, service tunnels, the pipes and cables for water, sewage, gas and data, flood storage and groundwater. Colour-code each flow (power, water, data, traffic, waste) and add 12 numbered callouts explaining each system. Captions in [language(s)]."
+ },
+ "p_e261edb2ea": {
+  "title": "Optical Hardware Diagram Render",
+  "prompt": "Publication-style 3D figure of a lab optics setup: a laser beam travels across a breadboard table through [number] mounted parts ([list them in order]). Label each part, and use thin brackets above to group them into stages ([stage names]). White background, neutral greys, the beam the only strong colour."
+ },
+ "p_f7a03afc59": {
+  "title": "Experimental Editorial Portrait Poster",
+  "prompt": "9:16 art-direction poster. Subject: [adult portrait, framing]. Break the photo with exactly one disruption: [choose: colour split / thin beam of light / horizontal slice / motion smear]. Palette: muted neutrals plus [one accent colour]. Title \"[title]\" set small and precise. Mood: [e.g. quiet tension]. Leave generous negative space."
+ },
+ "p_0026e8ad0f": {
+  "title": "Cafe Photo With Cartoon Coffee Doodles",
+  "prompt": "Mixed-media lifestyle shot: [subject, e.g. a young adult woman in oversized sunglasses and a cosy knit] at a sidewalk cafe, cup raised. Around her, playful flat cartoon doodles float in the air: a grinning cappuccino, coffee beans with faces, steam curls, little hearts. Real photo plus 2D drawings, bright and fun."
+ },
+ "p_497a8f51745b": {
+  "title": "Bowl of Tom Yum Soup",
+  "prompt": "Moody food photo: tom yum in a dark ceramic bowl, one prawn, a lime wheel and fresh coriander on top. Scattered around on rough wood: lemongrass stalks, bird's-eye chillies, galangal. Low-key light from one side, deep shadows, steam rising."
+ },
+ "p_9793c60bf303": {
+  "title": "Dark Still Life With Bread and Pitcher",
+  "prompt": "Old-master style still life in oils: a crusty loaf on a cutting board, a bowl of dark wine, one white bloom and a decorative metal jug, arranged on a table edge. A single window light from the left; the background dissolves into smoky dark brown. Calm and contemplative."
+ },
+ "p_4610d3db10": {
+  "title": "Fantasy Travellers on a City Canal",
+  "prompt": "Aerial view looking down on [fantasy travellers, e.g. a band of elves and dwarves] trudging along a [real place, e.g. Victorian industrial canal towpath] with lanterns. Grey sky, wind in their cloaks, wet brick and water. Grainy film look with darkened corners. Aspect ratio [e.g. 14:11]."
+ },
+ "p_2a90a38308": {
+  "title": "Avant-Garde Runway Look",
+  "prompt": "Fashion-show photograph: an adult model walks the catwalk in a glossy black bodysuit and dark visor, with a sculpted white 'cloud' of tulle wrapped around her shoulders. Fog machine haze, camera flashes from the photographers' pit, dark venue."
+ },
+ "p_fa5c126a14": {
+  "title": "Monk Guiding a Soul Through the Bardo",
+  "prompt": "Storybook illustration with a gothic edge: an elderly monk carries a lantern and leads a pale, lost spirit through the Bardo, the in-between realm of Tibetan Buddhism, rendered as swirling coloured mist and drifting symbols. Saturated jewel tones, gentle and eerie at once."
+ },
+ "p_15d821f429": {
+  "title": "Low-Angle Anime Portrait in the Wind",
+  "prompt": "Detailed anime illustration seen from below: an adult woman crouches and glances down toward the viewer, [hair colour] hair streaming in the wind, wearing [outfit, e.g. an oversized grey hoodie and jeans]. Big expressive eyes, pale clouds and blue sky behind her, soft daylight."
+ },
+ "p_211cd5937b": {
+  "title": "Running Away From a Doodle",
+  "prompt": "Fun studio photo: [subject] sprints across a seamless pale-grey backdrop, grinning, one foot in the air, while a simple hand-drawn black stick figure behind them tugs at the back of their top. Real photo plus cartoon line drawing, bright even lighting."
+ },
+ "p_29a0149fe832": {
+  "title": "Cosplayer Getting Ready Backstage",
+  "prompt": "Documentary-style photo in a messy backstage dressing room: [subject, e.g. an adult cosplayer with a bright red bob] makes final adjustments to an elaborate [costume, e.g. fantasy armour] before going on stage. Bulb-ringed mirror, wigs, makeup and props everywhere; candid and unposed."
+ },
+ "p_2dac160f50": {
+  "title": "3x3 Expression Grid",
+  "prompt": "Character sheet as a 3x3 grid: [character] shows nine different emotions, one per tile, each time peeking out through a ragged hole torn in white paper. Consistent face and outfit in every tile, [style, e.g. glossy animated-film 3D], plain backgrounds."
+ },
+ "p_30c944e858": {
+  "title": "Moody Men's Fashion Portrait",
+  "prompt": "Close-up fashion portrait based on my reference photo (don't change his face): [styling, e.g. round amber-tinted sunglasses and a textured dark jacket]. Burgundy studio backdrop, one soft side light, real skin texture, cinematic colour grade."
+ },
+ "p_3116c72bc0": {
+  "title": "Candlelit Portrait in a Small Room",
+  "prompt": "Candid waist-up photo of [subject] in a tiny stone room. The only light is a candle out of frame to the left, laying a warm band across one side of the face; the rest of the room sinks into darkness. 85mm look, shallow focus, quiet and intimate."
+ },
+ "p_8e4c873812": {
+  "title": "Pencil Sketch Fashion Illustration",
+  "prompt": "Graphite fashion sketch: [subject, e.g. a woman in round sunglasses, rolled-sleeve shirt, denim dungarees and lace-up boots] perched on a low stone wall, legs crossed, hand at her chin. Loose hatching, mostly greys, with a single spot of colour on [one item]."
+ },
+ "p_a20ecadcf7": {
+  "title": "Parisian Autumn Fashion Illustration",
+  "prompt": "Full-length fashion illustration: [subject] strolls along a tree-lined Paris street in autumn wearing [outfit, e.g. an open camel coat, black turtleneck and cream wide-leg trousers] with an unbranded quilted shoulder bag. Hair moving in the breeze, golden late-afternoon light, falling leaves."
+ },
+ "p_b980676882": {
+  "title": "Low-Poly Papercraft Portrait",
+  "prompt": "Turn [subject, e.g. a bearded man with curly hair and geometric sunglasses] into a folded-paper sculpture: low-poly facets, crisp creases, visible paper grain, a slightly matte finish. Plain backdrop, soft directional light that makes every fold cast a small shadow."
+ },
+ "p_c03a33e711": {
+  "title": "35mm Flash Snapshot Portrait",
+  "prompt": "Retro 35mm snapshot of [subject] in [outfit], looking straight into the lens. Direct on-camera flash: bright face, hard shadow behind, slightly blown highlights, film grain and warm colour shift. Background: [setting, e.g. a dim apartment kitchen at night]."
+ },
+ "p_c5c32eeb16": {
+  "title": "Fish-Eye Cafe Portrait",
+  "prompt": "Fish-eye close-up based on my photo: I'm leaning toward the lens, sipping from a [colour] mug, in a retro diner with shiny tiled walls and hanging lamps. Exaggerated curved perspective, warm moody light, [outfit and glasses]."
+ },
+ "p_cbd4e60e21": {
+  "title": "Lying on a Red Running Track Selfie",
+  "prompt": "Use my photo for the person. Bright outdoor scene from a very low, ultra-wide selfie angle: I'm lying on a red running track that crosses a white arched footbridge, one arm stretched toward the camera, headphones round my neck, [outfit]. Clear sky, summer sun, relaxed mood."
+ },
+ "p_d99aad042a": {
+  "title": "Basketball Court Selfie With Custom Ball",
+  "prompt": "Phone selfie on an indoor court: [subject] in a plain athletic tee holds up a [colour] basketball printed with [your logo or text], grinning. Polished wooden floor, hoop and bleachers behind, gym lighting. No real brand logos."
+ },
+ "p_e89979c080": {
+  "title": "Animated Movie Poster: Treehouse Restaurant",
+  "prompt": "Key art for an animated film: a towering treehouse restaurant glowing with fairy lights in a dark, magical forest at night. In the foreground two young adventurers with lanterns look up in wonder, with [animal companions] at their feet. Title \"[title]\" in storybook lettering across the top."
+ },
+ "p_f4f56a0566": {
+  "title": "Anime Superhero Landing",
+  "prompt": "Action anime illustration: an adult heroine with [hair, e.g. spiky blonde hair in a high ponytail] and [outfit] lands in a three-point crouch, fist on the ground, the pavement cracking outward as sparks and energy fly up. Low camera angle, speed lines, dramatic lighting."
+ },
+ "p_3a1b481084": {
+  "title": "Woman Resting on a White Dragon in the Clouds",
+  "prompt": "Dreamy fantasy illustration: a young adult woman sleeps curled in the coils of a gigantic white dragon above a sea of soft clouds. Pastel sunrise light, painterly anime background style, a feeling of safety and calm."
+ },
+ "p_37470f971a74": {
+  "title": "Classical Statue on a Night Drive",
+  "prompt": "Surreal photo: [famous classical statue, e.g. Michelangelo's David] at the wheel of a [classic car, e.g. powder-blue vintage convertible], cruising past casino lights at night. Neon reflections on the paint, motion blur in the background, deadpan humour."
+ }
+}

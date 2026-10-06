@@ -516,9 +516,11 @@ INFO_PAGES = {
 <p>We disclose the origin of every prompt.</p>
 <ul class="hl">
 <li><strong>Editorial prompts</strong> read "Created by BestPromptFinder" and are not user-generated.</li>
-<li><strong>Third-party prompts</strong> link to the original source and state the licence (e.g. MIT). We keep the attribution and licence with the prompt.</li>
-<li><strong>Dataset / gallery prompts</strong> are labelled by their platform.</li>
+<li><strong>Third-party prompts</strong> link to the original source and state the licence (e.g. CC0, MIT). We only republish a third-party prompt when its licence explicitly covers the prompt text itself, not just images or code around it.</li>
+<li><strong>Editorial rewrites.</strong> Where a useful idea came from a source without such a licence, we wrote a new prompt from the idea in our own words and publish it as editorial. We don't republish the original wording.</li>
 </ul>
+<h2>What we don't publish</h2>
+<p>We remove, and automatically block at import, prompts that: are sexual, or could sexualise a minor in any way; depict a real, identifiable person's likeness; attempt jailbreaks, manipulation or evasion of detection; fake screenshots of real platforms; or ask a model to invent testimonials, reviews or results. The library was fully audited against these rules on 6 October 2026, and new prompts are checked before they go live.</p>
 <h2>Accuracy and claims</h2>
 <p>Prompts and AI-generated previews must not invent prices, availability, footfall, yields, returns, guarantees, scarcity or testimonials. Previews insert <code>[VERIFY: ...]</code> where information is missing rather than fabricating it.</p>
 <h2>Takedown</h2>

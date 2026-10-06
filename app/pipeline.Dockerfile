@@ -11,6 +11,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Pipeline modules
 COPY scraper_agent.py pipeline.py semantic.py templates.py llm_evaluator.py budget.py refresh_smart.py ./
+# Library policy files read by pipeline.content_violation / is_blocked (same relative path as
+# in the repo, so <dir of pipeline.py>/app/backend/sources/... resolves).
+COPY app/backend/sources/blocked_names.txt app/backend/sources/blocked_keys.txt ./app/backend/sources/
 # Corpus builder + curated seed
 COPY app/backend/build_corpus.py app/backend/curated_seed.json ./backend/
 # The refresh entrypoint

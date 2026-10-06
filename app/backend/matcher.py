@@ -24,8 +24,10 @@ if ROOT not in sys.path:
 
 # Reuse the pipeline's purpose taxonomy (real wiring); fall back if unavailable.
 try:
-    from pipeline import classify_purpose, detect_type
+    from pipeline import classify_purpose, detect_type, content_violation
 except Exception:
+    def content_violation(text, title=""):  # fallback: no policy check available
+        return ""
     def classify_purpose(text, category=""):  # minimal fallback
         return ""
     def detect_type(text, category=""):
@@ -48,17 +50,20 @@ OVERRIDES_PATH = os.getenv("CORPUS_OVERRIDES",
 
 
 def apply_overrides(corpus: List[Dict[str, Any]], path: str = OVERRIDES_PATH) -> List[Dict[str, Any]]:
-    """Drop ids listed under "remove" and set "purpose" from the id -> category map."""
+    """Drop ids listed under "remove" and anything that breaks the content policy
+    (pipeline.content_violation), and set "purpose" from the id -> category map."""
     try:
         with open(path, "r", encoding="utf-8") as f:
             ov = json.load(f)
     except (OSError, ValueError):
-        return corpus
+        ov = {}
     remove = set(ov.get("remove") or [])
     purpose = ov.get("purpose") or {}
     out = []
     for c in corpus:
         if c.get("id") in remove:
+            continue
+        if content_violation(c.get("prompt") or "", c.get("title") or ""):
             continue
         if c.get("id") in purpose:
             c["purpose"] = purpose[c["id"]]

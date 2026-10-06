@@ -15,6 +15,7 @@ import io
 import os
 import sys
 import json
+import re
 import hashlib
 from datetime import date
 from typing import Any, Dict, List
@@ -145,6 +146,19 @@ def ingest_bytes(data: bytes, filename: str = "upload.xlsx",
         cleaned, feats = pipeline.normalize_prompt(raw)
         ptype = pipeline.detect_type(cleaned, _pick(row, _COLS["purpose"]))
         curated = _pick(row, _COLS["curated"]).lower() in _TRUE
+        # Library policy applies to every row, curated included: content rules, audit blocklist,
+        # and a third-party source must state a licence covering the prompt text: "URL (MIT)".
+        why = pipeline.content_violation(cleaned, _pick(row, _COLS["title"]))
+        if why:
+            _skip(f"blocked: {why}")
+            continue
+        if pipeline.is_blocked(cleaned):
+            _skip("blocked: removed or rewritten by a library audit")
+            continue
+        src = _pick(row, _COLS["source"]).strip()
+        if src.startswith("http") and not re.search(r"\([^)]+\)\s*$", src):
+            _skip("third-party source without a stated licence")
+            continue
         if curated:
             # Human-reviewed: bypass the quality/length filter (trust it past the 20k cap),
             # but keep a sanity ceiling so a runaway paste can't wreck the corpus.
@@ -219,8 +233,15 @@ def ingest_bytes(data: bytes, filename: str = "upload.xlsx",
         "reasons": reasons,
         "added_titles": [e["title"] for e in new_entries[:20]],
         "message": f"{len(new_entries)} of {len(rows)} prompts are live now; {curated_note}"
-                   f"{queued} queued for AI grading; {junk} dropped (duplicates or junk).",
+                   f"{queued} queued for AI grading; {junk} dropped (duplicates or junk)."
+                   + _policy_note(reasons),
     }
+
+
+def _policy_note(reasons: Dict[str, int]) -> str:
+    """Spell out library-policy rejections so the uploader sees why rows didn't go live."""
+    hits = {k: v for k, v in reasons.items() if k.startswith("blocked") or "licence" in k}
+    return (" Not published: " + "; ".join(f"{v} × {k}" for k, v in hits.items()) + ".") if hits else ""
 
 
 def _append_corpus(entries: List[Dict[str, Any]]):
