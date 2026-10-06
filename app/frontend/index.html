@@ -51,10 +51,21 @@
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "Organization",
+          "@id": "https://bestpromptfinder.com/#organization",
+          "name": "BestPromptFinder",
+          "alternateName": ["Best Prompt Finder", "bestpromptfinder.com"],
+          "url": "https://bestpromptfinder.com/",
+          "logo": "https://bestpromptfinder.com/icon-512.png",
+          "email": "support@bestpromptfinder.com",
+          "contactPoint": { "@type": "ContactPoint", "contactType": "customer support", "email": "support@bestpromptfinder.com" }
+        },
+        {
           "@type": "WebSite",
           "@id": "https://bestpromptfinder.com/#website",
           "url": "https://bestpromptfinder.com/",
           "name": "BestPromptFinder",
+          "publisher": { "@id": "https://bestpromptfinder.com/#organization" },
           "description": "Find the best AI prompt for any goal — ranked, AI-graded prompts for ChatGPT, Claude, Gemini and Midjourney.",
           "potentialAction": {
             "@type": "SearchAction",

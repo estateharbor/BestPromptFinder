@@ -245,3 +245,16 @@ Output:
 ## Translation (same structure and line breaks as the source)
 ## Flags (line, issue: ambiguity / glossary fit / idiom / length limit exceeded)
 ## Terms I used that are not in the glossary (so you can add them)"
+Amazon / Shopify Product Listing from Raw Specs,Ecommerce,85,"ChatGPT, Claude, Gemini","https://contextetech.com/en/prompts/amazon-shopify-product-listing-vqf4s1 (MIT, Contexte Tech)",yes,"Write a product listing for an online store ({{marketplace}}).
+
+Product: {{product}}
+Specs: {{specs}}
+Target customer: {{audience}}
+
+Return, in American English:
+1. A title under 150 characters, main keyword first, no promotional claims (""best"", ""#1"")
+2. Five bullet points, each starting with a short benefit in capitals followed by the supporting spec
+3. A 150 to 200 word description in plain, concrete language
+4. Five search terms customers would type, comma-separated
+
+Use U.S. units (inches, pounds, °F). Do not invent any feature that is not in the specs."
