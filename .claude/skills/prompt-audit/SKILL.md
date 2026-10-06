@@ -26,6 +26,18 @@ Input: $ARGUMENTS
   unpublished, with automatic `flags` and a `suggested_action`. Treat those as hints and review
   every row yourself.
 
+  Windows notes (learned the hard way):
+  - The user must run it from the **project folder on their PC**, not inside an SSH session on
+    the VPS. Check that the prompt reads `PS C:\...\Fresh Prompt>`. The Terminal panel opens there.
+    `run_in_terminal` may fail to start on this machine, so ask the user to paste the command.
+  - Windows PowerShell 5.1 reads ssh output as the OEM code page and saves UTF-16, which garbles
+    Chinese and Japanese text. Either have the user run
+    `[Console]::OutputEncoding = [Text.Encoding]::UTF8` first, or repair the file:
+    decode as UTF-16, then for each line apply `line.encode("cp437").decode("utf-8")` (keep the
+    line unchanged if that fails). Write a `.utf8.csv` copy and work from that.
+  - Delete the export files when you're done. They contain the original third-party text,
+    which must not be committed.
+
 ## 2. Policy (apply in this order)
 
 1. **Content policy → `remove`.** Sexual content; anything that could sexualise a minor (zero
