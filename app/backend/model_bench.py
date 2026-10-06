@@ -11,6 +11,7 @@ Optional: MODELS="model-a,model-b" to test specific names; RUNS=3.
 """
 import json
 import os
+import re
 import statistics
 import sys
 import time
@@ -22,7 +23,9 @@ from api import rec
 
 REFERENCE = "claude-sonnet-5"
 RUNS = int(os.getenv("RUNS", "3"))
-FAST_HINTS = ("haiku", "mini", "flash", "nano", "lite", "small", "fast")
+# Whole-word hints ("mini" must not match "gemini"); image / preview / pro models are skipped.
+FAST_RE = re.compile(r"(?<![a-z])(haiku|mini|nano|flash|lite|small|fast)(?![a-z])", re.I)
+SKIP_RE = re.compile(r"image|audio|tts|embed|realtime|vision|preview|pro", re.I)
 GUESSES = ["claude-haiku-4-5-20251001", "claude-haiku-4-5", "gpt-5-mini", "gpt-5-nano", "gpt-4.1-mini",
            "gpt-4o-mini", "gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash"]
 GOALS = ["write a follow-up email after a property viewing",
@@ -69,7 +72,10 @@ def main():
     wanted = [m.strip() for m in os.getenv("MODELS", "").split(",") if m.strip()]
     if not wanted:
         pool = available or GUESSES
-        wanted = [m for m in pool if any(h in m.lower() for h in FAST_HINTS)][:8]
+        fast = [m for m in pool if FAST_RE.search(m) and not SKIP_RE.search(m)]
+        # prefer current GPT minis/nanos, then Claude Haiku, then Gemini flash; skip dated duplicates
+        order = lambda m: (0 if m.startswith("gpt") else 1 if "haiku" in m else 2, m)
+        wanted = sorted(fast, key=order)[:10]
     models = [REFERENCE] + [m for m in wanted if m != REFERENCE]
     cases = [(g, shortlist(g)) for g in GOALS]
     ref_top = {}
