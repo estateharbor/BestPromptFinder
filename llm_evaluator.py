@@ -175,6 +175,20 @@ def _emergent_chat(model: str, system: str, user: str, max_tokens: int = MAX_TOK
     raise RuntimeError("Emergent API: retries exhausted")
 
 
+def _emergent_parse(resp: Dict[str, Any], model: str, label: str) -> List[Dict[str, Any]]:
+    """Record usage and return the parsed score objects; log the reply head if unparseable."""
+    usage = resp.get("usage") or {}
+    if budget:
+        budget.record(model, int(usage.get("prompt_tokens") or 0), int(usage.get("completion_tokens") or 0))
+    choice = (resp.get("choices") or [{}])[0]
+    text = (choice.get("message") or {}).get("content") or ""
+    parsed = _parse_array(text)
+    if not parsed:
+        log.warning("[LLM emergent] %s: no JSON scores (finish_reason=%s). Reply starts: %r",
+                    label, choice.get("finish_reason"), text[:200])
+    return parsed
+
+
 def _evaluate_emergent(prompts: List[Dict[str, str]], model: str) -> Dict[str, Dict[str, Any]]:
     results: Dict[str, Dict[str, Any]] = {}
     chunks = list(_chunks(prompts, BATCH_SIZE))
@@ -191,11 +205,18 @@ def _evaluate_emergent(prompts: List[Dict[str, str]], model: str) -> Dict[str, D
                 raise  # first call failing = bad key / model / endpoint: surface it, don't loop
             log.warning("[LLM emergent] chunk %d failed (%s); those prompts stay heuristic.", i, e)
             continue
-        usage = resp.get("usage") or {}
-        if budget:
-            budget.record(model, int(usage.get("prompt_tokens") or 0), int(usage.get("completion_tokens") or 0))
-        text = ((resp.get("choices") or [{}])[0].get("message") or {}).get("content") or ""
-        _merge(results, _parse_array(text))
+        _merge(results, _emergent_parse(resp, model, f"chunk {i}"))
+        # Anything the chunk reply didn't score (truncated or malformed JSON): retry one by one,
+        # so a single awkward prompt can't sink the other fourteen.
+        missing = [p for p in chunk if p["id"] not in results]
+        for p in missing:
+            if budget and not budget.allowed():
+                break
+            try:
+                one = _emergent_chat(model, RUBRIC_SYSTEM_PROMPT, json.dumps([p], ensure_ascii=False), max_tokens=1500)
+                _merge(results, _emergent_parse(one, model, p["id"]))
+            except RuntimeError as e:
+                log.warning("[LLM emergent] %s failed (%s); stays heuristic.", p["id"], e)
         if i % 5 == 0:
             log.info("[LLM emergent] %d/%d chunks done, %d prompts scored, $%.2f spent today.",
                      i, len(chunks), len(results), budget.spent_today() if budget else -1.0)
