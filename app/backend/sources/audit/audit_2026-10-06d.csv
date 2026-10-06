@@ -1,0 +1,165 @@
+id,decision,source,reasons,new_title,new_prompt,licence
+p_f0a3b42287,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE_REAPPLY,Nine-Grid Tips Carousel Poster,"Design a 3:4 vertical poster split into a 3x3 grid that can be sliced into nine separate carousel images.
+
+Inputs
+- Theme: [e.g. better sleep tips]
+- Audience: [e.g. busy young professionals]
+- Brand colours: [default: cream white, beige, light caramel, dark brown text]
+
+Layout
+- Tile 1: cover with a bold title (max 6 words) and a one-line hook.
+- Tiles 2-9: one tip each, with a heading (max 5 words), one or two plain sentences, and a small flat illustration of [an object that matches the tip].
+- Centre each tile's content and keep 8% margins and clear gutters, so every tile reads on its own once sliced.
+
+Rules: one idea per tile, no tiny text, no claims you can't back up, consistent illustration style across all nine.",
+p_034bac7784,rewrite,HF no_robots,QUALITY_UPGRADE_REAPPLY,Turn Facts Into a Dramatic Monologue,"Recast the passage below as a stage monologue without losing a single fact.
+
+Inputs
+- Passage: [paste]
+- Speaker: [who is talking, e.g. a museum curator on the night the exhibit closes]
+- Audience on stage: [who they address]
+- Length: [e.g. 250-350 words, about 2 minutes spoken]
+
+Requirements
+- Every fact in the passage appears, accurately; add emotion, rhythm and imagery, never new facts or dates.
+- Open with a line that grabs attention, build to a turning point, and end on a strong closing line.
+- Include 2-3 bracketed stage directions, e.g. [pauses].
+
+After the monologue, list each fact from the passage and the line where it appears, so I can check nothing was dropped.",
+p_e65f32cf1271,rewrite,HF no_robots,QUALITY_UPGRADE_REAPPLY,Bullet Summary of a Big Idea,"Explain [philosophy, movement or theory, e.g. Stoicism] to a curious beginner.
+
+Output
+1. One-sentence definition.
+2. Up to 10 bullets, one idea each, in plain words (no jargon unless you define it), ordered: core belief → key concepts → famous figures or texts → common misunderstandings → how people practise it today.
+3. 'Try this' box: one small exercise a reader could do this week.
+4. Two reputable starting points for further reading, with author and title. Don't invent sources; if unsure, say so.
+
+Keep the whole answer under [250] words and stay neutral; present it, don't advocate for it.",
+p_ae4a1542a815,rewrite,HF no_robots,QUALITY_UPGRADE_REAPPLY,Light Limerick on a Chosen Subject,"Write a playful limerick about [subject, e.g. a cat who believes it owns the neighbourhood].
+
+Rules
+- Five lines, AABBA rhyme.
+- Lines 1, 2 and 5 have three stressed beats; lines 3 and 4 have two.
+- Clean, family-friendly humour, with a twist in the last line.
+- Use [one detail to include, e.g. the cat's name, Biscuit].
+
+Output: the limerick, then a second alternative, then one line naming the twist in each. Read each aloud in your head and fix any line where the rhythm stumbles.",
+p_a81ef43f685a,rewrite,HF no_robots,QUALITY_UPGRADE_REAPPLY,Fish-Out-of-Water Short Story,"Write a short fish-out-of-water story.
+
+Inputs
+- Character: [name and one trait]
+- Their world, where they excel: [e.g. alpine skiing]
+- Unfamiliar situation: [e.g. a night shift at a busy diner]
+- Tone: [funny or warm]
+- Length: under 300 words
+
+Requirements
+- Show their expertise in the opening lines, then drop them into the new situation.
+- Three escalating mistakes, each caused by applying their old skills wrongly.
+- A turning point where one old skill unexpectedly helps.
+- An ending that shows what they learned.
+
+Give it a title.",
+p_8e825c707abe,rewrite,HF no_robots,QUALITY_UPGRADE_REAPPLY,Techniques to Remember What I Read,"I forget most of what I read in [kind of material, e.g. business books]. Give me memory techniques I can start tonight.
+
+About me: [reading time per week, format: paper / e-reader / audio]
+
+Output (under 200 words)
+- 5 techniques as a numbered list. For each: name, how to do it in one sentence, and when to use it (during / right after / a week later).
+- A 10-minute weekly review routine that combines them.
+- One-line explanation of why spaced review works.
+
+Prefer methods with good evidence (retrieval practice, spacing, summarising in your own words) over gimmicks.",
+p_354d718b6546,rewrite,HF no_robots,QUALITY_UPGRADE_REAPPLY,Three Quick Fixes for an Everyday Problem,"Help me solve a small everyday problem with three practical options.
+
+Inputs
+- Problem: [describe it in a sentence or two]
+- Constraints: [budget, time, tools I have, living situation]
+
+Output: three numbered options, cheapest or easiest first. For each:
+- What to do (1-3 steps)
+- Rough time and cost (mark costs 'approx.')
+- One thing to watch out for
+- How I'll know it worked
+
+No preamble. If the problem could signal a safety issue (electrical, gas, health), say so first and recommend a professional.",
+p_2e85f62aa2,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE_REAPPLY,Overthinking: Sitting on a Giant Version of Your Own Head,"Create a conceptual campaign photo about a mental-health or lifestyle theme.
+
+Inputs
+- Theme: [e.g. overthinking]
+- Subject: [e.g. an adult woman in casual streetwear and tinted sunglasses]
+- Tagline: ""[max 4 words]""
+- Brand / cause (optional): [name]
+
+Scene
+- The subject lounges, completely relaxed, on top of a huge, lifelike sculpture of her own head.
+- Clean urban backdrop (concrete plaza), bright midday light, crisp shadows.
+- Composition: full-body, subject in the upper third, sculpture filling the lower half.
+
+Layout: 4:5, the tagline in small, precise sans-serif type at the bottom left, lots of breathing room.",
+p_4e44a1f67b,rewrite,GPT-Image2 Gallery (X/Twitter posts),QUALITY_UPGRADE_REAPPLY,Encyclopedia Infographic on One Subject,"Create a science-encyclopedia infographic about one subject.
+
+Inputs
+- Subject: [e.g. the giant squid, a famous inventor, the redwood tree]
+- 6-8 facts to feature: [list, or ask me to confirm yours]
+- Language: [language]
+
+Layout (portrait)
+- Aged cream paper background, with an elegant title and subtitle at the top.
+- Centre: a realistic, detailed rendering of the subject that seems to lift off the page.
+- Around it: 6-8 framed fact panels with headings (e.g. anatomy, habitat, history, surprising facts), joined to the relevant part of the subject by fine leader lines.
+- Bottom: a scale reference and a short 'Did you know?' line.
+
+Rules: accurate facts only (mark anything uncertain [VERIFY]), legible captions, no logos.",
+p_f21c1d777bdd,rewrite,HF databricks-dolly-15k,QUALITY_UPGRADE_REAPPLY,Extract Items From a Passage as a List,"Extract every item of a given type from a passage.
+
+Inputs
+- Item type: [e.g. industries the city leads in]
+- Passage: [paste]
+
+Output
+- One line, comma-separated, in the order the items appear.
+- Then, on a new line, the count of items found.
+
+Rules
+- Use the passage's own wording for each item; don't merge or rename items.
+- Include only items the passage states, not implied ones.
+- If there are none, reply exactly: none found.",
+p_9a1b723b5a,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Gold-Lit Eastern Fantasy City Poster,"9:16 Eastern-fantasy city poster for [city]. Black background fading to deep red toward the bottom, with a little stardust. A ribbon of golden light winds from bottom left to top right, and the city's landmarks emerge layer by layer inside it as fine line drawings with glowing gold volumes. At the bottom, a woman with long white hair, eyes closed, holding flowers, her hair flowing into the golden light.",
+p_16c379654b,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Production Character Sheet From a Reference,"Using my uploaded character as the reference (keep the silhouette, helmet, visor, armor and clothing), make a production character sheet: front, side, back and three-quarter views, close-ups of the helmet and gear, a material and color callout panel, and a short description. Monochrome industrial look, clean labels.",
+p_434eade9d0,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Cyberpunk Hacker Character Sheet,"A character design sheet for a teenage hacker girl called ""[NAME]"": front, side and back views, a close-up portrait and labeled accessories. Short silver bob with cyan and magenta streaks, a translucent visor over one eye, oversized tech jacket. Anime cyberpunk style.",
+p_9e5e570855,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Packaging Design Sheet From an Image,"Using my image, make a professional packaging design sheet for a [package type]. In the center, a 3D render with realistic materials and soft studio light. Around it, front, side, top, bottom and angled views, the flat dieline, sketches of the inner structure, and notes on materials and finishes.",
+p_6d9334bb40,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Beard Style Analysis Poster,"Make a beard style poster for the man in my photo, keeping his face exactly the same. Show front and side views with notes on his face shape, jawline and how his beard grows, then the same face with six styles (stubble, short boxed, full beard, goatee, Van Dyke, clean shaven), each rated for how well it suits him. Dark blue background, clean grooming-guide layout.",
+p_877c83177a,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Cosplay Photo as a Visual Novel Screen,"Vertical phone-screenshot style image: a fictional adult cosplayer dressed as [character], realistic with a hint of anime, smiling gently at the camera from a cafe or bar counter. Phone status bar at the top (time, battery, signal). At the bottom, a translucent visual-novel dialogue box with a chibi portrait on the left and the character's name plus one or two gentle, in-character lines on the right (you write them). A row of game menu buttons below the box.",
+p_f9d38e5af6,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Thousand-Armed Guanyin as a Modern Worker,"Fine-line gongbi painting of the Thousand-Armed Guanyin, but instead of ritual objects the hands hold laptops, phones, stacks of files, coffee cups, rubber stamps, a calculator, a mop and a baby bottle: the ultimate multitasking worker. The golden halo behind the head is made of turning clock gears. A red vertical seal in the lower right reading ""[your name]"".",
+p_09aed800b1,rewrite,Uploaded (site-authored),REVERT_IMAGE_UPGRADE,Brand Identity Brief,"Write a design brief for a new brand identity.
+
+What the business does: [describe]
+Who it's for: [audience]
+What it stands for: [values and mission]
+What makes it different: [selling point]
+Brands we like and don't like: [examples]
+
+Suggest five name ideas, a logo direction, a color palette with hex codes, two or three font pairings, the photo and illustration style, how the brand should sound in writing, and its personality in a few words. Explain how the pieces fit together. Make it specific enough that a designer could start work from it without a meeting.",
+p_0f05ca9eb7,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Fantasy City Poster With Golden Light,"A flat-illustration fantasy city poster for [city], 9:16, with a diagonal S-shaped flow from bottom left to top right. Black background fading to deep red at the bottom, with faint stardust. A flowing ribbon of golden light runs up the poster, and the city's landmarks appear inside it, drawn in fine lines and lit gold. At the bottom, a calm figure with long white hair holding flowers, the hair blending into the light.",
+p_3d6b9476c5,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Facial Features Report Card,"Make a clean report-style layout from my uploaded portrait: the photo with a few thin guide lines, then short notes on face shape, proportions and features, and suggestions for hairstyles, glasses frames and colors that suit me. Black-and-white interface, thin lines, rounded cards. Keep it kind and practical, no scores or ratings of attractiveness.",
+p_8c5c0f5aef,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Museum-Style Exhibit Infographic,"Create a museum-panel style explainer about [subject, e.g. a traditional costume or object]. Centre: a realistic image of it. Left: callout lines labelling each component, with close-up details. Top right: samples of materials and techniques. Middle right: main colours and motifs with their meanings. Bottom: the order in which it is worn or assembled, plus three key characteristics. Title, subtitle and a short intro at the top. Off-white paper texture; restrained and professional. Captions in [language].",
+p_8eae80d82f,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Two Soda Flavors Splash Ad,"A bright soda ad with two cans: ""[flavor 1, e.g. TROPICAL RUSH]"" exploding out of a splash of water and tropical fruit against orange and pink light, and ""[flavor 2, e.g. LEMON ICED]"" being hit by cold water against glowing green light. Both cans covered in condensation and droplets. Studio shot, 50mm. --ar 3:4",
+p_b8beb2b260,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,City Travel Poster in Watercolour Collage,"Vertical travel poster for [city, region]. Technique: loose watercolour washes mixed with cut-paper collage. Time of day: [e.g. sunset], with a warm, slightly faded palette. Foreground: [a local street or waterfront scene with one or two people]. Background: [two or three landmarks the city is known for]. Typography: the city name large in one corner and a short tagline: ""[tagline]"". Keep text areas clean so the lettering stays legible.",
+p_0040a9d521,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Tiny Girl Sleeping on a Latte,"A 3D miniature of a cute chibi girl in a cream top and jeans, asleep and floating on a latte with a small satin pillow behind her head, in a textured ceramic cup. The foam spells ""Good Morning"" in cute handwriting. Soft plain background, bright natural light.",
+p_1ce83729af,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,10x10 Grid of Pixel Art RPG Items,"A 10x10 grid of 100 fantasy RPG items in 16-bit pixel art, each in its own square with a short, correctly spelled label underneath, on a white background. One theme per row: swords, shields and armor, bows, staffs and wands, potions, scrolls and books, rings and amulets, helmets and crowns, keys and quest items, gems and crafting materials.",
+p_634ed08723,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,One Person in Ten Countries' Traditional Dress,"A 5x2 grid of the same woman from my reference photo, each frame in a different country's traditional clothing ([list ten countries] or pick ten), with a matching background. Keep her face identical in every frame and label each country in small text.",
+p_c89253060e,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Math Concept Visual Explainer Sheet,"Make an infographic that helps someone really understand [math concept]: what it is, why it works, the geometric picture behind it, and how it behaves in a few different cases. It should feel like a good lecture handout crossed with a hand-drawn classroom poster: light paper background, deep blue title, dark gray drawings, a few colored highlights, clear labeled diagrams, one worked example and a short ""common mistakes"" box. Full of information but not crowded.",
+p_0c694882f7,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Mythical Beast Ink Landscape Card,"Minimalist neo-traditional artwork on thick white art paper with a torn, uneven edge. A poetic mountain landscape with a [mythical creature, e.g. a qilin] drawn whole, with graceful lines and a commanding pose. Fluorescent blue linework with very fine gold outlines, broad strokes of white ink, set on a red ground with plenty of empty space. At the bottom, the title ""[title]"" in formal brush script.",
+p_a74f0fbeb1,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Four-Panel Satirical Comic Strip,"A four-panel vertical comic strip in black-and-white pencil with cross-hatching, satirical caricature style. Characters: [character A, e.g. a tech CEO in a sweater] being interviewed by [character B, e.g. a journalist with a notepad]. Panels 1 to 3 build up a joke about [topic]; panel 4 lands the punchline. Short speech bubbles, readable hand lettering. Use fictional characters rather than real people.",
+p_c66d08253d,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Vintage Dragon Encyclopedia Page,"An A4 vertical page from an old fantasy encyclopedia about [dragon species]: a big realistic dragon in the center, stormy mountains behind, with labeled anatomy notes, wing span, habitat map and a short description in the margins. Aged paper texture.",
+p_ab7ad96b20,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Mixed-Media Championship Poster From My Photo,"A mixed-media sports poster of the woman in my reference photo, wearing a [team] jersey and holding a trophy. Mix realistic photo, pencil sketch, watercolor splashes and ink scribbles. Red, black, gold and white, with confetti, fireworks, a cheering crowd and team flags behind her. She looks confident and happy.",
+p_7629bc6552,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Nine-Frame Fashion Expression Collage,"Edit my photo without changing my face: make a 9:16 collage of nine frames of me in sporty streetwear and a cap, each with a different expression or small pose (eyes closed and laughing, a side glance, tugging the cap, a wink, and so on). Plain studio background, soft light, like a model test shoot.",
+p_3c4664bf2d,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Starry Ice-Blue Hanfu Portrait,"Full-length fashion portrait of an adult model, standing centred, in a pale ice-blue high-waisted Hanfu with layers of light chiffon and organza. Wide sleeves are embroidered with tiny silver and pale-blue sequins that shimmer like a galaxy; silver lace and woven texture at the bodice, sash hanging naturally. Soft side light through the fabric to show its lightness and movement. 85mm lens look.",
+p_fc01de6695,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Streetwear Campaign With Giant Game Controller,"A streetwear campaign poster: a confident athletic young woman sitting on a giant retro game controller. Huge bold ""[WORD]"" in the background, glossy floor, studio lighting, pastel neon colors (lavender, silver, soft cyan). Clean advertising layout with a small brand logo.",
+p_64292af0b0,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Brain and AI Hybrid Infographic,"A square infographic page about how [topic, e.g. brain-computer interfaces] link the human brain and AI: a detailed brain in the center merging into circuit lines, surrounded by labeled panels on signals, processing, uses and risks. Dark background, blue, violet and silver, clean scientific type.",
+p_01d5385b64,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Electric Bus Reference Infographic,"A square infographic page about a futuristic electric city bus called [bus name], like a page from a transport handbook rather than an ad. A large side view of the bus in the middle, with callouts for battery, motors, charging, seats and accessibility, a small route map, a few key numbers (range, capacity, charge time) and a short note on emissions saved. Calm colors, clean labels.",
+p_8701ce4d4b,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Mid-Century Great Barrier Reef Poster,"A flat vector travel poster of the Great Barrier Reef in mid-century style: coral, fish, a turtle, a boat on the surface, in clean color blocks with no gradients. ""GREAT BARRIER REEF, AUSTRALIA"" in bold type.",
+p_b2634b6b10,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Herbal Soup Mix Packaging Label,"Using the style of my reference image, and keeping its chicken illustration, design a label for a herbal soup mix. Move the chicken to the right. Top: a large black brush-lettered product name ""[product name]"" and a smaller line ""[subtitle]"". Left: a woven basket holding six small piles of dried ingredients ([ingredients]), each with a tiny label. Warm paper texture, traditional apothecary feel.",
+p_bb5e288d30,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Metro System Reference Page Infographic,"A square infographic page about a fictional metro system called [name], designed like a page from an engineering handbook. Show a cutaway of a train and a station, the line map, track and tunnel cross-sections, and small panels with key facts (length, stations, top speed, daily riders). Clean technical drawings, muted colors, careful labels.",
+p_ca7a2b879f,rewrite,GPT-Image2 Gallery (X/Twitter posts),REVERT_IMAGE_UPGRADE,Brand Identity System Board,"A brand identity board for [brand name] ([industry, e.g. pet supplies]). Show the main logo (e.g. [subject] in negative space inside the letters), logo variations, the color palette with codes, typography, and the brand applied to packaging, a shopping bag, a business card and a sign. Header with the brand name and slogan ""[slogan]"". Clean, organized layout.",
