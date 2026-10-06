@@ -212,6 +212,13 @@ def dedupe_ids(corpus: List[Dict[str, Any]]) -> int:
     return fixed
 
 
+def _is_own(c: Dict[str, Any]) -> bool:
+    """Editorial rewrites, curated and admin-uploaded prompts (never auto-deleted)."""
+    prov = c.get("provenance") or {}
+    return (c.get("platform") in ("Editorial", "Uploaded", "Curated")
+            or prov.get("eval_source") == "curated" or bool(prov.get("rewritten")))
+
+
 def record_activity(added: int, graded: int, dropped: int, corpus: List[Dict[str, Any]],
                     grading_status: str = "ok") -> None:
     """Append today's pulled/graded counts to a small daily log the admin dashboard reads."""
@@ -251,7 +258,10 @@ def main():
         save_corpus(corpus)          # new prompts go live immediately, before the (slow) grading
     graded, gstatus = grade_ungraded(corpus)
     pre_drop = len(corpus)
-    corpus = [c for c in corpus if c.get("eval_decision") != "DROP"]  # drop LLM-rejected junk
+    # Drop LLM-rejected junk — but only scraped third-party prompts. Editorial, curated and
+    # uploaded prompts are ours: a low score keeps them out of the sitemap (noindex) instead of
+    # deleting them, since a single noisy grade shouldn't destroy reviewed work.
+    corpus = [c for c in corpus if not (c.get("eval_decision") == "DROP" and not _is_own(c))]
     dropped = pre_drop - len(corpus)
     save_corpus(corpus)
     record_activity(added, graded, dropped, corpus, gstatus)
