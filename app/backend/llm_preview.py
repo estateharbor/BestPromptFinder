@@ -22,6 +22,7 @@ try:
     import budget
 except Exception:
     budget = None
+import emergent_client
 
 DEFAULT_MODEL = "claude-sonnet-5"
 
@@ -41,6 +42,8 @@ Honesty rules (critical — never mislead the user):
 def available() -> bool:
     if os.getenv("PREVIEW_USE_LLM", "1") == "0":
         return False
+    if emergent_client.provider() == "emergent":
+        return emergent_client.available()
     try:
         import anthropic  # noqa: F401
     except Exception:
@@ -55,6 +58,12 @@ def generate(prompt: str, model: str = None) -> Dict[str, Any]:
     model = model or os.getenv("LLM_MODEL", DEFAULT_MODEL)
     if budget and not budget.allowed():
         raise RuntimeError("Daily API budget reached — live preview paused until tomorrow.")
+    if emergent_client.provider() == "emergent":
+        model = emergent_client.default_model(model)
+        text, usage = emergent_client.chat(model, SYSTEM, prompt[:2000], max_tokens=700)
+        if budget:
+            budget.record(model, usage["input"], usage["output"])
+        return {"output": text, "model": model}
     import anthropic
     client = anthropic.Anthropic()
     resp = client.messages.create(
@@ -77,6 +86,18 @@ def stream(prompt: str, model: str = None):
     model = model or os.getenv("LLM_MODEL", DEFAULT_MODEL)
     if budget and not budget.allowed():
         raise RuntimeError("Daily API budget reached — live preview paused until tomorrow.")
+
+    if emergent_client.provider() == "emergent":
+        model = emergent_client.default_model(model)
+
+        def egen():
+            usage = {"input": 0, "output": 0}
+            yield from emergent_client.stream(model, SYSTEM, prompt[:2000], max_tokens=700, usage_out=usage)
+            if budget:
+                # proxy may omit usage on streams; fall back to a rough size-based estimate
+                budget.record(model, usage["input"] or len(SYSTEM + prompt[:2000]) // 4, usage["output"] or 400)
+
+        return model, egen()
 
     def gen():
         import anthropic

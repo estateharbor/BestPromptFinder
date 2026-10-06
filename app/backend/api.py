@@ -282,7 +282,7 @@ def preview_status():
 def preview(body: PreviewBody):
     import llm_preview
     if not llm_preview.available():
-        raise HTTPException(503, "Live preview needs an Anthropic API key. Set ANTHROPIC_API_KEY in .env.")
+        raise HTTPException(503, "Live preview is not configured (set EMERGENT_LLM_KEY or ANTHROPIC_API_KEY in .env).")
     # A compiled prompt (guided-fill) is previewed as-is; the id is still used only to block
     # image prompts, which have no live text preview.
     c = rec()._by_id.get(body.id) if body.id else None
@@ -308,7 +308,7 @@ def preview_stream(body: PreviewBody):
     errors return proper status codes."""
     import llm_preview
     if not llm_preview.available():
-        raise HTTPException(503, "Live preview needs an Anthropic API key. Set ANTHROPIC_API_KEY in .env.")
+        raise HTTPException(503, "Live preview is not configured (set EMERGENT_LLM_KEY or ANTHROPIC_API_KEY in .env).")
     c = rec()._by_id.get(body.id) if body.id else None
     if body.id and not c:
         raise HTTPException(404, "Prompt not found.")
