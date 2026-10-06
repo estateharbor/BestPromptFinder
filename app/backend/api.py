@@ -195,7 +195,12 @@ def seo_prompt(key: str):
                and seo.is_english(c.get("title"), c.get("prompt"))]
     related.sort(key=lambda c: c.get("quality", 0), reverse=True)
     indexable = pid in _tier_a(r)
-    return HTMLResponse(seo.prompt_page(p, related[:6], seo.slugify(purpose), indexable=indexable))
+    try:
+        votes = store.stats(pid)
+    except Exception:
+        votes = None
+    return HTMLResponse(seo.prompt_page(p, related[:6], seo.slugify(purpose), indexable=indexable,
+                                        votes=votes))
 
 
 @app.get("/category/{slug}", response_class=HTMLResponse)

@@ -156,6 +156,11 @@ h2{{font-size:1.15rem;margin:1.6em 0 .5em}}
 pre{{background:#161d28;border:1px solid #26303f;border-radius:12px;padding:16px;white-space:pre-wrap;word-wrap:break-word;font-size:13.5px;overflow-x:auto}}
 .btn{{display:inline-block;background:#2e4bd8;color:#fff;text-decoration:none;font-weight:700;padding:10px 18px;border-radius:11px;margin:10px 10px 0 0;border:none;cursor:pointer;font-size:14px}}
 .btn.ghost{{background:#161d28;border:1px solid #26303f;color:#eaeef4}}
+.vote{{display:flex;flex-wrap:wrap;align-items:center;gap:0 4px;margin:22px 0 4px;padding:12px 14px;background:#161d28;border:1px solid #26303f;border-radius:12px}}
+.vote span:first-child{{font-weight:600;margin-right:6px}}
+.vote .btn{{margin:6px 8px 6px 0;padding:8px 14px}}
+.vote .btn:disabled{{opacity:.55;cursor:default}}
+.vmsg{{color:#9aa4b5;font-size:13px}}
 ul.hl{{padding-left:20px}} ul.hl li{{margin:4px 0}}
 .card{{display:block;background:#161d28;border:1px solid #26303f;border-radius:12px;padding:14px 16px;margin:10px 0;text-decoration:none;color:inherit}}
 .card:hover{{border-color:#2e4bd8}}
@@ -227,8 +232,47 @@ def _attribution(p: Dict[str, Any]) -> str:
             'See our <a href="/source-policy">content &amp; source policy</a>.</p>')
 
 
+def _vote_box(p: Dict[str, Any]) -> str:
+    """'Did it work?' buttons — posts to the same /api/vote the app uses, so real votes feed
+    Community results and the confidence score. One vote per prompt per browser (soft limit)."""
+    pid = esc(p["id"])
+    model = esc((p.get("models") or [""])[0])
+    return f"""
+<div class="vote" id="vote" data-id="{pid}" data-model="{model}">
+  <span>Did this prompt work for you?</span>
+  <button class="btn ghost" data-v="worked" type="button">&#128077; Worked</button>
+  <button class="btn ghost" data-v="didnt" type="button">&#128078; Didn&rsquo;t work</button>
+  <span class="vmsg" aria-live="polite"></span>
+</div>
+<script>
+(function(){{
+  var box=document.getElementById('vote'),id=box.dataset.id,msg=box.querySelector('.vmsg'),key='bpf_vote_'+id;
+  function done(t){{box.querySelectorAll('button').forEach(function(b){{b.disabled=true;}});msg.textContent=t;}}
+  try{{if(localStorage.getItem(key)){{done('Thanks, your vote is counted.');}}}}catch(e){{}}
+  box.querySelectorAll('button').forEach(function(b){{b.addEventListener('click',function(){{
+    var v=b.dataset.v;done('Saving…');
+    fetch('/api/vote',{{method:'POST',headers:{{'Content-Type':'application/json'}},
+      body:JSON.stringify({{id:id,verdict:v,model:box.dataset.model}})}})
+    .then(function(r){{if(!r.ok)throw 0;return r.json();}})
+    .then(function(j){{try{{localStorage.setItem(key,v);}}catch(e){{}}
+      var rl=j.reliability||{{}},w=rl.worked||0,n=w+(rl.didnt||0);
+      document.getElementById('community').textContent=n?(w+' of '+n+' say it worked'):'No votes yet';
+      done(v==='worked'?'Thanks — logged as worked.':'Thanks — logged as didn’t work.');}})
+    .catch(function(){{box.querySelectorAll('button').forEach(function(x){{x.disabled=false;}});msg.textContent='Couldn’t save your vote. Try again.';}});
+  }});}});
+}})();
+</script>"""
+
+
+def _community(votes: Optional[Dict[str, int]]) -> str:
+    w, d = (votes or {}).get("worked", 0), (votes or {}).get("didnt", 0)
+    if not w + d:
+        return "No votes yet"
+    return f"{w} of {w + d} say it worked"
+
+
 def prompt_page(p: Dict[str, Any], related: List[Dict[str, Any]], cat_slug: str,
-                indexable: bool = True) -> str:
+                indexable: bool = True, votes: Optional[Dict[str, int]] = None) -> str:
     purpose = p.get("purpose") or "Other"
     title = f"{p['title']} — {purpose} AI Prompt | BestPromptFinder"
     desc = re.sub(r"\s+", " ", (p.get("prompt") or ""))[:155]
@@ -239,9 +283,9 @@ def prompt_page(p: Dict[str, Any], related: List[Dict[str, Any]], cat_slug: str,
       <div class="score"><b>{esc(p.get('quality',''))}</b>AI Quality /100</div>
       <div class="score"><b>{esc(rel.get('useful',''))}</b>AI Usefulness est. /100</div>
       <div class="score"><b>{esc(rel.get('reliability',''))}</b>Eval Confidence /100</div>
-      <div class="score"><b>No votes yet</b>Community results</div>
+      <div class="score"><b id="community">{esc(_community(votes))}</b>Community results</div>
     </div>
-    <p class="meta" style="margin-top:-4px">Quality, usefulness and confidence are AI evaluations out of 100 — not user ratings. Community results appear once visitors vote. <a href="/methodology">How scoring works →</a></p>"""
+    <p class="meta" style="margin-top:-4px">Quality, usefulness and confidence are AI evaluations out of 100 — not user ratings. Community results come from visitors' "worked / didn't work" votes below. <a href="/methodology">How scoring works →</a></p>"""
     related_html = ""
     if related:
         cards = "".join(
@@ -259,6 +303,7 @@ def prompt_page(p: Dict[str, Any], related: List[Dict[str, Any]], cat_slug: str,
 <pre id="prompt">{esc(p.get('prompt'))}</pre>
 <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('prompt').innerText);this.textContent='Copied!'">Copy prompt</button>
 <a class="btn ghost" href="/?q={quote(p['title'])}">Find similar in the app →</a>
+{_vote_box(p)}
 {_highlights(p)}
 {src_html}
 {related_html}
