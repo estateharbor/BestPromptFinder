@@ -27,6 +27,7 @@ try:
     import budget
 except Exception:
     budget = None
+import emergent_client
 
 # Search reranking is a bounded scoring task where latency matters most — use a fast model
 # (Haiku) by default, independent of LLM_MODEL (which governs grading/preview quality).
@@ -43,6 +44,8 @@ Rules: match reflects task/purpose fit to the goal, not polish. A well-built pro
 def available() -> bool:
     if os.getenv("SEARCH_USE_LLM", "1") == "0":
         return False
+    if emergent_client.provider() == "emergent":
+        return emergent_client.available()
     try:
         import anthropic  # noqa: F401
     except Exception:
@@ -56,12 +59,14 @@ def enrich(goal: str, candidates: List[Dict[str, str]],
            model: str = None) -> Dict[str, Dict[str, Any]]:
     """Return {id: {match, why, weakness}} for the candidates, or {} on failure."""
     model = model or os.getenv("SEARCH_MODEL", DEFAULT_MODEL)
-    try:
-        import anthropic
-    except Exception:
-        return {}
+    use_emergent = emergent_client.provider() == "emergent"
+    if not use_emergent:
+        try:
+            import anthropic
+        except Exception:
+            return {}
 
-    if budget and not budget.allowed():
+    if budget and not budget.allowed(scope="search"):
         log.warning("[LLM enrich] daily budget reached; using deterministic match.")
         return {}
 
@@ -70,17 +75,23 @@ def enrich(goal: str, candidates: List[Dict[str, str]],
         "candidates": [{"id": c["id"], "title": c["title"], "prompt": c["prompt"][:800]} for c in candidates],
     }
     try:
-        client = anthropic.Anthropic()
-        resp = client.messages.create(
-            model=model,
-            max_tokens=2000,
-            thinking={"type": "disabled"},   # bounded scoring task; keep search snappy
-            system=SYSTEM,
-            messages=[{"role": "user", "content": json.dumps(payload, ensure_ascii=False)}],
-        )
-        if budget:
-            budget.record(model, resp.usage.input_tokens, resp.usage.output_tokens)
-        text = "".join(b.text for b in resp.content if b.type == "text").strip()
+        if use_emergent:
+            text, usage, model = emergent_client.chat_with_fallback(
+                model, SYSTEM, json.dumps(payload, ensure_ascii=False), max_tokens=2000, timeout=45)
+            if budget:
+                budget.record(model, usage["input"], usage["output"], scope="search")
+        else:
+            client = anthropic.Anthropic()
+            resp = client.messages.create(
+                model=model,
+                max_tokens=2000,
+                thinking={"type": "disabled"},   # bounded scoring task; keep search snappy
+                system=SYSTEM,
+                messages=[{"role": "user", "content": json.dumps(payload, ensure_ascii=False)}],
+            )
+            if budget:
+                budget.record(model, resp.usage.input_tokens, resp.usage.output_tokens, scope="search")
+            text = "".join(b.text for b in resp.content if b.type == "text").strip()
         start, end = text.find("["), text.rfind("]")
         parsed = json.loads(text[start:end + 1]) if start >= 0 else []
         out: Dict[str, Dict[str, Any]] = {}

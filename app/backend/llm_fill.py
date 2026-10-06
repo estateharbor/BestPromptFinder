@@ -24,6 +24,7 @@ try:
     import budget
 except Exception:
     budget = None
+import emergent_client
 
 # Prefill is a fast, bounded extraction — use a quick model by default for low latency.
 DEFAULT_MODEL = "claude-haiku-4-5-20251001"
@@ -38,6 +39,8 @@ Return ONLY a JSON object mapping each placeholder name to its string value, e.g
 def available() -> bool:
     if os.getenv("FILL_USE_LLM", "1") == "0":
         return False
+    if emergent_client.provider() == "emergent":
+        return emergent_client.available()
     try:
         import anthropic  # noqa: F401
     except Exception:
@@ -53,27 +56,35 @@ def extract(goal: str, template: str, variables: List[str], model: str = None) -
     out = {v: "" for v in variables}
     if not variables or not (goal or "").strip():
         return out
-    try:
-        import anthropic
-    except Exception:
-        return out
-    if budget and not budget.allowed():
+    use_emergent = emergent_client.provider() == "emergent"
+    if not use_emergent:
+        try:
+            import anthropic
+        except Exception:
+            return out
+    if budget and not budget.allowed(scope="search"):
         log.warning("[LLM fill] daily budget reached; returning empty prefill.")
         return out
 
     payload = {"goal": goal, "template": (template or "")[:1200], "placeholders": variables}
     try:
-        client = anthropic.Anthropic()
-        resp = client.messages.create(
-            model=model,
-            max_tokens=600,
-            thinking={"type": "disabled"},  # bounded extraction; keep it fast + cheap
-            system=SYSTEM,
-            messages=[{"role": "user", "content": json.dumps(payload, ensure_ascii=False)}],
-        )
-        if budget:
-            budget.record(model, resp.usage.input_tokens, resp.usage.output_tokens)
-        text = "".join(b.text for b in resp.content if b.type == "text").strip()
+        if use_emergent:
+            text, usage, model = emergent_client.chat_with_fallback(
+                model, SYSTEM, json.dumps(payload, ensure_ascii=False), max_tokens=600, timeout=30)
+            if budget:
+                budget.record(model, usage["input"], usage["output"], scope="search")
+        else:
+            client = anthropic.Anthropic()
+            resp = client.messages.create(
+                model=model,
+                max_tokens=600,
+                thinking={"type": "disabled"},  # bounded extraction; keep it fast + cheap
+                system=SYSTEM,
+                messages=[{"role": "user", "content": json.dumps(payload, ensure_ascii=False)}],
+            )
+            if budget:
+                budget.record(model, resp.usage.input_tokens, resp.usage.output_tokens, scope="search")
+            text = "".join(b.text for b in resp.content if b.type == "text").strip()
         start, end = text.find("{"), text.rfind("}")
         parsed = json.loads(text[start:end + 1]) if start >= 0 else {}
         for k, v in parsed.items():

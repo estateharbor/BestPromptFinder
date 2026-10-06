@@ -30,9 +30,10 @@ _lock = threading.Lock()
 
 # Separate scopes keep visitor-facing features independent of back-office jobs: a big
 # re-grade must not pause the live preview for the rest of the day.
-#   scope=None       -> DAILY_BUDGET_USD, tally in LLM_BUDGET_FILE (grading, search, fill)
+#   scope=None       -> DAILY_BUDGET_USD, tally in LLM_BUDGET_FILE (grading)
 #   scope="preview"  -> PREVIEW_BUDGET_USD, tally in LLM_BUDGET_FILE + ".preview"
-_SCOPE_CAP_ENV = {None: "DAILY_BUDGET_USD", "preview": "PREVIEW_BUDGET_USD"}
+#   scope="search"   -> SEARCH_BUDGET_USD, tally in LLM_BUDGET_FILE + ".search" (search re-rank + guided fill)
+_SCOPE_CAP_ENV = {None: "DAILY_BUDGET_USD", "preview": "PREVIEW_BUDGET_USD", "search": "SEARCH_BUDGET_USD"}
 
 
 def _file(scope=None) -> str:

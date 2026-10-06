@@ -71,6 +71,28 @@ def chat(model: str, system: str, user: str, max_tokens: int = 700, timeout: int
     return text, {"input": int(usage.get("prompt_tokens") or 0), "output": int(usage.get("completion_tokens") or 0)}
 
 
+_model_fallback: Dict[str, str] = {}
+
+
+def chat_with_fallback(model: str, system: str, user: str, max_tokens: int = 700,
+                       timeout: int = 120) -> Tuple[str, Dict[str, int], str]:
+    """chat(), but if the proxy rejects the model name (HTTP 400/404 mentioning the model),
+    retry once with EMERGENT_MODEL / claude-sonnet-5 and remember that for later calls.
+    Returns (text, usage, model_used)."""
+    model = _model_fallback.get(model, model)
+    try:
+        text, usage = chat(model, system, user, max_tokens, timeout)
+        return text, usage, model
+    except RuntimeError as e:
+        msg = str(e)
+        alt = default_model("claude-sonnet-5")
+        if alt != model and ("API 400" in msg or "API 404" in msg) and "model" in msg.lower():
+            _model_fallback[model] = alt
+            text, usage = chat(alt, system, user, max_tokens, timeout)
+            return text, usage, alt
+        raise
+
+
 def stream(model: str, system: str, user: str, max_tokens: int = 700, timeout: int = 120,
            usage_out: Dict[str, int] = None) -> Generator[str, None, None]:
     """Yield text deltas as they arrive (server-sent events). Fills usage_out at the end when
