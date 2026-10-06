@@ -61,8 +61,9 @@ def load_plan():
 
 
 def rewrite(c, row, manual_entry):
-    title = (manual_entry or {}).get("title") or row.get("new_title") or c.get("title")
-    text = (manual_entry or {}).get("prompt") or row.get("new_prompt")
+    # The audit row's own text wins; the manual-rewrites file only fills rows left blank.
+    title = row.get("new_title") or (manual_entry or {}).get("title") or c.get("title")
+    text = row.get("new_prompt") or (manual_entry or {}).get("prompt")
     if not text:
         return False
     prev = c.get("provenance") or {}
