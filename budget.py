@@ -28,10 +28,20 @@ _DEFAULT_PRICE = (3.0, 15.0)
 _FILE = os.getenv("LLM_BUDGET_FILE") or os.path.expanduser("~/.promptfinder_llm_budget.json")
 _lock = threading.Lock()
 
+# Separate scopes keep visitor-facing features independent of back-office jobs: a big
+# re-grade must not pause the live preview for the rest of the day.
+#   scope=None       -> DAILY_BUDGET_USD, tally in LLM_BUDGET_FILE (grading, search, fill)
+#   scope="preview"  -> PREVIEW_BUDGET_USD, tally in LLM_BUDGET_FILE + ".preview"
+_SCOPE_CAP_ENV = {None: "DAILY_BUDGET_USD", "preview": "PREVIEW_BUDGET_USD"}
 
-def cap() -> float:
+
+def _file(scope=None) -> str:
+    return _FILE if not scope else f"{_FILE}.{scope}"
+
+
+def cap(scope=None) -> float:
     try:
-        return float(os.getenv("DAILY_BUDGET_USD", "1.0"))
+        return float(os.getenv(_SCOPE_CAP_ENV.get(scope, "DAILY_BUDGET_USD"), "1.0"))
     except ValueError:
         return 1.0
 
@@ -43,9 +53,9 @@ def cost(model: str, input_tokens: int, output_tokens: int) -> float:
     return input_tokens / 1e6 * pin + output_tokens / 1e6 * pout
 
 
-def _load() -> dict:
+def _load(scope=None) -> dict:
     try:
-        with open(_FILE, "r", encoding="utf-8") as f:
+        with open(_file(scope), "r", encoding="utf-8") as f:
             d = json.load(f)
     except Exception:
         d = {}
@@ -54,32 +64,32 @@ def _load() -> dict:
     return d
 
 
-def _save(d: dict) -> None:
+def _save(d: dict, scope=None) -> None:
     try:
-        with open(_FILE, "w", encoding="utf-8") as f:
+        with open(_file(scope), "w", encoding="utf-8") as f:
             json.dump(d, f)
     except Exception:
         pass
 
 
-def spent_today() -> float:
+def spent_today(scope=None) -> float:
     with _lock:
-        return round(_load().get("spent", 0.0), 6)
+        return round(_load(scope).get("spent", 0.0), 6)
 
 
-def remaining() -> float:
-    return max(0.0, cap() - spent_today())
+def remaining(scope=None) -> float:
+    return max(0.0, cap(scope) - spent_today(scope))
 
 
-def allowed(min_headroom: float = 0.0) -> bool:
+def allowed(min_headroom: float = 0.0, scope=None) -> bool:
     """True if there is budget left to make another call."""
-    return remaining() > min_headroom
+    return remaining(scope) > min_headroom
 
 
-def record(model: str, input_tokens: int, output_tokens: int) -> float:
+def record(model: str, input_tokens: int, output_tokens: int, scope=None) -> float:
     c = cost(model, input_tokens, output_tokens)
     with _lock:
-        d = _load()
+        d = _load(scope)
         d["spent"] = round(d.get("spent", 0.0) + c, 6)
-        _save(d)
+        _save(d, scope)
     return c

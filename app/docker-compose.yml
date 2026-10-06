@@ -33,6 +33,7 @@ services:
       LLM_MODEL: ${LLM_MODEL:-claude-sonnet-5}
       DAILY_BUDGET_USD: ${DAILY_BUDGET_USD:-1.0}
       LLM_BUDGET_FILE: /data/.llm_budget.json   # share the daily cap with the pipeline
+      PREVIEW_BUDGET_USD: ${PREVIEW_BUDGET_USD:-1.0}   # live preview has its own daily cap
       EMERGENT_LLM_KEY: ${EMERGENT_LLM_KEY:-}   # live preview via the Emergent Universal Key
       LLM_PROVIDER: ${LLM_PROVIDER:-}
       EMERGENT_MODEL: ${EMERGENT_MODEL:-}

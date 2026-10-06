@@ -56,13 +56,13 @@ def available() -> bool:
 def generate(prompt: str, model: str = None) -> Dict[str, Any]:
     """Run the prompt and return {output, model}. Raises on hard failure."""
     model = model or os.getenv("LLM_MODEL", DEFAULT_MODEL)
-    if budget and not budget.allowed():
-        raise RuntimeError("Daily API budget reached — live preview paused until tomorrow.")
+    if budget and not budget.allowed(scope="preview"):
+        raise RuntimeError("Today's live-preview budget is used up — previews resume tomorrow.")
     if emergent_client.provider() == "emergent":
         model = emergent_client.default_model(model)
         text, usage = emergent_client.chat(model, SYSTEM, prompt[:2000], max_tokens=700)
         if budget:
-            budget.record(model, usage["input"], usage["output"])
+            budget.record(model, usage["input"], usage["output"], scope="preview")
         return {"output": text, "model": model}
     import anthropic
     client = anthropic.Anthropic()
@@ -74,7 +74,7 @@ def generate(prompt: str, model: str = None) -> Dict[str, Any]:
         messages=[{"role": "user", "content": prompt[:2000]}],
     )
     if budget:
-        budget.record(model, resp.usage.input_tokens, resp.usage.output_tokens)
+        budget.record(model, resp.usage.input_tokens, resp.usage.output_tokens, scope="preview")
     text = "".join(b.text for b in resp.content if b.type == "text").strip()
     return {"output": text, "model": model}
 
@@ -84,8 +84,8 @@ def stream(prompt: str, model: str = None):
     can show first tokens in ~1-2s instead of waiting for the full response. Budget is checked
     up-front (raise before streaming) and recorded once the stream completes."""
     model = model or os.getenv("LLM_MODEL", DEFAULT_MODEL)
-    if budget and not budget.allowed():
-        raise RuntimeError("Daily API budget reached — live preview paused until tomorrow.")
+    if budget and not budget.allowed(scope="preview"):
+        raise RuntimeError("Today's live-preview budget is used up — previews resume tomorrow.")
 
     if emergent_client.provider() == "emergent":
         model = emergent_client.default_model(model)
@@ -95,7 +95,8 @@ def stream(prompt: str, model: str = None):
             yield from emergent_client.stream(model, SYSTEM, prompt[:2000], max_tokens=700, usage_out=usage)
             if budget:
                 # proxy may omit usage on streams; fall back to a rough size-based estimate
-                budget.record(model, usage["input"] or len(SYSTEM + prompt[:2000]) // 4, usage["output"] or 400)
+                budget.record(model, usage["input"] or len(SYSTEM + prompt[:2000]) // 4, usage["output"] or 400,
+                              scope="preview")
 
         return model, egen()
 
@@ -113,6 +114,6 @@ def stream(prompt: str, model: str = None):
                 yield text
             final = s.get_final_message()
         if budget:
-            budget.record(model, final.usage.input_tokens, final.usage.output_tokens)
+            budget.record(model, final.usage.input_tokens, final.usage.output_tokens, scope="preview")
 
     return model, gen()
