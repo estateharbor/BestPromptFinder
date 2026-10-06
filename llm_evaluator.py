@@ -151,7 +151,7 @@ def _emergent_chat(model: str, system: str, user: str, max_tokens: int = MAX_TOK
     import urllib.request
     import urllib.error
     body = json.dumps({
-        "model": model, "max_tokens": max_tokens, "temperature": 0,
+        "model": model, "max_tokens": max_tokens,
         "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
     }).encode("utf-8")
     req = urllib.request.Request(
