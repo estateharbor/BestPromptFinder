@@ -64,6 +64,11 @@ services:
       LLM_MODEL: ${LLM_MODEL:-claude-sonnet-5}
       DAILY_BUDGET_USD: ${DAILY_BUDGET_USD:-1.0}
       LLM_USE_BATCH: "1"
+      # Emergent Universal Key (OpenAI-compatible proxy). Used when LLM_PROVIDER=emergent,
+      # or automatically when EMERGENT_LLM_KEY is set and ANTHROPIC_API_KEY is empty.
+      EMERGENT_LLM_KEY: ${EMERGENT_LLM_KEY:-}
+      LLM_PROVIDER: ${LLM_PROVIDER:-}
+      EMERGENT_MODEL: ${EMERGENT_MODEL:-}
       LLM_BUDGET_FILE: /data/.llm_budget.json   # persist the daily budget across runs
       # Optional scraper source keys (sources without a key simply skip):
       ZENROWS_API_KEY: ${ZENROWS_API_KEY:-}

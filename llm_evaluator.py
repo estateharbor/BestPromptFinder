@@ -74,8 +74,24 @@ _SYSTEM_BLOCKS = [{
 }]
 
 
+# Emergent Universal Key: an OpenAI-compatible proxy in front of Claude/GPT/Gemini, billed to
+# Emergent credits. Used when LLM_PROVIDER=emergent, or when only EMERGENT_LLM_KEY is set.
+EMERGENT_BASE_URL = os.getenv("EMERGENT_BASE_URL", "https://integrations.emergentagent.com/llm/v1")
+
+
+def provider() -> str:
+    explicit = os.getenv("LLM_PROVIDER", "").strip().lower()
+    if explicit:
+        return explicit
+    if os.getenv("EMERGENT_LLM_KEY") and not (os.getenv("ANTHROPIC_API_KEY") or os.getenv("ANTHROPIC_AUTH_TOKEN")):
+        return "emergent"
+    return "anthropic"
+
+
 def available() -> bool:
     """True only if the SDK is importable and a credential is resolvable."""
+    if provider() == "emergent":
+        return bool(os.getenv("EMERGENT_LLM_KEY"))
     try:
         import anthropic  # noqa: F401
     except Exception:
@@ -116,12 +132,95 @@ def evaluate(prompts: List[Dict[str, str]], model: str = None,
 
     Defaults to the Batch API (50% cheaper); set use_batch=False for synchronous.
     """
+    if not prompts:
+        return {}
+    if provider() == "emergent":
+        return _evaluate_emergent(prompts, model or os.getenv("EMERGENT_MODEL") or os.getenv("LLM_MODEL", DEFAULT_MODEL))
     model = model or os.getenv("LLM_MODEL", DEFAULT_MODEL)
     if use_batch is None:
         use_batch = os.getenv("LLM_USE_BATCH", "1") != "0"
-    if not prompts:
-        return {}
     return _evaluate_batch(prompts, model) if use_batch else _evaluate_sync(prompts, model)
+
+
+# ------------------------------------------------------------------
+# Emergent lane (OpenAI-compatible chat completions; no batch discount)
+# ------------------------------------------------------------------
+def _emergent_chat(model: str, system: str, user: str, max_tokens: int = MAX_TOKENS) -> Dict[str, Any]:
+    """One chat-completions call through the Emergent proxy. Raises RuntimeError with the
+    provider's message on failure; retries rate limits / server errors with backoff."""
+    import urllib.request
+    import urllib.error
+    body = json.dumps({
+        "model": model, "max_tokens": max_tokens, "temperature": 0,
+        "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        EMERGENT_BASE_URL.rstrip("/") + "/chat/completions", data=body, method="POST",
+        headers={"Content-Type": "application/json", "Authorization": f"Bearer {os.getenv('EMERGENT_LLM_KEY', '')}"})
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=180) as r:
+                return json.loads(r.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            detail = e.read().decode("utf-8", "replace")[:300]
+            if e.code in (429, 500, 502, 503, 504) and attempt < 3:
+                time.sleep(5 * 2 ** attempt)
+                continue
+            raise RuntimeError(f"Emergent API {e.code}: {detail}") from None
+        except urllib.error.URLError as e:
+            if attempt < 3:
+                time.sleep(5 * 2 ** attempt)
+                continue
+            raise RuntimeError(f"Emergent API unreachable: {e.reason}") from None
+    raise RuntimeError("Emergent API: retries exhausted")
+
+
+def _evaluate_emergent(prompts: List[Dict[str, str]], model: str) -> Dict[str, Dict[str, Any]]:
+    results: Dict[str, Dict[str, Any]] = {}
+    chunks = list(_chunks(prompts, BATCH_SIZE))
+    log.info("[LLM emergent] Grading %d prompts in %d requests (model=%s)...", len(prompts), len(chunks), model)
+    for i, chunk in enumerate(chunks, 1):
+        if budget and not budget.allowed():
+            log.warning("[LLM emergent] daily budget reached ($%.2f spent); %d chunks left for next run.",
+                        budget.spent_today(), len(chunks) - i + 1)
+            break
+        try:
+            resp = _emergent_chat(model, RUBRIC_SYSTEM_PROMPT, json.dumps(chunk, ensure_ascii=False))
+        except RuntimeError as e:
+            if i == 1:
+                raise  # first call failing = bad key / model / endpoint: surface it, don't loop
+            log.warning("[LLM emergent] chunk %d failed (%s); those prompts stay heuristic.", i, e)
+            continue
+        usage = resp.get("usage") or {}
+        if budget:
+            budget.record(model, int(usage.get("prompt_tokens") or 0), int(usage.get("completion_tokens") or 0))
+        text = ((resp.get("choices") or [{}])[0].get("message") or {}).get("content") or ""
+        _merge(results, _parse_array(text))
+        if i % 5 == 0:
+            log.info("[LLM emergent] %d/%d chunks done, %d prompts scored, $%.2f spent today.",
+                     i, len(chunks), len(results), budget.spent_today() if budget else -1.0)
+    return results
+
+
+def ping() -> None:
+    """Connectivity check: one tiny grading call. Prints provider, model and the outcome."""
+    prov = provider()
+    model = os.getenv("EMERGENT_MODEL") or os.getenv("LLM_MODEL", DEFAULT_MODEL)
+    print(f"provider={prov} model={model} key_set={bool(os.getenv('EMERGENT_LLM_KEY') if prov == 'emergent' else os.getenv('ANTHROPIC_API_KEY'))}")
+    sample = [{"id": "ping", "prompt": "Write a 150-word product description for [product] aimed at [audience], "
+                                      "using only these facts: [facts]. Output: headline, description, 3 bullets."}]
+    try:
+        r = evaluate(sample, use_batch=False)
+    except Exception as e:
+        print(f"FAILED: {e}")
+        raise SystemExit(1)
+    print("OK:", json.dumps(r.get("ping"), ensure_ascii=False)[:300] if r.get("ping") else "call worked but no score parsed")
+
+
+if __name__ == "__main__":
+    import sys
+    if "--ping" in sys.argv:
+        ping()
 
 
 # ------------------------------------------------------------------

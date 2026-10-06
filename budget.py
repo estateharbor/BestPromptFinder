@@ -37,7 +37,9 @@ def cap() -> float:
 
 
 def cost(model: str, input_tokens: int, output_tokens: int) -> float:
-    pin, pout = PRICING.get(model, _DEFAULT_PRICE)
+    # Exact name, else the longest known prefix (e.g. "claude-haiku-4-5-20251001").
+    key = model if model in PRICING else max((k for k in PRICING if (model or "").startswith(k)), key=len, default=None)
+    pin, pout = PRICING.get(key, _DEFAULT_PRICE)
     return input_tokens / 1e6 * pin + output_tokens / 1e6 * pout
 
 
