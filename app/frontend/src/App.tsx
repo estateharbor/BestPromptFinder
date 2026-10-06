@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "./api";
 import type { SearchResponse } from "./types";
 import { AuthProvider } from "./auth";
@@ -24,6 +24,8 @@ function Shell() {
   const [authOpen, setAuthOpen] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
   const [activityOpen, setActivityOpen] = useState(false);
+  const [refining, setRefining] = useState(false);
+  const latest = useRef(0);  // id of the newest search, so a slow AI reply can't overwrite a newer one
 
   const runSearch = useCallback(async (q: string, opts?: { push?: boolean }) => {
     const trimmed = q.trim();
@@ -37,11 +39,27 @@ function Shell() {
     setQuery(trimmed);
     setError(null);
     setView("loading");
+    const id = ++latest.current;
+    setRefining(false);
     try {
-      const [resp] = await Promise.all([api.search(trimmed, 4), new Promise((r) => setTimeout(r, 700))]);
-      setData(resp);
+      // 1) Instant keyword-ranked results (or the cached AI result, if this goal was searched recently)
+      const quick = await api.search(trimmed, 4, true);
+      if (id !== latest.current) return;
+      setData(quick);
       setView("results");
+      if (!quick.ai_pending) return;
+      // 2) AI re-rank in the background; swap it in when it lands
+      setRefining(true);
+      try {
+        const full = await api.search(trimmed, 4);
+        if (id === latest.current) setData(full);
+      } catch {
+        /* keep the instant results if the AI pass fails */
+      } finally {
+        if (id === latest.current) setRefining(false);
+      }
     } catch (e) {
+      if (id !== latest.current) return;
       setError(e instanceof Error ? e.message : "Search failed");
       setView("home");
     }
@@ -87,7 +105,7 @@ function Shell() {
       <main id="main">
         {view === "home" && <Home onSearch={runSearch} error={error} />}
         {view === "loading" && <Loading query={query} />}
-        {view === "results" && data && <Results data={data} onCopy={flash} onPick={runSearch} onRequireAuth={() => setAuthOpen(true)} />}
+        {view === "results" && data && <Results data={data} refining={refining} onCopy={flash} onPick={runSearch} onRequireAuth={() => setAuthOpen(true)} />}
         {view === "library" && <Library onCopy={flash} onPick={runSearch} />}
       </main>
       {view !== "loading" && <Footer />}

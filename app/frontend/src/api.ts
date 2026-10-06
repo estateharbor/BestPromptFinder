@@ -54,8 +54,10 @@ export interface IngestResult {
 }
 
 export const api = {
-  async search(query: string, k = 4): Promise<SearchResponse> {
-    return json(await fetch("/api/search", { method: "POST", headers: headers(), body: JSON.stringify({ query, k }) }));
+  // fast=true returns instant keyword-ranked results (and ai_pending when an AI re-rank is
+  // available); call again without fast for the AI-ranked version.
+  async search(query: string, k = 4, fast = false): Promise<SearchResponse> {
+    return json(await fetch("/api/search", { method: "POST", headers: headers(), body: JSON.stringify({ query, k, fast }) }));
   },
   async leaderboard(k = 5): Promise<{ results: LeaderItem[] }> {
     return json(await fetch(`/api/leaderboard?k=${k}`));

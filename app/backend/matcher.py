@@ -159,7 +159,7 @@ class Recommender:
         return round(quality * 0.35 + match * 0.40 + reliability * 0.20 + freshness * 0.05)
 
     # ---- match + rank (retrieve -> LLM enrich -> re-rank) ----
-    def search(self, query: str, k: int = 4) -> Dict[str, Any]:
+    def search(self, query: str, k: int = 4, use_llm: bool = True) -> Dict[str, Any]:
         intent = self.parse_intent(query)
         qvec = self._vectorize(self._tokens(query))
         sims = [self._cosine(qvec, v) for v in self.vecs]
@@ -180,7 +180,7 @@ class Recommender:
         # 2) LLM enrich the shortlist for real goal-specific match + why/weakness
         enrich = {}
         used_llm = False
-        if llm_enrich and llm_enrich.available():
+        if use_llm and llm_enrich and llm_enrich.available():
             cands = [{"id": c["id"], "title": c["title"], "prompt": c["prompt"]} for _, _, c in shortlist]
             enrich = llm_enrich.enrich(query, cands)
             used_llm = bool(enrich)
@@ -207,6 +207,8 @@ class Recommender:
         results = [self._result(c, o, m, intent, llm=e, votes=votes) for o, m, c, e in strong]
         related_out = [self._result(c, o, m, intent, llm=e, votes=votes) for o, m, c, e in related]
         return {"intent": intent, "count": len(self.corpus), "enriched": used_llm,
+                # fast pass: the AI re-rank is available and the client should fetch it next
+                "ai_pending": (not use_llm) and bool(llm_enrich and llm_enrich.available()),
                 "results": results, "related": related_out}
 
     def get(self, pid: str) -> Dict[str, Any]:

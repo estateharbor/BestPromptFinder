@@ -97,6 +97,7 @@ def rec() -> Recommender:
 class SearchBody(BaseModel):
     query: str
     k: int = 4
+    fast: bool = False  # True: instant keyword ranking only; the client then asks for the AI re-rank
 
 
 class PreviewBody(BaseModel):
@@ -148,7 +149,9 @@ def search(body: SearchBody):
     key = (q.lower(), k, _rec_mtime)
     hit = _SEARCH_CACHE.get(key)
     if hit and (time.time() - hit[0]) < _SEARCH_TTL:
-        return hit[1]
+        return hit[1]  # the full AI-ranked result, even for a fast request
+    if body.fast:
+        return r.search(q, k=k, use_llm=False)  # not cached: it's only a placeholder
     result = r.search(q, k=k)
     if len(_SEARCH_CACHE) > 500:
         _SEARCH_CACHE.clear()

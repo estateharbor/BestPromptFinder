@@ -36,9 +36,9 @@ DEFAULT_MODEL = "claude-haiku-4-5-20251001"
 SYSTEM = """You are a prompt recommendation judge. You are given a user's GOAL and a list of candidate prompts. For EACH candidate, judge how well it solves THAT specific goal — not its general quality.
 
 Return ONLY a valid JSON array (no prose), one object per candidate id:
-{"id": "<id>", "match": <int 0-100, fit to THIS goal>, "why": ["<=4 short reasons this prompt serves the goal>"], "weakness": "<one concrete gap for this goal>"}
+{"id": "<id>", "match": <int 0-100, fit to THIS goal>, "why": ["<=2 short reasons this prompt serves the goal>"], "weakness": "<one concrete gap for this goal, max 12 words>"}
 
-Rules: match reflects task/purpose fit to the goal, not polish. A well-built prompt for a different job scores low. Keep each "why" under 12 words and specific to the goal. Evaluate each candidate independently. If a prompt does NOT genuinely fit the goal, give it a low match and return an empty "why" list — never invent reasons to recommend a poor fit."""
+Rules: match reflects task/purpose fit to the goal, not polish. A well-built prompt for a different job scores low. Give at most 2 "why" reasons, each under 12 words and specific to the goal. Evaluate each candidate independently. If a prompt does NOT genuinely fit the goal, give it a low match and return an empty "why" list — never invent reasons to recommend a poor fit."""
 
 
 def available() -> bool:
@@ -72,19 +72,19 @@ def enrich(goal: str, candidates: List[Dict[str, str]],
 
     payload = {
         "goal": goal,
-        "candidates": [{"id": c["id"], "title": c["title"], "prompt": c["prompt"][:800]} for c in candidates],
+        "candidates": [{"id": c["id"], "title": c["title"], "prompt": c["prompt"][:400]} for c in candidates],
     }
     try:
         if use_emergent:
             text, usage, model = emergent_client.chat_with_fallback(
-                model, SYSTEM, json.dumps(payload, ensure_ascii=False), max_tokens=2000, timeout=45)
+                model, SYSTEM, json.dumps(payload, ensure_ascii=False), max_tokens=900, timeout=45)
             if budget:
                 budget.record(model, usage["input"], usage["output"], scope="search")
         else:
             client = anthropic.Anthropic()
             resp = client.messages.create(
                 model=model,
-                max_tokens=2000,
+                max_tokens=900,
                 thinking={"type": "disabled"},   # bounded scoring task; keep search snappy
                 system=SYSTEM,
                 messages=[{"role": "user", "content": json.dumps(payload, ensure_ascii=False)}],
@@ -99,7 +99,7 @@ def enrich(goal: str, candidates: List[Dict[str, str]],
             if isinstance(obj, dict) and "id" in obj:
                 out[str(obj["id"])] = {
                     "match": int(obj.get("match", 0)),
-                    "why": [str(w) for w in (obj.get("why") or [])][:4],
+                    "why": [str(w) for w in (obj.get("why") or [])][:2],
                     "weakness": str(obj.get("weakness", "")),
                 }
         return out

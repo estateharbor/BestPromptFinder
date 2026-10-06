@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { SearchResponse } from "../types";
 import { ResultCard } from "./ResultCard";
 
-export function Results({ data, onCopy, onPick, onRequireAuth }: {
+export function Results({ data, refining = false, onCopy, onPick, onRequireAuth }: {
   data: SearchResponse;
+  refining?: boolean;
   onCopy: (m: string) => void;
   onPick: (q: string) => void;
   onRequireAuth: () => void;
@@ -11,6 +12,11 @@ export function Results({ data, onCopy, onPick, onRequireAuth }: {
   const [openId, setOpenId] = useState<string>(data.results[0]?.id ?? "");
   const { intent, results } = data;
   const related = data.related ?? [];
+  // When the AI re-rank replaces the instant results, keep the open card if it's still there,
+  // otherwise open the new top result.
+  useEffect(() => {
+    if (!results.some((r) => r.id === openId)) setOpenId(results[0]?.id ?? "");
+  }, [results, openId]);
 
   const tokens: [string, string, boolean][] = [
     ["Purpose", intent.purpose, true],
@@ -49,7 +55,9 @@ export function Results({ data, onCopy, onPick, onRequireAuth }: {
             color: data.enriched ? "var(--color-accent2)" : "var(--color-ink3)",
             border: `1px solid ${data.enriched ? "var(--color-accentline)" : "var(--color-hairline)"}`,
           }}>
-          {data.enriched ? "◆ AI-matched to your goal" : "◇ TF-IDF match (add API key for AI matching)"}
+          {data.enriched ? "◆ AI-matched to your goal"
+            : refining ? <><span className="animate-pulse">◆</span> Refining with AI…</>
+            : "◇ Quick keyword match"}
         </span>
       </div>
 

@@ -55,6 +55,7 @@ export interface SearchResponse {
   intent: Intent;
   count: number;
   enriched: boolean;
+  ai_pending?: boolean;   // instant results shown; the AI-ranked version is on its way
   results: PromptResult[];
   related?: PromptResult[];
 }
