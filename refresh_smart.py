@@ -179,6 +179,8 @@ def grade_ungraded(corpus: List[Dict[str, Any]]):
         if r.get("prompt_type"):
             c["prompt_type"] = r["prompt_type"]
         c.setdefault("provenance", {})["eval_source"] = "llm"
+        if r.get("grade_version"):
+            c["grade_version"] = r["grade_version"]
         c["eval_tier"] = r.get("tier")
         c["eval_decision"] = r.get("decision")
         updated += 1

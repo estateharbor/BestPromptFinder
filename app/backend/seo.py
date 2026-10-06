@@ -15,7 +15,10 @@ SITE = "https://bestpromptfinder.com"
 # How many prompt pages to keep indexable. Google favours a smaller set of unique, tested
 # pages over thousands of thin ones — the rest are noindex,follow (usable in-app, not in
 # search) and excluded from the sitemap. Tune via SEO_INDEX_LIMIT.
-INDEX_LIMIT = int(os.getenv("SEO_INDEX_LIMIT", "150"))
+INDEX_LIMIT = int(os.getenv("SEO_INDEX_LIMIT", "250"))
+# Minimum AI quality for an indexable prompt page. With the library audited (original or
+# licensed text only), quality — not a hard top-N cut on noisy scores — is the main gate.
+INDEX_MIN_Q = int(os.getenv("SEO_INDEX_MIN_Q", "80"))
 # Per-category floor: each category's best few strong prompts are indexable even when they
 # fall outside the global top INDEX_LIMIT, so thin categories aren't left with zero indexed pages.
 CATEGORY_FLOOR = int(os.getenv("SEO_CATEGORY_FLOOR", "3"))
@@ -93,7 +96,7 @@ def tier_a_ids(corpus: List[Dict[str, Any]]) -> Set[str]:
         if is_english(c.get("title"), c.get("prompt"))
         and (c.get("provenance") or {}).get("eval_source") in ("curated", "llm")
         and len(c.get("prompt") or "") >= 200
-        and c.get("quality")
+        and (c.get("quality") or 0) >= INDEX_MIN_Q
     ]
     eligible.sort(key=lambda c: c.get("quality", 0), reverse=True)
     ids = {c["id"] for c in eligible[:INDEX_LIMIT]}

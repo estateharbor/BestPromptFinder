@@ -189,7 +189,71 @@ def _emergent_parse(resp: Dict[str, Any], model: str, label: str) -> List[Dict[s
     return parsed
 
 
+# Grading v2: one prompt per request (no batch-relative scoring) against fixed calibration
+# anchors. Prompts graded this way carry grade_version = GRADE_VERSION.
+GRADE_VERSION = 2
+CALIBRATION_ANCHORS = """
+
+Calibration anchors. These are fixed reference points; score the submitted prompt on the same absolute scale. Never output them.
+- Anchor A, score 12 (Junk, DROP): "cool sunset pic 8k masterpiece trending"
+- Anchor B, score 62 (Usable, KEEP): "Write a blog post about remote work. Make it engaging and around 800 words."
+- Anchor C, score 93 (Excellent, KEEP): "Write a 600-word blog post for first-time remote managers. Inputs: [team size], [main challenge]. Structure: hook, 3 numbered practices each with one example, a 5-item checklist, and a closing line. Tone: practical, no jargon. Don't invent statistics; mark any figure you'd need as [VERIFY]."
+An image prompt can reach the 90s by being equally specific: subject, composition, lighting, style, format/aspect ratio and exclusions. Concise is fine; length alone earns nothing."""
+
+
 def _evaluate_emergent(prompts: List[Dict[str, str]], model: str) -> Dict[str, Dict[str, Any]]:
+    if os.getenv("LLM_GRADE_SINGLE", "1") != "0":
+        return _evaluate_emergent_single(prompts, model)
+    return _evaluate_emergent_chunked(prompts, model)
+
+
+def _evaluate_emergent_single(prompts: List[Dict[str, str]], model: str) -> Dict[str, Dict[str, Any]]:
+    """One request per prompt, in parallel. Consistent (no cross-prompt influence) at roughly
+    2-3x the cost of 15-per-request chunks."""
+    from concurrent.futures import ThreadPoolExecutor
+    system = RUBRIC_SYSTEM_PROMPT + CALIBRATION_ANCHORS
+    workers = int(os.getenv("LLM_PARALLEL", "6"))
+    results: Dict[str, Dict[str, Any]] = {}
+    log.info("[LLM emergent] Grading %d prompts one by one (%d parallel, model=%s)...", len(prompts), workers, model)
+    first = True
+
+    def grade(p):
+        if budget and not budget.allowed():
+            return None
+        try:
+            resp = _emergent_chat(model, system, json.dumps([p], ensure_ascii=False), max_tokens=1500)
+        except RuntimeError as e:
+            return e
+        parsed = _emergent_parse(resp, model, p["id"])
+        for obj in parsed:
+            if isinstance(obj, dict):
+                obj["grade_version"] = GRADE_VERSION
+        return parsed
+
+    if prompts:  # fail fast on a bad key / model / endpoint before fanning out
+        out = grade(prompts[0])
+        if isinstance(out, RuntimeError):
+            raise out
+        _merge(results, out or [])
+        first = False
+    done = 1
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        for out in ex.map(grade, prompts[1:] if not first else prompts):
+            done += 1
+            if isinstance(out, RuntimeError):
+                log.warning("[LLM emergent] a prompt failed (%s); it stays on its previous score.", out)
+            elif out:
+                _merge(results, out)
+            if done % 50 == 0:
+                log.info("[LLM emergent] %d/%d graded, $%.2f spent today.", len(results), len(prompts),
+                         budget.spent_today() if budget else -1.0)
+    if budget and not budget.allowed():
+        log.warning("[LLM emergent] daily budget reached; %d of %d graded — re-run to continue.",
+                    len(results), len(prompts))
+    return results
+
+
+def _evaluate_emergent_chunked(prompts: List[Dict[str, str]], model: str) -> Dict[str, Dict[str, Any]]:
     results: Dict[str, Dict[str, Any]] = {}
     chunks = list(_chunks(prompts, BATCH_SIZE))
     log.info("[LLM emergent] Grading %d prompts in %d requests (model=%s)...", len(prompts), len(chunks), model)
