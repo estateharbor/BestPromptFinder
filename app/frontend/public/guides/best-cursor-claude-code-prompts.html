@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Best Cursor / Claude Code Prompts: Explore to Verify | BestPromptFinder</title>
-  <meta name="description" content="Copy-paste Explore→Plan→Implement→Verify prompts for Cursor and Claude Code. Rank scored coding-agent prompts free on BestPromptFinder’s decision engine." />
+  <title>Best Cursor &amp; Claude Code Prompts (2026) | BestPromptFinder</title>
+  <meta name="description" content="Cursor &amp; Claude Code prompts for Explore→Plan→Implement→Verify, plus CLAUDE.md, AGENTS.md, Cursor rules &amp; SKILL.md templates. Companion to Anthropic’s library." />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
   <link rel="canonical" href="https://bestpromptfinder.com/guides/best-cursor-claude-code-prompts" />
   <meta name="author" content="BestPromptFinder" />
@@ -12,24 +12,24 @@
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="BestPromptFinder" />
   <meta property="og:url" content="https://bestpromptfinder.com/guides/best-cursor-claude-code-prompts" />
-  <meta property="og:title" content="Best Cursor / Claude Code Prompts: Explore to Verify | BestPromptFinder" />
-  <meta property="og:description" content="Copy-paste Explore→Plan→Implement→Verify prompts for Cursor and Claude Code. Rank scored coding-agent prompts free on BestPromptFinder’s decision engine." />
+  <meta property="og:title" content="Best Cursor &amp; Claude Code Prompts (2026): Workflow, CLAUDE.md, Rules &amp; Skills" />
+  <meta property="og:description" content="Cursor &amp; Claude Code prompts for Explore→Plan→Implement→Verify, plus CLAUDE.md, AGENTS.md, Cursor rules &amp; SKILL.md templates. Companion to Anthropic’s library." />
   <meta property="og:image" content="https://bestpromptfinder.com/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="article:published_time" content="2026-10-02" />
-  <meta property="article:modified_time" content="2026-10-02" />
+  <meta property="article:modified_time" content="2026-10-06" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Best Cursor / Claude Code Prompts: Explore to Verify | BestPromptFinder" />
-  <meta name="twitter:description" content="Copy-paste Explore→Plan→Implement→Verify prompts for Cursor and Claude Code. Rank scored coding-agent prompts free on BestPromptFinder’s decision engine." />
+  <meta name="twitter:title" content="Best Cursor &amp; Claude Code Prompts (2026): Workflow, CLAUDE.md, Rules &amp; Skills" />
+  <meta name="twitter:description" content="Cursor &amp; Claude Code prompts for Explore→Plan→Implement→Verify, plus CLAUDE.md, AGENTS.md, Cursor rules &amp; SKILL.md templates. Companion to Anthropic’s library." />
   <meta name="twitter:image" content="https://bestpromptfinder.com/og-image.png" />
 
   <meta name="theme-color" content="#0e131b" />
   <link rel="icon" type="image/png" href="https://bestpromptfinder.com/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
 
   <script type="application/ld+json">
 {
@@ -37,10 +37,10 @@
   "@graph": [
     {
       "@type": "Article",
-      "headline": "Best Cursor and Claude Code prompts (Explore → Plan → Implement → Verify)",
-      "description": "Copy-paste Explore→Plan→Implement→Verify prompts for Cursor and Claude Code. Rank scored coding-agent prompts free on BestPromptFinder’s decision engine.",
+      "headline": "Best Cursor & Claude Code Prompts (2026): Workflow Prompts, CLAUDE.md, AGENTS.md, Rules & Skills",
+      "description": "Cursor & Claude Code prompts for Explore→Plan→Implement→Verify, plus CLAUDE.md, AGENTS.md, Cursor rules & SKILL.md templates. Companion to Anthropic’s library.",
       "datePublished": "2026-10-02",
-      "dateModified": "2026-10-02",
+      "dateModified": "2026-10-06",
       "author": {
         "@type": "Organization",
         "name": "BestPromptFinder",
@@ -74,7 +74,7 @@
           "@type": "ListItem",
           "position": 2,
           "name": "Guides",
-          "item": "https://bestpromptfinder.com/guides"
+          "item": "https://bestpromptfinder.com/guides/"
         },
         {
           "@type": "ListItem",
@@ -89,10 +89,10 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What is the Explore → Plan → Implement → Verify loop?",
+          "name": "How does this guide relate to Anthropic’s Claude Code prompt library?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "It is a four-stage workflow for Cursor and Claude Code: explore the repo read-only, plan small steps with acceptance criteria, implement one step at a time, then verify with tests and a ship checklist. It reduces large wrong diffs."
+            "text": "Anthropic’s prompt library on code.claude.com is the official collection of short Claude Code prompts, organized by task and role. This guide is an independent companion: it adds a gated Explore → Plan → Implement → Verify workflow, Cursor-specific wording, CLAUDE.md, AGENTS.md, Cursor rules and SKILL.md templates, and detailed documentation prompts. Use the official library for quick asks and this guide for multi-step changes and repo setup."
           }
         },
         {
@@ -100,7 +100,15 @@
           "name": "Do these prompts work in both Cursor and Claude Code?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The wording is tool-agnostic. In Cursor, paste into Chat/Agent with @-file context; in Claude Code, paste into the CLI session with the same stage gates (pause after Explore and Plan)."
+            "text": "Yes. The workflow prompts are tool-agnostic, and the Cursor section rewords them for Ask/Plan Mode, Agent mode, and @-mentions. In Claude Code, use plan mode for Explore and Plan; in Cursor, use Ask or Plan Mode. In both, pause after Explore and after Plan before any files are edited."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I use CLAUDE.md, AGENTS.md, or Cursor rules?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Put shared conventions in AGENTS.md, which Cursor reads and recent Claude Code versions can also read. Keep a short CLAUDE.md that imports it with @AGENTS.md and adds Claude-specific notes, and use .cursor/rules/*.mdc only for Cursor-specific or file-scoped rules. Turn prompts you repeat into Claude Code skills (SKILL.md)."
           }
         },
         {
@@ -206,6 +214,8 @@ p { margin: 0 0 16px; color: var(--text); }
   margin: 28px 0 6px;
 }
 .prompt-label strong { font-size: 1rem; }
+.prompt-label { flex-wrap: wrap; }
+.prompt-label .badge { max-width: 100%; overflow-wrap: anywhere; white-space: normal; }
 .badge {
   font-size: 0.72rem; font-weight: 600; color: var(--ok);
   background: rgba(110,231,183,0.1); border: 1px solid rgba(110,231,183,0.25);
@@ -231,6 +241,10 @@ footer {
   border-top: 1px solid var(--border);
   color: var(--muted); font-size: 0.9rem;
 }
+.tip { font-size: 0.9rem; margin: -12px 0 22px; }
+.toc ol { margin: 0; }
+.toc li { margin: 4px 0; }
+p code, li code, .tip code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.86em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; }
 </style>
 </head>
 <body>
@@ -240,9 +254,9 @@ footer {
       <a href="https://bestpromptfinder.com/browse">Browse prompts</a>
     </nav>
 
-    <p class="eyebrow">Guide · 2026-10-02</p>
-    <h1>Best Cursor and Claude Code prompts (Explore → Plan → Implement → Verify)</h1>
-    <p class="lede">Agentic coding tools like Cursor and Claude Code work best when you stop dumping one giant ask and instead run a four-stage loop: Explore the codebase, Plan the change, Implement in small steps, then Verify with tests and review. Below are paste-ready prompts for each stage — then use BestPromptFinder to rank more variants against your exact goal.</p>
+    <p class="eyebrow">Guide · Updated 2026-10-06</p>
+    <h1>Best Cursor &amp; Claude Code prompts (2026): Explore → Plan → Implement → Verify</h1>
+    <p class="lede">Cursor and Claude Code do their best work when you stop sending one giant ask and run a four-stage loop instead: Explore the codebase, Plan the change, Implement in small steps, then Verify with real checks. This guide gives you paste-ready prompts for each stage, Cursor-specific versions, and the instruction files (CLAUDE.md, AGENTS.md, Cursor rules, SKILL.md) that make those prompts repeatable. It is written as a companion to Anthropic’s official Claude Code prompt library, not a replacement for it.</p>
 
     <div class="card cta">
       <p><strong>Next step:</strong> describe your goal and get ranked prompts with quality, match &amp; confidence scores.</p>
@@ -250,125 +264,457 @@ footer {
       <p class="muted" style="margin:12px 0 0;font-size:0.9rem;">Opens the homepage goal box with a starter query you can edit.</p>
     </div>
 
-    <h2>Copy-paste prompt templates</h2>
-    <p class="muted">Replace bracketed fields. Run stages in order where noted.</p>
-    
+    <nav class="card toc" aria-label="On this page">
+      <p><strong>On this page</strong></p>
+      <ol>
+        <li><a href="#official-reference">Official reference: Anthropic’s prompt library</a></li>
+        <li><a href="#workflow-prompts">Explore → Plan → Implement → Verify prompts</a></li>
+        <li><a href="#cursor-prompts">Cursor versions of the key prompts</a></li>
+        <li><a href="#instruction-files">CLAUDE.md, AGENTS.md &amp; Cursor rules templates</a></li>
+        <li><a href="#skill-templates">Claude Code skill templates (SKILL.md)</a></li>
+        <li><a href="#documentation-prompts">Documentation prompts</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="official-reference">Official reference: Anthropic’s Claude Code prompt library</h2>
+    <p>Anthropic publishes an official <a href="https://code.claude.com/docs/en/prompt-library" rel="noopener">Claude Code prompt library</a>: around fifty short, copy-paste prompts (52 when we checked on 2026-10-06), tagged by task — onboarding, understanding code, planning, prototyping, implementing, testing, refactoring, review, steering, git, release, debugging, incidents, data, and automation — and by role, each with a note on why the pattern works. It is the authoritative starting point for Claude Code, and we recommend using it alongside this page.</p>
+    <p>This guide is a companion, not a competitor. It covers what a short-prompt library intentionally leaves out:</p>
+    <ul>
+      <li><strong>A gated workflow.</strong> Longer, structured Explore → Plan → Implement → Verify prompts with explicit stop points and acceptance criteria, for changes too big for a one-liner.</li>
+      <li><strong>Cursor wording.</strong> Versions tuned for Cursor’s Ask/Plan Mode, Agent mode, @-mentions, and project rules.</li>
+      <li><strong>Instruction files.</strong> Ready-to-copy CLAUDE.md, AGENTS.md, .cursor/rules, and SKILL.md templates, so a prompt that works once becomes the default.</li>
+      <li><strong>Documentation prompts.</strong> Detailed prompts for documenting undocumented code and turning git history into release notes.</li>
+    </ul>
+    <p class="muted">Rule of thumb: reach for the official library when you want a quick, single-sentence ask; reach for this guide when the change spans several files, needs review gates, or should be encoded into your repo’s agent setup. Everything on this page is original BestPromptFinder content; we are not affiliated with Anthropic or Cursor.</p>
+
+    <h2 id="workflow-prompts">Explore → Plan → Implement → Verify prompts</h2>
+    <p class="muted">Replace bracketed fields. Run the stages in order and approve each gate before moving on. The wording works in Claude Code, Cursor, and other coding agents.</p>
       <div class="prompt-label">
-        <strong>1. Explore — codebase reconnaissance</strong>
-        <span class="badge">Cursor / Claude Code</span>
+        <strong>1. Explore — read-only codebase reconnaissance</strong>
+        <span class="badge">Claude Code / any agent</span>
       </div>
-      <div class="prompt-block"><pre>You are exploring an unfamiliar codebase. Do NOT write or edit any files yet.
+      <div class="prompt-block"><pre>Explore only. Do not create, edit, or delete files, and do not run commands that change state.
 
-Goal: [describe the feature or bug in one sentence]
+Goal: [one sentence: the feature or bug]
+Start from: [entry point, failing test, ticket link, or "find it yourself"]
 
-Tasks:
-1. Map the relevant directories, entry points, and key modules.
-2. Identify the data models, APIs, and UI surfaces involved.
-3. List hidden dependencies, config flags, and tests that touch this area.
-4. Flag risks: race conditions, auth boundaries, migrations, flaky tests.
+Investigate and report:
+1. Map — directories, entry points, and modules involved (short tree).
+2. Key files — path + one line on why each matters. Cite file:line for anything surprising.
+3. Data &amp; interfaces — models, API routes, events, and UI surfaces this goal touches.
+4. Existing patterns — the closest similar feature I should copy, and the tests that cover this area.
+5. Risks — auth boundaries, migrations, concurrency, flaky tests, generated code, feature flags.
+6. Unknowns — questions only I can answer (max 5).
 
-Output format:
-- ## Map (bullet tree of paths)
-- ## Key files (path + one-line why it matters)
-- ## Dependencies &amp; config
-- ## Risks &amp; unknowns
-- ## Suggested next questions for me
-
-Stay concise. Prefer evidence from the repo over assumptions.</pre></div>
+Prefer evidence from the repo over assumptions. Label any guess "unverified".
+Stop after the report and wait for me.</pre></div>
+      <p class="tip muted">Claude Code: run it in plan mode (Shift+Tab cycles permission modes) so no edits can happen. Cursor: see the Ask/Plan Mode version below.</p>
       <div class="prompt-label">
-        <strong>2. Plan — change plan with acceptance criteria</strong>
+        <strong>2. Plan — diff-sized steps with acceptance criteria</strong>
         <span class="badge">Before any edits</span>
       </div>
-      <div class="prompt-block"><pre>Based on the Explore findings below, produce an implementation plan. Do NOT edit files yet.
-
-Explore findings:
-[paste Explore output]
+      <div class="prompt-block"><pre>Using the Explore report above, write an implementation plan. Still no edits.
 
 Change goal: [feature / bugfix]
+Constraints: [e.g. no new dependencies, keep the public API stable, ship behind a flag]
 
-Requirements for the plan:
-1. Break work into ordered steps (each ≤ ~30 minutes of focused work).
-2. For every step: files to touch, approach, and how we verify it.
-3. Call out non-goals and what we will NOT change.
-4. Include a rollback / feature-flag note if the change is risky.
-5. End with acceptance criteria written as testable bullets.
+The plan must include:
+1. Summary — 3–5 sentences on the approach and why it beats the main alternative.
+2. Steps — numbered, each small enough to review as one diff. For every step: files to
+   touch, the change, and the exact check that proves it works (test name, command, or
+   manual step).
+3. Non-goals — what we will deliberately not change.
+4. Risk &amp; rollback — flag, migration reversal, or revert plan for anything risky.
+5. Acceptance criteria — testable bullets I can tick off.
+6. Blocking questions — only if the plan cannot proceed without an answer.
 
-Output:
-## Summary (3–5 sentences)
-## Steps (numbered)
-## Non-goals
-## Acceptance criteria
-## Open questions (only if blocking)</pre></div>
+If I say "save", write the plan to [docs/plans/&lt;short-name&gt;.md]; otherwise print it.
+Wait for my approval before implementing anything.</pre></div>
+      <p class="tip muted">Saving the plan to a file gives later sessions (and the Verify step) a single source of truth for the acceptance criteria.</p>
       <div class="prompt-label">
-        <strong>3. Implement — one step at a time</strong>
+        <strong>3. Implement — one approved step at a time</strong>
         <span class="badge">Small diffs</span>
       </div>
-      <div class="prompt-block"><pre>Implement ONLY step [N] from the plan below. Do not start later steps.
+      <div class="prompt-block"><pre>Implement step [N] of the approved plan, and only that step.
 
-Plan:
-[paste Plan]
+Rules:
+- Follow the patterns in [reference file] and the conventions in CLAUDE.md / AGENTS.md.
+- Smallest diff that satisfies the step. No drive-by refactors, renames, or formatting churn.
+- Add or update the tests this step calls for, then run them: [test command].
+- If a test fails, fix the cause rather than the test. If the test itself is wrong, say why.
+- If the plan turns out to be wrong for the current code, stop and propose an amended
+  step instead of improvising a larger rewrite.
 
-Constraints:
-- Match existing code style, naming, and patterns in this repo.
-- Prefer minimal diffs; no drive-by refactors.
-- Update or add tests only if this step requires them.
-- After changes, summarize: files changed, what you did, how to verify.
-
-If something in the plan is wrong given the current code, stop and propose a plan amendment instead of improvising a large rewrite.</pre></div>
+When done, report: files changed, what each change does, the commands you ran and their
+results, and anything deferred to later steps.</pre></div>
+      <p class="tip muted">Giving the agent a command to run in the same prompt lets it iterate on failures instead of stopping after the first attempt.</p>
       <div class="prompt-label">
-        <strong>4. Verify — tests, review, and regression check</strong>
+        <strong>4. Verify — run the checks, then review like a skeptic</strong>
         <span class="badge">Ship gate</span>
       </div>
-      <div class="prompt-block"><pre>Review the changes for step [N] (or the full PR) against the acceptance criteria.
+      <div class="prompt-block"><pre>Verify the work against the acceptance criteria. Act as a skeptical reviewer, not the author.
 
 Acceptance criteria:
-[paste]
+[paste, or point to docs/plans/&lt;short-name&gt;.md]
 
-Diff / changed files:
-[paste or @ reference]
+Scope: [step N | the whole branch compared with main]
 
-Produce:
-1. ## Criteria checklist — each criterion: PASS / FAIL / UNTESTED + evidence
-2. ## Test commands to run (exact shell commands for this repo)
-3. ## Regression risks — what else might break
-4. ## Code review notes — bugs, edge cases, security, perf (severity)
-5. ## Ship decision — Ready / Needs fixes (list fixes)
+Do this:
+1. Run the checks: [lint, typecheck, test, build commands]. Report pass/fail with the
+   relevant output lines.
+2. Criteria checklist — each criterion: PASS / FAIL / UNTESTED, with evidence
+   (test name, command output, or file:line).
+3. Review the diff for bugs, unhandled edge cases, security issues (input validation,
+   authorization, secrets), and performance regressions. Rate each high / medium / low.
+4. Regression risk — what else calls the changed code, and is it covered by tests?
+5. Ship decision — Ready, or Needs fixes with a short ordered fix list.
 
-Do not rewrite the feature unless a critical bug is found; prefer a short fix list.</pre></div>
+Do not rewrite the feature. Only fix things yourself if I reply "fix".</pre></div>
+      <p class="tip muted">Run Verify in a fresh session (or a subagent) so the reviewer is not anchored on the author’s reasoning.</p>
       <div class="prompt-label">
-        <strong>5. Full-loop kickoff (when starting greenfield in-repo)</strong>
+        <strong>5. Full-loop kickoff — one message, two approval gates</strong>
         <span class="badge">One message</span>
       </div>
-      <div class="prompt-block"><pre>Run Explore → Plan → Implement → Verify for this goal. Pause after Explore and after Plan for my approval before editing files.
+      <div class="prompt-block"><pre>Run Explore → Plan → Implement → Verify for this goal.
+Pause for my approval after Explore and again after Plan. Do not edit files before I approve the plan.
 
 Goal: [what to build or fix]
 Repo context: [stack, important paths, constraints]
 Definition of done: [acceptance criteria]
+Checks to run: [test / lint / typecheck commands]
 
-Rules:
-- Explore: read-only, evidence-based map.
-- Plan: ordered steps + acceptance criteria + non-goals.
-- Implement: one approved step at a time, minimal diffs.
-- Verify: criteria checklist + test commands + ship decision.
+Stage rules:
+- Explore: read-only, evidence-based map, existing patterns, risks, questions.
+- Plan: ordered diff-sized steps, a verification check per step, non-goals, acceptance criteria.
+- Implement: one approved step per turn, minimal diff, run the checks after each step.
+- Verify: criteria checklist with evidence, review findings by severity, ship decision.
 
 Start with Explore only.</pre></div>
       <div class="prompt-label">
-        <strong>6. Bug reproduction detective (before the loop)</strong>
+        <strong>6. Bug reproduction detective — before the loop</strong>
         <span class="badge">Debugging</span>
       </div>
-      <div class="prompt-block"><pre>Help me reproduce and isolate a bug before we plan a fix.
+      <div class="prompt-block"><pre>Help me reproduce and isolate a bug before we plan a fix. Don't fix anything yet.
 
-Reported issue: [symptoms]
-Environment: [OS, version, branch]
-Steps already tried: [list]
+Reported issue: [symptoms, error message, or log excerpt]
+Environment: [OS, runtime version, branch, config]
+Already tried: [list]
 
-Do the following WITHOUT proposing a full rewrite:
-1. Write a minimal reproduction checklist (exact steps).
-2. Hypothesize 3 root causes ranked by likelihood, with the file/function to inspect for each.
-3. Suggest the smallest probe (log, assertion, or failing test) that would falsify each hypothesis.
-4. Ask me only for missing facts that block diagnosis.
+1. Write a minimal reproduction: exact steps, or better, a failing test that shows the bug.
+2. Give 3 root-cause hypotheses ranked by likelihood, each with the file/function to inspect.
+3. For each hypothesis, suggest the smallest probe (log line, assertion, or test) that would
+   confirm or rule it out — and run the probes you can run safely.
+4. Ask me only for facts that block diagnosis.
 
-Output as ## Reproduction, ## Hypotheses, ## Probes, ## Questions.</pre></div>
+Output as ## Reproduction, ## Hypotheses, ## Probe results, ## Questions.
+Once one hypothesis is confirmed, stop and wait; we'll plan the fix with the loop above.</pre></div>
+
+    <h2 id="cursor-prompts">Cursor versions of the key prompts</h2>
+    <p class="muted">Same loop, worded for Cursor’s Agent panel. Use <strong>Ask</strong> or <strong>Plan Mode</strong> (Shift+Tab rotates modes) for Explore and Plan, and <strong>Agent</strong> mode for Implement and Verify. Replace the <code>@[…]</code> placeholders with real @-mentions of files, folders, plan files, or rules.</p>
+      <div class="prompt-label">
+        <strong>C1. Explore — Ask mode or Plan Mode</strong>
+        <span class="badge">Cursor</span>
+      </div>
+      <div class="prompt-block"><pre>@[folder or entry file] @[related test file]
+
+Read-only pass: don't edit files or run terminal commands that change state.
+I want to [goal]. Search the codebase and tell me:
+- which files and symbols are involved (link each one),
+- the closest existing feature I should copy,
+- which tests cover this area and the command to run them,
+- risks or unknowns I should decide on before we plan.
+Keep it under 300 words and end with up to 5 questions for me.</pre></div>
+      <div class="prompt-label">
+        <strong>C2. Plan — Plan Mode</strong>
+        <span class="badge">Cursor</span>
+      </div>
+      <div class="prompt-block"><pre>Create an implementation plan for: [goal]
+
+Context: @[files or notes from the Explore pass] @[relevant rule, e.g. @tests]
+Constraints: [no new dependencies / keep the API stable / etc.]
+
+- Ask me clarifying questions first if anything is ambiguous.
+- Ordered steps, each reviewable as a single diff, each with a verification check.
+- Non-goals, plus a rollback note for any risky step.
+- Finish with testable acceptance criteria.
+Don't build yet — I'll review and edit the plan first.</pre></div>
+      <p class="tip muted">Use “Save to workspace” on the plan so it lives in the repo and can be @-mentioned by later chats.</p>
+      <div class="prompt-label">
+        <strong>C3. Implement — Agent mode</strong>
+        <span class="badge">Cursor</span>
+      </div>
+      <div class="prompt-block"><pre>Implement step [N] from @[plan file] — only that step.
+
+- Match the patterns in @[reference file] and follow the project rules.
+- Minimal diff: no unrelated refactors, renames, or reformatting.
+- After the change, run [test command] in the terminal and fix failures your change caused.
+- If the plan doesn't fit the code, stop and propose an amendment instead.
+Summarize the files changed and the test results when you're done.</pre></div>
+      <div class="prompt-label">
+        <strong>C4. Verify — new Agent chat</strong>
+        <span class="badge">Cursor</span>
+      </div>
+      <div class="prompt-block"><pre>Review the changes on this branch as a strict reviewer. Don't edit anything yet.
+
+Acceptance criteria: see the "Acceptance criteria" section of @[plan file]
+Run in the terminal: [lint] &amp;&amp; [typecheck] &amp;&amp; [tests]
+
+Report:
+1. Each criterion: PASS / FAIL / UNTESTED, with evidence.
+2. Bugs, edge cases, security and performance issues — high / medium / low, with file:line.
+3. Ship decision: Ready, or an ordered fix list.</pre></div>
+      <p class="tip muted">Starting a new chat for Verify keeps the review independent of the implementation conversation.</p>
+      <div class="prompt-label">
+        <strong>C5. Turn a repeated correction into a project rule</strong>
+        <span class="badge">Cursor rules</span>
+      </div>
+      <div class="prompt-block"><pre>You've [mistake, e.g. "used default exports in components"] more than once.
+Create a project rule in .cursor/rules/ that prevents it:
+- Pick the narrowest scope: globs for the affected files, or a description so the
+  rule is applied intelligently only when relevant.
+- Under 15 lines, written as direct instructions, with one short example.
+- Don't duplicate anything already in AGENTS.md or an existing rule.
+Show me the .mdc file before saving it.</pre></div>
+      <p class="tip muted">Cursor’s built-in /create-rule command handles the file plumbing; this prompt adds the scoping and brevity constraints.</p>
+
+    <h2 id="instruction-files">CLAUDE.md, AGENTS.md &amp; Cursor rules templates</h2>
+    <p class="muted">A prompt that works once becomes a habit when its conventions live in an instruction file the agent reads every session. A setup that works for teams using both tools: keep shared conventions in <code>AGENTS.md</code>, keep <code>CLAUDE.md</code> short and import <code>AGENTS.md</code> into it, and use <code>.cursor/rules/*.mdc</code> only for Cursor-specific or file-scoped rules.</p>
+      <div class="prompt-label">
+        <strong>CLAUDE.md — project template</strong>
+        <span class="badge">./CLAUDE.md</span>
+      </div>
+      <div class="prompt-block"><pre># CLAUDE.md
+
+## Project
+[One paragraph: what this repo is, who uses it, the main stack.]
+
+Shared conventions for all coding agents live in AGENTS.md:
+@AGENTS.md
+
+## Commands
+- Install: `[pnpm install]`
+- Dev server: `[pnpm dev]`
+- Test one file: `[pnpm test path/to/file.test.ts]`
+- Test everything: `[pnpm test]`
+- Lint + typecheck: `[pnpm lint &amp;&amp; pnpm typecheck]`
+
+## How to work in this repo
+- For changes touching more than [3] files: explore and plan first, then wait for my approval.
+- Implement one plan step at a time and run the relevant tests after each step.
+- While iterating, run a single test file instead of the whole suite.
+- Never edit generated files: [src/gen/**, dist/**].
+- Ask before adding a dependency, changing a public API, or writing a migration.
+
+## Gotchas
+- [e.g. Integration tests need `docker compose up db` first.]
+- [e.g. Timestamps are stored in UTC; format them only in the UI layer.]
+
+## Definition of done
+- Lint, typecheck, and tests pass locally.
+- New behavior has a test; bug fixes include a regression test.
+- Your summary lists files changed and anything I must verify by hand.</pre></div>
+      <p class="tip muted">Keep it short — Anthropic’s docs suggest staying under about 200 lines per CLAUDE.md. Remove the @AGENTS.md line if you don’t use AGENTS.md. Running /init in Claude Code generates a first draft you can trim to this shape.</p>
+      <div class="prompt-label">
+        <strong>AGENTS.md — shared by Cursor, Claude Code, and other agents</strong>
+        <span class="badge">./AGENTS.md</span>
+      </div>
+      <div class="prompt-block"><pre># AGENTS.md
+
+Instructions for AI coding agents working in this repository.
+
+## Overview
+[What the project does, in 2–3 sentences.]
+Stack: [language, framework, database, test runner].
+
+## Layout
+- `[src/api/]` — [HTTP handlers; keep thin, call services]
+- `[src/services/]` — [business logic; most changes land here]
+- `[src/db/]` — [schema and migrations; ask before changing]
+- `[tests/]` — [mirrors src/; one test file per module]
+
+## Commands
+- Setup: `[command]`
+- Test one file: `[command] &lt;path&gt;`
+- Full check before handing work back: `[lint] &amp;&amp; [typecheck] &amp;&amp; [test]`
+
+## Conventions
+- Follow the nearest existing example. New endpoints copy `[src/api/example.ts]`.
+- [Naming, error-handling, and logging rules a linter doesn't already enforce.]
+- Keep diffs focused on the task; no unrelated refactors.
+
+## Workflow
+1. Explore read-only and summarize what you found.
+2. For non-trivial work, propose a plan (steps, checks, acceptance criteria) and wait for approval.
+3. Implement one step at a time; run the relevant tests after each.
+4. Verify against the acceptance criteria and report results honestly, including anything untested.
+
+## Boundaries
+- Never commit secrets or edit `.env*` files.
+- Don't modify `[generated/]` or `[vendor/]`.
+- Ask before: new dependencies, schema migrations, public API changes, deleting files.</pre></div>
+      <p class="tip muted">Cursor reads AGENTS.md from the project root and subdirectories. Recent Claude Code versions read AGENTS.md on their own only when there is no CLAUDE.md, so importing it from CLAUDE.md (above) is the version-proof option.</p>
+      <div class="prompt-label">
+        <strong>Cursor project rule — always-on workflow</strong>
+        <span class="badge">.cursor/rules/workflow.mdc</span>
+      </div>
+      <div class="prompt-block"><pre>---
+alwaysApply: true
+---
+
+- Project conventions live in AGENTS.md (loaded automatically). This rule only adds workflow.
+- For tasks touching more than 3 files, write a plan first and wait for approval.
+- Implement one plan step per turn, then run the relevant test command in the terminal.
+- Never edit generated files in dist/ or src/gen/.
+- If you are unsure how something behaves, read the source before guessing, and say what you
+  could not verify.</pre></div>
+      <div class="prompt-label">
+        <strong>Cursor project rule — auto-attached to test files</strong>
+        <span class="badge">.cursor/rules/tests.mdc</span>
+      </div>
+      <div class="prompt-block"><pre>---
+globs: src/**/*.test.ts, src/**/*.spec.ts, tests/**
+alwaysApply: false
+---
+
+- Test behavior through the public interface, not private helpers.
+- One behavior per test; name tests "does X when Y".
+- Use the factories in tests/factories/ instead of hand-built fixtures.
+- Bug fixes start with a failing regression test.
+- Never weaken or delete an assertion to make a test pass without explaining why.</pre></div>
+      <div class="prompt-label">
+        <strong>Cursor project rule — manual Explore→Plan→Implement→Verify</strong>
+        <span class="badge">.cursor/rules/explore-plan.mdc</span>
+      </div>
+      <div class="prompt-block"><pre>---
+alwaysApply: false
+---
+
+When this rule is mentioned, run the task as four gated stages:
+1. Explore — read-only. Report key files, existing patterns to copy, relevant tests, risks,
+   and up to 5 questions. Stop.
+2. Plan — ordered diff-sized steps, each with a verification check; non-goals; rollback
+   notes; acceptance criteria. Stop for approval.
+3. Implement — one approved step per turn, minimal diff, run the tests afterwards.
+4. Verify — run lint/typecheck/tests, check every acceptance criterion with evidence,
+   and finish with a ship decision.</pre></div>
+      <p class="tip muted">With no description and no globs, the rule is applied only when you @-mention it: “@explore-plan add CSV export to the reports page”.</p>
+
+    <h2 id="skill-templates">Claude Code skill templates (SKILL.md)</h2>
+    <p class="muted">Claude Code skills turn a prompt you keep retyping into a <code>/command</code>. Each skill is a folder with a <code>SKILL.md</code> file: YAML frontmatter (<code>name</code>, <code>description</code>, optional fields) followed by instructions. Save project skills to <code>.claude/skills/&lt;name&gt;/SKILL.md</code> and commit them so your team gets them too.</p>
+      <div class="prompt-label">
+        <strong>Skill: /plan-first — explore and plan before any edits</strong>
+        <span class="badge">.claude/skills/plan-first/SKILL.md</span>
+      </div>
+      <div class="prompt-block"><pre>---
+name: plan-first
+description: Explore the codebase read-only and write an implementation plan before any code changes. Use when the user asks to plan, scope, or estimate a change, or before multi-file features and risky refactors.
+argument-hint: "[goal]"
+---
+
+# Plan first
+
+Goal: $ARGUMENTS
+
+## 1. Explore (read-only)
+- Do not edit source files or run commands that change state.
+- Find the entry points, the modules involved, the closest existing feature to copy,
+  and the tests that cover this area.
+- Note risks: auth, migrations, concurrency, generated code, feature flags.
+
+## 2. Write the plan
+Create `docs/plans/&lt;short-kebab-name&gt;.md` (the only file you write) with:
+- Summary — 3–5 sentences, including the main alternative you rejected
+- Steps — each diff-sized, with files, change, and the check that proves it works
+- Non-goals
+- Risks and rollback
+- Acceptance criteria — testable bullets
+- Open questions
+
+## 3. Stop
+Reply with a 5-line summary and the plan path, then wait.
+Do not implement anything until the user approves a specific step.</pre></div>
+      <p class="tip muted">Usage: /plan-first add CSV export to the reports page. Because the description says when to use it, Claude can also load it automatically for planning requests.</p>
+      <div class="prompt-label">
+        <strong>Skill: /ship-check — verify a branch before opening a PR</strong>
+        <span class="badge">.claude/skills/ship-check/SKILL.md</span>
+      </div>
+      <div class="prompt-block"><pre>---
+name: ship-check
+description: Check whether the current branch is ready to merge by running the project checks and reviewing the diff against its acceptance criteria. Use before opening a pull request.
+disable-model-invocation: true
+argument-hint: "[base-branch]"
+allowed-tools: Bash(git status *) Bash(git diff *) Bash(git log *)
+---
+
+# Ship check
+
+Base branch: $ARGUMENTS (use main if empty)
+
+1. Run `git status` and `git diff &lt;base&gt;...HEAD --stat` to scope the change.
+2. Run the project checks listed in CLAUDE.md (lint, typecheck, tests). Report each as
+   pass/fail with the key output lines.
+3. Find the acceptance criteria in the matching docs/plans/ file or the PR description.
+   If there are none, ask for them. Mark each PASS / FAIL / UNTESTED with evidence.
+4. Review the diff for bugs, edge cases, security (input validation, authorization,
+   secrets), and performance. Rate findings high / medium / low with file:line.
+5. Look for leftovers: debug logging, new TODOs, commented-out code, new behavior
+   without tests.
+6. Finish with "Ready to ship" or "Needs fixes" plus an ordered fix list.
+   Do not change code unless the user asks.</pre></div>
+      <p class="tip muted">disable-model-invocation: true means it only runs when you type /ship-check. allowed-tools pre-approves the read-only git commands for that turn; test and lint commands still go through your normal permission settings.</p>
+
+    <h2 id="documentation-prompts">Documentation prompts</h2>
+    <p class="muted">Two original prompts for documentation work that agents handle well when the instructions are specific.</p>
+      <div class="prompt-label">
+        <strong>D1. Document undocumented code</strong>
+        <span class="badge">Docs · no behavior change</span>
+      </div>
+      <div class="prompt-block"><pre>Document [path/to/module or directory], which currently has little or no documentation.
+Do not change behavior.
+
+First read the code, its call sites, and its tests. Then:
+1. Add doc comments in the project's existing style ([JSDoc / Google-style docstrings /
+   rustdoc / godoc]) to every public function, class, and type: purpose, parameters,
+   return value, errors raised, and side effects (I/O, network, global state).
+2. Add inline comments only where the "why" isn't obvious: workarounds, invariants,
+   ordering constraints, performance tricks. Don't narrate what the code plainly does.
+3. Write or update [README.md in that directory]: what the module is for, how it fits
+   into the system, a minimal usage example based on a real call site, the config or
+   environment variables it reads, and known limitations.
+4. Anything you can't determine from the code (unclear intent, possibly dead code,
+   suspicious behavior) goes in a "Questions for maintainers" list in your reply —
+   don't guess in the docs.
+
+Rules: no renames, reformatting, or refactors; only comments and documentation files may
+change. Afterwards run [lint / typecheck / docs build] to confirm nothing broke, then
+summarize what you documented and list the open questions.</pre></div>
+      <p class="tip muted">Works in both tools. In Cursor, @-mention the folder; in Claude Code, name the path and let it find the call sites.</p>
+      <div class="prompt-label">
+        <strong>D2. Release notes from git history</strong>
+        <span class="badge">Docs · read-only git</span>
+      </div>
+      <div class="prompt-block"><pre>Draft release notes for [version] covering [previous tag, e.g. v1.4.0]..[HEAD or new tag].
+
+Gather facts first (read-only):
+- git log [from]..[to] --no-merges --pretty=format:"%h %s%n%b"
+- Merged PR titles and descriptions if available, e.g.
+  gh pr list --state merged --search "merged:&gt;=[YYYY-MM-DD]" --limit 200
+- The diff for anything that looks breaking: migrations, config, public API, CLI flags.
+
+Then write notes for [audience: end users / API consumers / internal team]:
+1. Highlights — 2–4 user-visible changes in plain language, most important first.
+2. Breaking changes — what changed, who is affected, exact upgrade steps. If none, say "None".
+3. New features, Improvements, Bug fixes — one line each, phrased as the user benefit,
+   with the PR number or short commit hash.
+4. Deprecations and security fixes, if any.
+5. Skip internal-only work (CI, refactors, tests, dependency bumps with no user impact)
+   unless I ask for a full changelog.
+
+Rules: every line must trace to a commit or PR — don't invent features or impact. Put
+commits you couldn't classify in a separate "Needs review" list. Output Markdown ready
+to paste into [CHANGELOG.md / the GitHub release]. Don't create tags, push, or publish.</pre></div>
+      <p class="tip muted">Conventional-commit prefixes (feat:, fix:, BREAKING CHANGE) make the grouping more reliable, but the prompt works without them.</p>
 
     <h2>Why BestPromptFinder (not just another template list)</h2>
     <div class="diff">
@@ -378,24 +724,30 @@ Output as ## Reproduction, ## Hypotheses, ## Probes, ## Questions.</pre></div>
 
     <h2>Related guides &amp; categories</h2>
     <div class="related card">
+      <a href="https://bestpromptfinder.com/guides/gpt-6-astra-prompts">GPT-6 Astra agent prompts</a>
       <a href="https://bestpromptfinder.com/guides/claude-xml-structured-prompts">Claude XML structured prompts</a>
-<a href="https://bestpromptfinder.com/guides/seo-content-brief-prompts">SEO content brief prompts</a>
-<a href="https://bestpromptfinder.com/guides/gpt-6-astra-prompts">GPT-6 Astra agent prompts</a>
-<a href="https://bestpromptfinder.com/guides/">All prompt guides</a>
-<a href="https://bestpromptfinder.com/category/coding">Browse coding prompts</a>
-<a href="https://bestpromptfinder.com/category/debugging">Browse debugging prompts</a>
+      <a href="https://bestpromptfinder.com/guides/seo-content-brief-prompts">SEO content brief prompts</a>
+      <a href="https://bestpromptfinder.com/guides/chatgpt-mirror-how-you-see-me-prompts">ChatGPT mirror prompts (How You See Me)</a>
+      <a href="https://bestpromptfinder.com/guides/midjourney-v7-product-prompts">Midjourney v7 product prompts</a>
+      <a href="https://bestpromptfinder.com/guides/">All prompt guides</a>
+      <a href="https://bestpromptfinder.com/category/coding">Browse coding prompts</a>
+      <a href="https://bestpromptfinder.com/category/debugging">Browse debugging prompts</a>
+      <a href="https://bestpromptfinder.com/category/documentation">Browse documentation prompts</a>
     </div>
 
-    <h2>FAQ</h2>
+    <h2 id="faq">FAQ</h2>
     <div class="faq">
-      
       <details>
-        <summary>What is the Explore → Plan → Implement → Verify loop?</summary>
-        <p>It is a four-stage workflow for Cursor and Claude Code: explore the repo read-only, plan small steps with acceptance criteria, implement one step at a time, then verify with tests and a ship checklist. It reduces large wrong diffs.</p>
+        <summary>How does this guide relate to Anthropic’s Claude Code prompt library?</summary>
+        <p>Anthropic’s prompt library on code.claude.com is the official collection of short Claude Code prompts, organized by task and role. This guide is an independent companion: it adds a gated Explore → Plan → Implement → Verify workflow, Cursor-specific wording, CLAUDE.md, AGENTS.md, Cursor rules and SKILL.md templates, and detailed documentation prompts. Use the official library for quick asks and this guide for multi-step changes and repo setup.</p>
       </details>
       <details>
         <summary>Do these prompts work in both Cursor and Claude Code?</summary>
-        <p>Yes. The wording is tool-agnostic. In Cursor, paste into Chat/Agent with @-file context; in Claude Code, paste into the CLI session with the same stage gates (pause after Explore and Plan).</p>
+        <p>Yes. The workflow prompts are tool-agnostic, and the Cursor section rewords them for Ask/Plan Mode, Agent mode, and @-mentions. In Claude Code, use plan mode for Explore and Plan; in Cursor, use Ask or Plan Mode. In both, pause after Explore and after Plan before any files are edited.</p>
+      </details>
+      <details>
+        <summary>Should I use CLAUDE.md, AGENTS.md, or Cursor rules?</summary>
+        <p>Put shared conventions in AGENTS.md, which Cursor reads and recent Claude Code versions can also read. Keep a short CLAUDE.md that imports it with @AGENTS.md and adds Claude-specific notes, and use .cursor/rules/*.mdc only for Cursor-specific or file-scoped rules. Turn prompts you repeat into Claude Code skills (SKILL.md).</p>
       </details>
       <details>
         <summary>How do I find more coding prompts ranked for my goal?</summary>
@@ -410,6 +762,7 @@ Output as ## Reproduction, ## Hypotheses, ## Probes, ## Questions.</pre></div>
 
     <footer>
       <p>© BestPromptFinder · <a href="https://bestpromptfinder.com/">Home</a> · <a href="https://bestpromptfinder.com/methodology">Methodology</a> · <a href="https://bestpromptfinder.com/about">About</a></p>
+      <p>Independent guide — not affiliated with Anthropic or Cursor. Product names belong to their respective owners.</p>
       <p>Standalone HTML guide page — safe to host under <code>/guides/best-cursor-claude-code-prompts</code> beside the React SPA.</p>
     </footer>
   </article>
