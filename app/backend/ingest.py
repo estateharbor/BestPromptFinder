@@ -251,3 +251,10 @@ def _append_uploaded(records: List[Dict[str, Any]]):
     existing.extend(records)
     with open(UPLOADED, "w", encoding="utf-8") as f:
         json.dump(existing, f, ensure_ascii=False, indent=2)
+
+
+if __name__ == "__main__":
+    # CLI: python ingest.py sources/<file>.csv  (idempotent — duplicates are skipped)
+    for path in sys.argv[1:]:
+        with open(path, "rb") as f:
+            print(ingest_bytes(f.read(), os.path.basename(path))["message"])
