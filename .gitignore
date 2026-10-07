@@ -36,3 +36,6 @@ index_debug.html
 Thumbs.db
 .vscode/
 .idea/
+
+# Daily scout drafts and reports (local only, not published)
+marketing/
