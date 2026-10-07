@@ -1,0 +1,62 @@
+title,purpose,quality,model,source,curated,prompt
+Gemini 4 Argon: Whole-Repo Migration in Verified Stages,Coding,85,"Gemini 4 Argon, Claude, GPT",,yes,"You are a senior engineer running a large migration on my codebase. Use your long context and long output to do the whole job in checked stages, not one giant rewrite.
+
+Migration: [from -> to, e.g. Python 3.8 + Flask 1 -> Python 3.12 + Flask 3 / JavaScript -> TypeScript / class components -> hooks]
+Repository: [paste the files or attach the repo]
+Must not change: [public APIs, database schema, URLs, config keys, anything else]
+Tests: [how to run them, or ""none yet""]
+
+Work in this order and label each part:
+1. Inventory: a table of every file that needs changes, what changes, and risk (low/medium/high). List anything you can't see or can't judge as [VERIFY].
+2. Stage plan: 4-8 stages, each small enough to review in one sitting, ordered so the app runs and tests pass after every stage. For each stage: files, goal, how to verify, how to roll back.
+3. Stage 1 in full: complete updated files (not snippets), then a short changelog.
+4. Stop and wait for me to say ""next"" before each later stage.
+
+Rules:
+- Do not invent library APIs or versions. If you are not sure a function exists in the target version, say so and mark [VERIFY].
+- Keep behaviour identical unless I approved the change; list any unavoidable behaviour change at the top of the stage.
+- Add or update tests for every risky change.
+
+Before you answer, check: every file in the inventory appears in exactly one stage, and nothing in ""Must not change"" was touched."
+Gemini 4 Argon: Long Research Dossier From Your Own Sources,Research,85,"Gemini 4 Argon, Claude, GPT",,yes,"You are a careful research analyst. Write a long, well-structured dossier using only the sources I provide.
+
+Topic and question: [what I need to understand or decide]
+Reader: [who will read it and what they already know]
+Sources: [paste documents, reports, transcripts or notes, each with a short label like S1, S2…]
+Length: [e.g. 8,000-12,000 words]
+
+Structure:
+1. One-page executive summary with the 5-7 most important findings and a direct answer to my question.
+2. Background and definitions.
+3. One chapter per major theme. In each: what the sources say, where they agree, where they disagree, and what is still unknown.
+4. A comparison table of the main options, positions or players across the criteria that matter for my question.
+5. Risks and open questions.
+6. Recommendations, each tied to the findings that support it.
+7. Source notes: for each source, what it is, how reliable it seems and what it was used for.
+
+Rules:
+- Cite every factual claim with the source label, e.g. [S3].
+- Never add facts, numbers or quotes that are not in my sources. If something important is missing, write [GAP: what's missing and where to find it].
+- Separate facts from your interpretation; label interpretation as ""Analysis:"".
+
+Quality check at the end: list any claim you could not tie to a source, and confirm the summary matches the chapters."
+Gemini 4 Argon: Side-by-Side Annual Report Comparison,Financial Analysis,85,"Gemini 4 Argon, Claude, GPT",,yes,"You are a financial research analyst. Compare the annual reports or filings I provide, using only what is in them.
+
+Companies and documents: [Company A – document, year], [Company B – document, year], [add more]
+What I care about: [e.g. growth quality, margins, debt, cash flow, risks, management outlook]
+Currency and units: [e.g. INR crore / USD million; say if the documents differ]
+
+Produce:
+1. A snapshot table: revenue, operating profit, net profit, operating cash flow, total debt, cash, and one or two sector-specific metrics I name: [metrics]. Give the page or section for every number.
+2. Trends: for each company, how these moved versus the prior year as reported in the document.
+3. Business commentary: what management says about drivers, segments and outlook, quoted briefly with page references.
+4. Risk section: the top risks each company discloses, plus any related-party transactions, auditor remarks or accounting policy changes.
+5. Differences that matter: 5-8 bullet points comparing the companies on my priorities.
+6. Questions to investigate further.
+
+Rules:
+- Do not calculate a number unless you show the formula and the inputs with page references.
+- Do not use outside data, market prices or forecasts. If something is missing, write [NOT IN DOCUMENT].
+- This is research support, not investment advice; do not give buy, sell or hold opinions.
+
+Check before answering: every number in the tables has a page or section reference."
