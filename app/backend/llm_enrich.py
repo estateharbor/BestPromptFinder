@@ -58,7 +58,7 @@ def available() -> bool:
 def enrich(goal: str, candidates: List[Dict[str, str]],
            model: str = None) -> Dict[str, Dict[str, Any]]:
     """Return {id: {match, why, weakness}} for the candidates, or {} on failure."""
-    model = model or os.getenv("SEARCH_MODEL", DEFAULT_MODEL)
+    model = model or os.getenv("SEARCH_MODEL") or DEFAULT_MODEL  # empty env value = default
     use_emergent = emergent_client.provider() == "emergent"
     if not use_emergent:
         try:

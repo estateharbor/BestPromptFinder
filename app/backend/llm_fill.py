@@ -52,7 +52,7 @@ def available() -> bool:
 
 def extract(goal: str, template: str, variables: List[str], model: str = None) -> Dict[str, str]:
     """Return {variable: value} extracted from the goal (empty string when not present)."""
-    model = model or os.getenv("SEARCH_MODEL", DEFAULT_MODEL)
+    model = model or os.getenv("SEARCH_MODEL") or DEFAULT_MODEL  # empty env value = default
     out = {v: "" for v in variables}
     if not variables or not (goal or "").strip():
         return out
