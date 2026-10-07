@@ -76,7 +76,7 @@ def rewrite(c, row, manual_entry):
         "source": "BestPromptFinder (editorial rewrite)", "url": "",
         "collected": prev.get("collected") or datetime.now().strftime("%Y-%m"),
         "version": "2.0", "eval_source": "heuristic", "rewritten": TODAY,
-        "audit_note": "Rewritten from the idea of an unlicensed or restricted public prompt.",
+        "audit_note": row.get("note") or "Rewritten from the idea of an unlicensed or restricted public prompt.",
     }
     return True
 

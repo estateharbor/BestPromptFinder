@@ -26,12 +26,15 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
   // live reliability (updates when the user votes)
   const [rel, setRel] = useState(r.reliability);
   const [voteMsg, setVoteMsg] = useState("");
+  const [copied, setCopied] = useState(false);   // show "Did it work?" right after a copy
+  const [voted, setVoted] = useState(false);
   const relScore = rel.score;
   const liveOverall = Math.round(s.quality * 0.35 + s.match * 0.4 + relScore * 0.2 + 100 * 0.05);
   const castVote = async (verdict: "worked" | "didnt") => {
     try {
       const res = await api.vote(r.id, verdict, r.models[0]);
       setRel(res.reliability);
+      setVoted(true);
       setVoteMsg(verdict === "worked" ? "logged as worked" : "logged as didn't work");
     } catch {
       setVoteMsg("couldn't record vote");
@@ -250,7 +253,7 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
 
           {/* actions */}
           <div className="flex gap-2.5 flex-wrap mt-5">
-            <button onClick={() => copy(r.prompt, "Prompt copied — paste into your model")}
+            <button onClick={() => { copy(r.prompt, "Prompt copied — paste into your model"); setCopied(true); }}
               className="font-display font-bold text-[14.5px] px-5 py-3 rounded-[11px] text-white active:scale-[0.98] transition"
               style={{ background: "var(--color-accent)" }}>{r.is_template && r.variables.length > 0 ? "Copy base prompt" : "Use this prompt"}</button>
             <button onClick={onSave}
@@ -264,6 +267,22 @@ export function ResultCard({ r, rank, open, onToggle, onCopy, onPick, onRequireA
               className="font-mono text-[13px] px-4.5 py-3 rounded-[11px] border"
               style={{ borderColor: "var(--color-hairline2)", background: "var(--color-panel)", color: "var(--color-ink)" }}>More like this</button>
           </div>
+
+          {/* right after a copy: ask for the outcome while the visitor is engaged */}
+          {copied && !voted && (
+            <div className="mt-3 rounded-[11px] border px-4 py-3 flex items-center gap-3 flex-wrap"
+              style={{ borderColor: "var(--color-accentline)", background: "var(--color-accentsoft)" }}>
+              <span className="text-[13.5px]" style={{ color: "var(--color-ink)" }}>
+                <b>Copied!</b> Once you've tried it: did this prompt work for you?
+              </span>
+              <button onClick={() => castVote("worked")}
+                className="font-mono text-[12.5px] px-3.5 py-1.5 rounded-lg border"
+                style={{ borderColor: "color-mix(in srgb, var(--color-good) 40%, transparent)", background: "var(--color-goodsoft)", color: "var(--color-good)" }}>👍 Worked</button>
+              <button onClick={() => castVote("didnt")}
+                className="font-mono text-[12.5px] px-3.5 py-1.5 rounded-lg border"
+                style={{ borderColor: "color-mix(in srgb, var(--color-weak) 40%, transparent)", background: "var(--color-weaksoft)", color: "var(--color-weak)" }}>👎 Didn't work</button>
+            </div>
+          )}
 
           {/* outcome vote — the Reliability flywheel */}
           <div className="mt-4 border-t pt-4 flex items-center gap-3 flex-wrap" style={{ borderColor: "var(--color-hairline)" }}>

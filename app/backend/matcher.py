@@ -58,6 +58,7 @@ def apply_overrides(corpus: List[Dict[str, Any]], path: str = OVERRIDES_PATH) ->
     except (OSError, ValueError):
         ov = {}
     remove = set(ov.get("remove") or [])
+    noindex = set(ov.get("noindex") or [])   # keep on the site, never in the sitemap
     purpose = ov.get("purpose") or {}
     out = []
     for c in corpus:
@@ -67,6 +68,8 @@ def apply_overrides(corpus: List[Dict[str, Any]], path: str = OVERRIDES_PATH) ->
             continue
         if c.get("id") in purpose:
             c["purpose"] = purpose[c["id"]]
+        if c.get("id") in noindex:
+            c["noindex"] = True
         out.append(c)
     return out
 

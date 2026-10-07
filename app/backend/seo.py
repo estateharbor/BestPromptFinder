@@ -94,6 +94,7 @@ def tier_a_ids(corpus: List[Dict[str, Any]]) -> Set[str]:
     eligible = [
         c for c in corpus
         if is_english(c.get("title"), c.get("prompt"))
+        and not c.get("noindex")
         and (c.get("provenance") or {}).get("eval_source") in ("curated", "llm")
         and len(c.get("prompt") or "") >= 200
         and (c.get("quality") or 0) >= INDEX_MIN_Q
@@ -164,6 +165,7 @@ pre{{background:#161d28;border:1px solid #26303f;border-radius:12px;padding:16px
 .vote .btn{{margin:6px 8px 6px 0;padding:8px 14px}}
 .vote .btn:disabled{{opacity:.55;cursor:default}}
 .vmsg{{color:#9aa4b5;font-size:13px}}
+.vote.nudge{{border-color:#2e4bd8;background:#18214a;box-shadow:0 0 0 3px rgba(46,75,216,.25)}}
 ul.hl{{padding-left:20px}} ul.hl li{{margin:4px 0}}
 .card{{display:block;background:#161d28;border:1px solid #26303f;border-radius:12px;padding:14px 16px;margin:10px 0;text-decoration:none;color:inherit}}
 .card:hover{{border-color:#2e4bd8}}
@@ -251,6 +253,8 @@ def _vote_box(p: Dict[str, Any]) -> str:
 (function(){{
   var box=document.getElementById('vote'),id=box.dataset.id,msg=box.querySelector('.vmsg'),key='bpf_vote_'+id;
   function done(t){{box.querySelectorAll('button').forEach(function(b){{b.disabled=true;}});msg.textContent=t;}}
+  window.bpfCopied=function(){{if(box.querySelector('button:disabled'))return;box.classList.add('nudge');
+    box.querySelector('span').textContent='Copied! Once you’ve tried it, did it work?';}};
   try{{if(localStorage.getItem(key)){{done('Thanks, your vote is counted.');}}}}catch(e){{}}
   box.querySelectorAll('button').forEach(function(b){{b.addEventListener('click',function(){{
     var v=b.dataset.v;done('Saving…');
@@ -304,7 +308,7 @@ def prompt_page(p: Dict[str, Any], related: List[Dict[str, Any]], cat_slug: str,
 {scores}
 <h2>The prompt</h2>
 <pre id="prompt">{esc(p.get('prompt'))}</pre>
-<button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('prompt').innerText);this.textContent='Copied!'">Copy prompt</button>
+<button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('prompt').innerText);this.textContent='Copied!';if(window.bpfCopied)bpfCopied();">Copy prompt</button>
 <a class="btn ghost" href="/?q={quote(p['title'])}">Find similar in the app →</a>
 {_vote_box(p)}
 {_highlights(p)}

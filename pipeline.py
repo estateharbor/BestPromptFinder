@@ -265,6 +265,9 @@ PURPOSE_TAXONOMY = {
     "Data/Analysis": ["dataset", "spreadsheet", "csv", "excel", "analyze data", "statistic",
                       "chart", "dataframe", "pivot", "insight", "trend"],
     "SEO": ["seo", "search engine", "keyword research", "meta description", "backlink", "serp"],
+    # Before Marketing / Real Estate: "product listing" is a shop task, not a property one.
+    "Ecommerce": ["product description", "product listing", "shopify", "amazon", "etsy", "flipkart",
+                  "meesho", "ecommerce", "e-commerce", "online store", "checkout", "sku"],
     "Marketing": ["marketing", "ad copy", "advertis", "campaign", "brand", "landing page",
                   "email subject", "cta", "copywriting", "funnel"],
     "Sales": ["cold email", "cold outreach", "sales pitch", "prospect", "lead", "close the deal"],
@@ -277,8 +280,8 @@ PURPOSE_TAXONOMY = {
     "Research": ["research", "literature review", "find sources", "cite", "investigate", "compare studies"],
     "Finance": ["invoice", "budget", "financial", "roi", "revenue", "profit", "tax", "accounting"],
     "Legal": ["contract", "legal", "terms and conditions", "nda", "clause", "compliance", "gdpr"],
-    "Real Estate": ["real estate", "property", "home buyer", "listing", "mortgage", "rent"],
-    "Ecommerce": ["product description", "shopify", "amazon listing", "ecommerce", "checkout"],
+    "Real Estate": ["real estate", "property", "properties", "home buyer", "homebuyer", "realtor",
+                    "property listing", "mls", "mortgage", "rental", "tenant", "landlord"],
     "Customer Support": ["customer support", "support ticket", "refund", "help desk", "complaint"],
     "Career / Jobs": ["resume", "cover letter", "job interview", "cv ", "linkedin profile", "career"],
     "Education": ["explain", "teach", "tutor", "lesson", "study", "quiz", "beginner", "step by step"],
@@ -293,10 +296,19 @@ PURPOSE_TAXONOMY = {
 }
 
 
+_PURPOSE_RX = None
+
+
 def classify_purpose(text: str, category: str = "") -> str:
+    """First taxonomy purpose with a keyword that starts at a word boundary ("rent" matches
+    "rental" but not "current"; "advertis" still matches "advertising")."""
+    global _PURPOSE_RX
+    if _PURPOSE_RX is None:
+        _PURPOSE_RX = [(p, re.compile("|".join(r"(?<![a-z0-9])" + re.escape(k) for k in kws)))
+                       for p, kws in PURPOSE_TAXONOMY.items()]
     hay = f"{category} {text}".lower()
-    for purpose, kws in PURPOSE_TAXONOMY.items():
-        if any(kw in hay for kw in kws):
+    for purpose, rx in _PURPOSE_RX:
+        if rx.search(hay):
             return purpose
     return ""
 

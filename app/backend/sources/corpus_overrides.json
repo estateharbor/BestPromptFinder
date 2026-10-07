@@ -1,5 +1,5 @@
 {
-  "_note": "Applied at load time by matcher.apply_overrides. purpose: id -> category; remove: ids to unpublish (incl. the 2026-10-06 audit removals).",
+  "_note": "Applied at load time by matcher.apply_overrides. purpose: id -> category; remove: ids to unpublish; noindex: keep on site, never in sitemap.",
   "purpose": {
     "p_6559f4bf52": "Real Estate",
     "p_d5e84cf0ce": "Real Estate",
@@ -282,6 +282,7 @@
     "p_f568152142",
     "p_f60e0fe535",
     "p_f6721fc537",
+    "p_f6feb0d7cf",
     "p_f71f834df0c1",
     "p_f7c3977f8d",
     "p_f816a3f78e",
@@ -295,5 +296,8 @@
     "p_ff31a4bfe7",
     "p_ff37b952db39",
     "p_ff88cffa996a"
+  ],
+  "noindex": [
+    "p_266da8c632"
   ]
 }
