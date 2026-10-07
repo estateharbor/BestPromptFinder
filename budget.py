@@ -22,6 +22,8 @@ PRICING = {
     "claude-opus-4-8": (5.0, 25.0),
     "claude-haiku-4-5": (1.0, 5.0),
     "claude-fable-5": (10.0, 50.0),
+    # OpenAI models reachable through the Emergent Universal Key (search re-rank / fill)
+    "gpt-4o-mini": (0.15, 0.60),
 }
 _DEFAULT_PRICE = (3.0, 15.0)
 
