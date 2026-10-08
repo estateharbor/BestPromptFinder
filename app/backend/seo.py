@@ -12,15 +12,15 @@ from urllib.parse import quote
 
 SITE = "https://bestpromptfinder.com"
 
-# How many prompt pages to keep indexable. Google favours a smaller set of unique, tested
-# pages over thousands of thin ones — the rest are noindex,follow (usable in-app, not in
-# search) and excluded from the sitemap. Tune via SEO_INDEX_LIMIT.
-INDEX_LIMIT = int(os.getenv("SEO_INDEX_LIMIT", "250"))
-# Minimum AI quality for an indexable prompt page. With the library audited (original or
-# licensed text only), quality — not a hard top-N cut on noisy scores — is the main gate.
-INDEX_MIN_Q = int(os.getenv("SEO_INDEX_MIN_Q", "80"))
+# Which prompt pages are indexable (in the sitemap, robots "index"). Since the 2026-10 audit
+# the library is original or properly licensed, so quality is the only gate: every eligible
+# prompt scoring INDEX_MIN_Q or more is in, with no page cap. Everything else is
+# noindex,follow (still usable on the site). SEO_INDEX_LIMIT > 0 re-imposes a top-N cap.
+INDEX_LIMIT = int(os.getenv("SEO_INDEX_LIMIT", "0"))   # 0 = no cap
+INDEX_MIN_Q = int(os.getenv("SEO_INDEX_MIN_Q", "85"))
 # Per-category floor: each category's best few strong prompts are indexable even when they
-# fall outside the global top INDEX_LIMIT, so thin categories aren't left with zero indexed pages.
+# score below INDEX_MIN_Q, so thin categories aren't left with zero indexed pages.
+# Set SEO_CATEGORY_FLOOR=0 to index strictly by score.
 CATEGORY_FLOOR = int(os.getenv("SEO_CATEGORY_FLOOR", "3"))
 CATEGORY_FLOOR_MIN_Q = int(os.getenv("SEO_CATEGORY_FLOOR_MIN_Q", "80"))
 
@@ -90,19 +90,20 @@ def key_to_id(key: str) -> str:
 
 def tier_a_ids(corpus: List[Dict[str, Any]]) -> Set[str]:
     """The set of prompt ids worth indexing: English, editorially/AI-evaluated, substantial,
-    and top-quality — capped at INDEX_LIMIT. Everything else is noindex,follow."""
-    eligible = [
+    and scoring at least INDEX_MIN_Q (no cap unless INDEX_LIMIT > 0), plus each category's
+    best few strong prompts. Everything else is noindex,follow."""
+    base = [
         c for c in corpus
         if is_english(c.get("title"), c.get("prompt"))
         and not c.get("noindex")
         and (c.get("provenance") or {}).get("eval_source") in ("curated", "llm")
         and len(c.get("prompt") or "") >= 200
-        and (c.get("quality") or 0) >= INDEX_MIN_Q
     ]
-    eligible.sort(key=lambda c: c.get("quality", 0), reverse=True)
-    ids = {c["id"] for c in eligible[:INDEX_LIMIT]}
+    base.sort(key=lambda c: c.get("quality", 0), reverse=True)
+    eligible = [c for c in base if (c.get("quality") or 0) >= INDEX_MIN_Q]
+    ids = {c["id"] for c in (eligible[:INDEX_LIMIT] if INDEX_LIMIT > 0 else eligible)}
     per_cat: Dict[str, int] = {}
-    for c in eligible:  # already quality-sorted, so the first few per category are its best
+    for c in base:  # quality-sorted, so the first few per category are its best
         cat = c.get("purpose") or "Other"
         if per_cat.get(cat, 0) < CATEGORY_FLOOR and c.get("quality", 0) >= CATEGORY_FLOOR_MIN_Q:
             ids.add(c["id"])
