@@ -1,0 +1,292 @@
+title,purpose,quality,model,source,curated,prompt
+Seedance 2.5 One-Take Shop-Opening Vlog Video,Video Generation,85,Seedance 2.5,,yes,"Write one video prompt I can paste into Seedance 2.5. I want about 20 seconds of my shop opening, filmed like I am holding the phone, not like an ad.
+
+Shop: [what I sell and the city].
+
+Split it like this.
+0 to 5 seconds: my hand turns the key and the shutter rolls up. Morning light comes in. Sound of the metal shutter and a bicycle bell outside.
+5 to 12 seconds: I walk in, put the kettle on, and open the cash drawer. The camera follows me. That is the only camera move. Sound of the kettle and a few coins.
+12 to 20 seconds: the first customer steps in and asks for [item]. I hand it over. End on their hands. Ordinary shop noise. No music and no narrator talking over it.
+
+Keep it one continuous take. Do not cut away to a drone or a slow shot of the product by itself. If I attach a photo of the real shop, call it @image1 and keep the sign text exactly as in that photo. Do not invent a new shop name. If a person from my photo is in frame, keep their face and clothes the same the whole way through.
+
+After the prompt, two lines on what to delete if the clip comes out too busy."
+90s Bollywood Film Still From Your Photo,Image Generation,85,"Gemini, GPT Image",,yes,"Use the photo I am uploading. Keep my face the same: same features, same skin tone, same age, same expression. Do not slim my face or smooth my skin.
+
+Put me in a late evening scene that feels like a still from a 1990s Hindi film. Not a poster and not a clothing ad. I am wearing [outfit, for example a deep red cotton saree with a thin gold border, or a plain cream shirt with the sleeves rolled]. Keep my hair close to the photo, just a bit moved by wind.
+
+Place: [a real spot, for example a quiet seafront road after rain, with a few yellow street lamps and the wet road reflecting them]. One old taxi in the background, out of focus. No famous person, no film title, no logo.
+
+Light from a street lamp on one side of my face, and cooler light from the sky on the other. A little film grain. Colours slightly faded, the way an old print looks now.
+
+Frame from about the waist up, vertical 4:5. If my face comes back as a different person, discard it and try again."
+Excel / Google Sheets Formula From One Sentence,Productivity,85,"ChatGPT, Claude, Gemini",,yes,"I need a formula, not a lesson. Here is what I am trying to work out: [one sentence, for example how much each person still owes after these payments].
+
+The sheet is [Excel or Google Sheets]. Columns I already have: [for example A is name, B is amount paid, C is date].
+
+Write one formula I can paste into [cell, for example D2]. Tell me which cells it reads, and what to change if my data starts on another row. If it needs a helper column, say so and give me that formula too.
+
+Use only functions that exist in [Excel 365 or Google Sheets]. If you are not sure a function exists there, give me a longer version that definitely does.
+
+Then show it working on this tiny example, with the numbers filled in: [three rows]. If my real sheet has blanks, treat a blank as zero and do not throw an error.
+
+Do not build me a whole workbook. Do not switch me to Python. If my ask is ambiguous, ask one question, then still give the formula that matches your best guess and label that guess."
+Desk Figurine of You With Its Box (3D Figure Photo Edit),Image Generation,85,"Gemini, GPT Image",,yes,"Turn the person in this photo into a small painted collectible figure, about the height of a water bottle, standing on my real desk.
+
+Keep the face recognisable: same features, same skin tone, same hairstyle, same clothes as the photo. Do not turn them into a different character.
+
+The figure stands on a clear round base with no writing on it. Next to it, a little behind, is the box it came in, standing upright. The box art is a simple flat drawing of the same person. The only words on the box are [name or nickname]. No other logos and no other text.
+
+On the desk: [a closed laptop, a cup of tea, a notebook]. Soft daylight from a window on the left. Shot from slightly above, the way I would photograph a toy with my phone. The figure should look like plastic and paint, with a tiny seam line, not like a real person shrunk down.
+
+Square frame. If the face stops looking like the photo, try again."
+YouTube Video Script With Titles and On-Screen Cues,Social Media,85,"ChatGPT, Claude, Gemini",,yes,"I am about to record a video and I need the words, not a content plan.
+
+Topic: [one sentence].
+Who it is for: [for example first-year students who have never used a spreadsheet].
+Length: [60 seconds or 8 minutes].
+How I actually talk: [short sentences, a mix of Hindi and English, no hype, small jokes].
+
+Give me four things.
+Five title options, each under 60 characters. No all-caps and no fake shock.
+The first two sentences I should say, written so a stranger knows why to stay.
+The script in the order I will say it. Mark where I should show something, in brackets, like [show the formula bar]. For a short video: three points and a payoff. For a long one: four sections, and a one-line reminder at the end of each.
+The last line, which asks for one specific thing: [a comment, a subscribe, or nothing].
+
+Use only facts I gave you. If a number would help and I did not give one, write [add a real number] instead of inventing it."
+Instagram Captions That Sound Like You,Social Media,85,"ChatGPT, Claude, Gemini",,yes,"Write captions for this post, in my voice, not in a brand voice.
+
+What the post is: [photo or short video, and what is actually in it].
+Who I am: [for example I run a home bakery in Pune and I talk the way I text my sister].
+What I want someone to do: [save it, send it to a friend, reply with an order, or nothing].
+
+Give me four captions.
+One line, under 12 words, that only makes sense if you saw the picture.
+Three short lines for the feed.
+One a bit longer, still under 80 words, with one real detail from what I described.
+One in [Hindi or Hinglish] if I asked for it. Same meaning, not a stiff word-for-word translation.
+
+No hashtags unless I ask. Do not start with an announcement voice. Do not describe the photo back to me. If I did not give you a detail, do not invent a discount or a date."
+One-Page Business Plan for a Small Shop,Business,85,"ChatGPT, Claude, Gemini",,yes,"I want a one-page plan I can show a friend or a bank clerk. Not a long pitch.
+
+The business: [what it is, which city, already running or not].
+Who pays: [the customer, in one line].
+What I charge today: [price].
+What a normal month costs: [rent, stock, people, ads, rough numbers].
+Money I have: [amount].
+The decision in front of me: [for example a second shop, or staying with chat orders only].
+
+Write one page.
+What the business is, in four lines.
+How a sale actually happens, from the first message to the money arriving.
+A simple month using only my numbers: money in, money out, what is left.
+The two or three things that would make this fail.
+What I should do in the next 30 days, as a short list.
+What I still need to find out, as questions.
+
+If a number is missing, write [need this number] and carry on. Do not invent a market size. Do not tell me the idea is exciting."
+Personal Diwali Wishes for Family and Friends,Writing,85,"ChatGPT, Gemini, Claude",,yes,"Write Diwali wishes I can actually send. The main night is 8 November 2026. I will send some on Dhanteras, 6 November, and some on the day.
+
+Who they are for, one per line: [parents, my team, a customer from last year, a neighbour, a friend I joke with].
+Language: [English, Hindi in Roman letters, or both].
+How formal: [warm and short, or a bit proper].
+
+For each person, two options, each under 40 words. Use one real thing about them if I wrote it. Do not mention offers, discounts, or my shop unless that line is marked as a customer. No long poem. No pile of emojis. No line about destiny or divine light.
+
+Also give me one line I can put as a status, with no name in it."
+Halloween Costume Try-On From Your Photo,Image Generation,85,"Gemini, GPT Image",,yes,"Use my photo. Keep my face exactly as it is: same features, same skin tone, same age. Do not add wounds or blood. Do not add extra teeth unless the costume I named really has fake teeth, and even then keep my face shape.
+
+Costume to try: [for example a black cat, a paper crown with an old bedsheet, or a pumpkin-coloured sweater and a small plastic bucket].
+Where: the front step of [my house or a normal apartment corridor], at night, door open behind me, warm light inside.
+I am looking at the camera the way I do in the photo. I am not screaming.
+
+Light: a phone flash, a bit harsh, the way a friend takes the picture before you leave. Vertical 9:16. No text. No famous film character. No weapon.
+
+If the costume would hide my face, push that part up so my face still shows. If I stop looking like me, try again."
+You Now Next to You as a Child (Younger Self Photo Edit),Image Generation,85,"Gemini, GPT Image",,yes,"I am uploading two photos. Photo 1 is me now. Photo 2 is me as a child. Keep both faces unchanged. Do not age the child up. Do not make adult me look younger. Do not blend the two faces into one person.
+
+Put us standing next to each other in [a real place, for example the courtyard of a house in the afternoon]. Not a studio. Adult me has a hand on the child's shoulder. Both of us look toward the camera. We are not performing.
+
+Light: ordinary daylight, from one direction, with soft shadows. Colours like a phone photo. Frame 4:5.
+
+Do not add tears, sparkles, wings, or text. If either face drifts away from its own photo, stop and redo it."
+Wedding Speech You Can Say Out Loud,Writing,85,"ChatGPT, Claude, Gemini",,yes,"Help me write a wedding speech I can say out loud without sounding like I memorised a page.
+
+My role: [sibling, friend, or parent].
+Who is getting married: [how I know them. A nickname is fine].
+How long I should speak: [2 or 3 minutes].
+Two things that really happened: [story 1]. [story 2].
+One thing I will not joke about: [an ex, money, someone's body, or similar].
+Language: [English, Hindi, or a mix].
+
+Write it the way I talk. Short sentences. One small joke that comes out of the first story, then stop joking. End with a toast of one or two lines to both people, not a speech about marriage in general.
+
+Do not invent memories, pet names, or quotes. If a story is thin, tell me the one detail to add instead of making one up. Mark any line that might embarrass someone who did not agree to be in the story."
+"Restore an Old Family Photo, Gently",Image Generation,85,"Gemini, GPT Image",,yes,"This is an old family photo. Restore it so we can look at it, without turning it into a new picture.
+
+Keep every face the same person: same features, same age they were then, same expression. Do not beautify anyone. Do not slim anyone. Do not add people who are not already in the frame. Do not crop anyone off the edge.
+
+Fix only this: [scratches, folds, faded colour, a stain in the corner]. If it is black and white, add quiet colour that could have been real clothes of that time, and tell me you guessed the colours. If it is already in colour, do not push it brighter than a normal print.
+
+Keep the grain and the slightly soft focus. Leave the background as it is. No new backdrop. No text. No date stamp unless one is already there.
+
+Same framing as the original."
+Pre-Wedding Photo From Two Real Faces,Image Generation,85,"Gemini, GPT Image",,yes,"I am uploading two photos, one of each person. Keep both faces exactly as they are: same features, same skin tone, same age. Do not make either person fairer, slimmer, or taller.
+
+We want a pre-wedding picture we could have taken in one evening. Not a poster.
+
+Place: [a real spot, for example a courtyard, a tea garden, or a city rooftop at dusk]. No famous monument.
+Clothes: [outfit for the first person]. [outfit for the second person]. Keep jewellery simple.
+Pose: standing a little apart. The first person looks at the second. The second looks just past the camera. Hands visible and ordinary. Fingers must not fuse together.
+
+Light: late sun from the left, warm, background a bit soft. Frame 4:5. No shower of petals. No text. No logo.
+
+If either face changes, try again instead of sending that version."
+Professional Headshot From a Selfie,Image Generation,85,"Gemini, GPT Image",,yes,"Make a plain work photo from this selfie, for [a job profile or a company ID].
+
+Keep my face the same: same features, same skin tone, same age, same small marks. Do not smooth my skin, whiten my teeth, or change my jaw. Do not change how I present my gender.
+
+Clothes: [for example a navy shirt, collar visible]. If the selfie is a t-shirt, replace only the shirt, not the neck or the face.
+Background: a flat light grey wall. Nothing else.
+Light: soft, from slightly above and in front. No heavy shadow and no coloured light.
+Crop: head and shoulders, eyes near the top third, 4:5. I look into the lens with a small closed-mouth smile, close to the expression I already have.
+
+No text. No company logo. No glasses unless I am already wearing them. If it looks like a different person, discard it."
+Year-End Self Review From Messy Notes,Career / Jobs,85,"ChatGPT, Claude, Gemini",,yes,"Help me write my year-end self review. It has to sound like me, and it has to be true.
+
+Role: [title and team].
+Period: [for example April 2025 to March 2026, or January to December 2026].
+What I actually did, messy notes are fine: [paste].
+What my manager said they cared about: [paste goals, or say I do not have them].
+Length: [about 400 words, or whatever the form allows].
+
+Turn the notes into this.
+Four short paragraphs I can paste into the form. Each one is about one piece of work, with the result if I wrote a result.
+A short paragraph on what I would do differently. Specific. Not a line about communicating more.
+Five lines I can say if the talk turns to pay. Each one tied to something in the notes.
+
+Do not invent numbers, clients, or praise. Where a number is missing, write [add the number]. Do not call me a star performer or a go-to person. If two notes disagree, point that out before you write."
+Personal Year Recap From Your Own Notes,Writing,85,"ChatGPT, Claude, Gemini",,yes,"I want a personal recap of my year, in the spirit of those end-of-year music wrap-ups, but only from notes I give you. Do not pretend you can see my apps.
+
+My notes: [paste a messy list of trips, work, habits, people, low points].
+Year: 2026.
+
+Give me this.
+A one-line title for the year that comes from the notes, not a slogan.
+Five stretches of the year, each with a rough date range and one sentence.
+The thing I did most often. Count it only if the notes support a count. Otherwise say you cannot count it.
+One hard month, named, without turning it into a lesson.
+Three lines I could put on a story slide, each under 12 words.
+One thing the notes suggest I might want more of next year, asked back to me as a question.
+
+Do not add achievements I did not write. Do not mention a music app. No scores and no percentiles."
+CAT 2026 Mock Review: Fix the Question I Got Wrong,Tutoring,85,"ChatGPT, Gemini, Claude",,yes,"I am preparing for CAT 2026, on 29 November 2026. I do not want a plan for the whole syllabus. I want help with questions I already got wrong.
+
+I will paste one question at a time, the official answer if I have it, what I picked, and why.
+
+For each question, do this.
+Say what it is really asking, in one sentence, before you solve it.
+Ask me one thing that checks whether I see the trap. If you must answer in a single go, write that check, then answer it yourself and label it as the check.
+Show the shortest clean solution. Name the idea, like percentages, sets, or a seating rule, so I can file it.
+Give me one new question of the same idea. Put the answer at the bottom after a line that says ANSWER BELOW.
+Tell me the single line to add to my error notebook.
+
+Section: [VARC, DILR, or QA].
+Do not claim a question is from the real paper unless I said so. If you are unsure of the answer, say so and show where you might be wrong. Do not give me a 12-week timetable."
+Veo 3.1 Eight-Second Spoken Line Video Prompt,Video Generation,85,Veo 3.1,,yes,"Write a prompt for Veo for one clip, about 8 seconds, with sound. I will paste your prompt as it is.
+
+Who: [describe a person, for example the owner of a small pharmacy. Not a famous face].
+Where: [for example behind the counter, late afternoon, a fan turning].
+What they do: they look up and say this once, exactly: ""[one short line]"".
+Camera: still, from the chest up, no zoom.
+Sound: their voice, the fan, and one shop sound such as [a drawer]. No music. No second person talking.
+
+The prompt must say the line is spoken clearly and not rewritten. Use [9:16 or 16:9], whichever I pick.
+
+After the prompt, one sentence on what to change if the mouth does not match the words. If I also attach a photo of a real person, say in the prompt that their face and clothes stay the same."
+Seven-Day Home Meal Plan on a Rupee Budget,Planning,85,"ChatGPT, Gemini, Claude",,yes,"Plan seven days of meals for my house. I will cook. This is not a restaurant menu.
+
+People: [how many, ages if there are children, who is vegetarian].
+How we eat: [for example Gujarati vegetarian, or a mix, eggs are fine].
+Grocery budget for the week: [rupees].
+Time on a weekday night: [for example 30 minutes]. I can cook longer on Sunday.
+Things we already eat too often: [list].
+What is in the house now: [list].
+Allergies: [or none].
+
+Give me a week table with breakfast, lunch, and dinner. Repeat ingredients across days so I am not buying ten different herbs. Then a shopping list grouped the way a shop is laid out, with a rough rupee guess on each group that adds up near my budget. Point at the one dinner that is the stretch.
+
+No calories and no weight goal. If the budget cannot cover what I asked, say what to drop. Use home measures, not grams of everything."
+India Trip Itinerary With Trains and a Budget,Planning,85,"ChatGPT, Gemini, Claude",,yes,"Plan a trip I can actually take.
+
+From: [city].
+To: [a place or region in India].
+Dates: [start, end, how many nights].
+Who: [solo, a couple, parents, or children and their ages].
+Budget for everything except shopping: [rupees per person].
+How we travel: [train if possible, one flight is ok, or only by road].
+What we care about: [food, one temple, nothing before 9 in the morning].
+What to skip: [long hikes, late nights, or similar].
+
+Give me a day by day plan, including the evening we arrive and the morning we leave. For each day: the area we sleep in, not a hotel brand, one main stop, one place to eat, and how we get there with a rough time and a rough cost. Add the costs up and say what is left of the budget.
+
+If a train is the sensible way, name the kind of train and the stations, and tell me to check current times. Do not invent a train number. Leave one afternoon empty. If the budget is too small, say so in the first line and offer a shorter trip."
+Check a GST Invoice Before You Send It,Finance,85,"ChatGPT, Gemini, Claude",,yes,"Look at this invoice and tell me what is missing or odd before I send it. This is a check, not tax advice. I will still ask my CA if you flag something that matters.
+
+My side: [freelancer or small shop]. Registered for GST: [yes or no]. My state: [state].
+What I filled in: [paste the invoice].
+
+Check these in plain language.
+Is there a supplier name, address, and GSTIN if I said I am registered.
+Is there an invoice number and a date.
+Is the buyer's name and state there.
+Do the taxable value, the GST rate, and the tax amount agree on the lines I gave you.
+If the buyer and I are in different states, did I use IGST. If we are in the same state, did I use CGST and SGST.
+Does the total in words match the total in numbers.
+Is any placeholder still sitting in the text.
+
+Do not invent a GSTIN. Do not tell me a rate for something if I did not write one. Ask me. End by telling me to show it to my CA only if something above is actually wrong. If it looks complete, say that in one line and list what you could not see."
+90s Point-and-Shoot Diwali Family Album Photo Edit,Image Generation,85,"Gemini, GPT Image",,yes,"Use our photo. Keep every face exactly the same: same people, same ages, same expressions. Do not slim, brighten, or smooth anyone.
+
+Make it look like a Diwali night photo from a family album, shot on a cheap point-and-shoot in the late 1990s. We are [on the terrace or in the front room] of a normal home. A line of clay diyas on the floor. A marigold string on the door. Someone at the edge can be half cut off. That is fine.
+
+Flash straight from the camera. Faces a little bright. Background almost dark. Colours faded. Grain you can see. If a date stamp fits, put a small orange one in the corner that reads [for example 98 11 08] and nothing else.
+
+Keep our clothes unless I said to change them to [outfit]. Frame 4:5. No fireworks filling the sky. No extra relatives. No text besides that date stamp. If a face changes, try again."
+"Product Photo With an Exact Price Card, Spelled Right",Ecommerce,85,"Gemini, GPT Image",,yes,"I am uploading a photo of my product. Keep the product the same: same shape, same label, same colours. Do not redesign the pack.
+
+Add a small offer card in the corner, the kind a shop would stand next to the product. The only words on the card, spelled exactly like this, are:
+
+[line 1]
+[line 2, the price]
+[line 3, the last date]
+
+Do not add any other words, logos, or a web address. If the text comes out wrong, misspelled, or with extra digits, do not send that image.
+
+The product sits on [a wooden counter or a plain cloth]. Warm indoor light. Square frame. No people. No fake star badges. No new brand name."
+Small Thanksgiving Dinner Plan With Clock Times,Planning,85,"ChatGPT, Claude, Gemini",,yes,"I am cooking a small Thanksgiving at home on Thursday 26 November 2026. Not a magazine dinner. [how many] people.
+
+Who is coming and what they do not eat: [list].
+What I can cook on: [one oven, or a hob and an air fryer, no oven].
+Budget: [amount and currency].
+How much I want done the day before: [a little, or most of it].
+What time we eat: [time].
+
+Give me a run of the day with clock times. A menu of one main dish, two sides, one thing that can sit on the table, and one dessert I do not have to watch at the last minute. Say what gets done on Wednesday.
+
+Point out anything that needs the oven at the same time. Give me a shopping list. If someone does not eat meat, the meal still works for them, not a single side dish on a spare plate. Do not write me a speech."
+Explain a Kundli Without Predicting the Future,Other,85,"ChatGPT, Gemini",,yes,"I am pasting a kundli, or a reading someone already gave me. Explain the words in plain [Hindi in Roman letters, or English], the way a friend would. Do not tell me my future.
+
+Pasted text: [paste].
+What I was told this decides: [a marriage, a job change, or nothing specific].
+
+Do this.
+List each term that showed up and say, in one line, what that term usually means in this tradition.
+Separate what the text actually says from what a worried person might think it says.
+If something is missing, say the chart is incomplete. Do not fill it in.
+Do not predict death, illness, an accident, a breakup, or a year when something bad will happen.
+Do not tell me to buy a stone, pay for a ritual, or delay a medical or legal decision because of this.
+Do not tell me whether to marry someone or whether to take a job.
+If the reading is trying to scare me or sell me something, say that in plain words.
+
+End with two lines: what here is just an explanation of a tradition, and what I should not use it for. If I ask you to predict anyway, refuse, and offer to keep explaining words."
