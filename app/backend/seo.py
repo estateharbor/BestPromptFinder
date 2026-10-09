@@ -37,9 +37,22 @@ GUIDE_SLUGS = [
     "seo-content-brief-prompts",
     "claude-xml-structured-prompts",
     "gpt-6-astra-prompts",
+    "claude-code-fix-failing-test-prompt",
+    "claude-code-safe-refactor-prompt",
+    "claude-code-claude-md-prompt",
+    "claude-code-pr-review-prompt",
+    "claude-code-add-tests-prompt",
 ]
-# Last substantive edit of the guides (sitemap <lastmod>) — bump when a guide changes.
-GUIDES_LASTMOD = "2026-10-06"
+# Last substantive edit per guide (sitemap <lastmod>). Bump only the guide you changed, so
+# Google isn't told every guide changed; GUIDES_LASTMOD covers guides not listed and the hub.
+GUIDES_LASTMOD = "2026-10-09"
+GUIDE_LASTMOD = {
+    "chatgpt-mirror-how-you-see-me-prompts": "2026-10-02",
+    "midjourney-v7-product-prompts": "2026-10-02",
+    "seo-content-brief-prompts": "2026-10-02",
+    "claude-xml-structured-prompts": "2026-10-06",
+    "gpt-6-astra-prompts": "2026-10-06",
+}
 
 # Category slug -> (guide slug, link text): in-body "read the guide" link on category pages.
 CATEGORY_GUIDES = {
@@ -438,7 +451,7 @@ def sitemap(corpus: List[Dict[str, Any]], cat_slugs: List[str],
     each with a <lastmod>. Passing index_ids=None includes every prompt (legacy behaviour)."""
     prompts = [c for c in corpus if index_ids is None or c["id"] in index_ids]
     rows = [(f"{SITE}/", ""), (f"{SITE}/browse", ""), (f"{SITE}/guides/", GUIDES_LASTMOD)]
-    rows += [(f"{SITE}/guides/{g}", GUIDES_LASTMOD) for g in GUIDE_SLUGS]
+    rows += [(f"{SITE}/guides/{g}", GUIDE_LASTMOD.get(g, GUIDES_LASTMOD)) for g in GUIDE_SLUGS]
     rows += [(f"{SITE}/{s}", "") for s in ("about", "methodology", "source-policy", "submit", "privacy", "terms")]
     rows += [(f"{SITE}/category/{s}", "") for s in cat_slugs]
     rows += [(f"{SITE}{prompt_path(c)}", _lastmod(c)) for c in prompts]
